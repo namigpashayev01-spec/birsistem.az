@@ -1,0 +1,96 @@
+import type { Metadata } from "next";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+
+import type { Locale } from "@/i18n/routing";
+import { MODULES } from "@/content/modules";
+import { SOLUTIONS_PAGE } from "@/content/pages";
+import { pick } from "@/lib/content";
+import { absoluteUrl, buildMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { CtaLink } from "@/components/ui/Cta";
+import { PageHero } from "@/components/marketing/PageHero";
+import { Section } from "@/components/marketing/Section";
+import { Register } from "@/components/marketing/Register";
+import { Prose } from "@/components/marketing/Prose";
+
+type Props = { params: Promise<{ locale: Locale }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const copy = pick(SOLUTIONS_PAGE, locale);
+  return buildMetadata({
+    locale,
+    href: "/hazir-heller",
+    title: copy.seoTitle,
+    description: copy.seoDescription,
+  });
+}
+
+export default async function SolutionsPage({ params }: Props) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
+  const copy = pick(SOLUTIONS_PAGE, locale);
+  const t = await getTranslations();
+
+  const items = MODULES.map((m) => {
+    const c = pick(m.copy, locale);
+    return {
+      href: m.href,
+      name: c.name,
+      row: c.row,
+      meta: [
+        { label: t("common.whoUsesIt"), value: c.audience },
+        { label: t("common.whichDocuments"), value: c.documents },
+      ],
+    };
+  });
+
+  const schema = [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: t("common.home"), item: absoluteUrl(locale, "/") },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: copy.title,
+          item: absoluteUrl(locale, "/hazir-heller"),
+        },
+      ],
+    },
+    {
+      "@type": "ItemList",
+      name: copy.title,
+      itemListElement: MODULES.map((m, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: pick(m.copy, locale).name,
+        url: absoluteUrl(locale, m.href),
+      })),
+    },
+  ];
+
+  return (
+    <>
+      <JsonLd data={{ "@context": "https://schema.org", "@graph": schema }} />
+
+      <PageHero
+        crumbs={[{ label: copy.title }]}
+        title={copy.title}
+        lead={copy.lead}
+        actions={<CtaLink href="/demo">{t("common.requestDemo")}</CtaLink>}
+      />
+
+      <Section label={t("nav.solutions")}>
+        <Register items={items} />
+      </Section>
+
+      {copy.sections?.length ? (
+        <Section label={t("common.readMore")}>
+          <Prose sections={copy.sections} />
+        </Section>
+      ) : null}
+    </>
+  );
+}

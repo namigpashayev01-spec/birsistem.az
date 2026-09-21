@@ -1,0 +1,179 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ *
+ * BirSistem design tokens — "register" direction.
+ * Paper and ink carry the page; red appears at most three times on it.
+ * ------------------------------------------------------------------ */
+@theme {
+  --color-paper: #f7f7f5;
+  --color-paper-deep: #efeeea;
+  --color-card: #ffffff;
+
+  --color-ink: #1b0e0e;
+  --color-ink-70: #4a3c3c;
+  --color-ink-50: #6f6261;
+
+  --color-rule: #e3e0dc;
+  --color-rule-strong: #c9c4be;
+
+  /* Solid brand fill — always carries white text. */
+  --color-red: #c8102e;
+  --color-red-deep: #a00c24;
+  /* Brand colour when it has to read as text or a link. */
+  --color-red-ink: #a00c24;
+  --color-oxblood: #6b0f1a;
+  --color-oxblood-deep: #4d0a12;
+  /* The oxblood band is dark in both themes, so its text must not follow the
+     paper token — in dark mode that would put near-black on near-black. */
+  --color-on-oxblood: #f7f7f5;
+  --color-wash: #fdecee;
+
+  --color-ok: #1f7a4d;
+
+  --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1rem;
+  --text-display: clamp(2.5rem, 1.55rem + 3.8vw, 4.5rem);
+  --text-display--line-height: 1.03;
+  --text-display--letter-spacing: -0.028em;
+  --text-h1: clamp(2rem, 1.42rem + 2.3vw, 3.25rem);
+  --text-h1--line-height: 1.08;
+  --text-h1--letter-spacing: -0.024em;
+  --text-h2: clamp(1.5rem, 1.23rem + 1.1vw, 2.125rem);
+  --text-h2--line-height: 1.15;
+  --text-h2--letter-spacing: -0.018em;
+  --text-h3: clamp(1.125rem, 1.05rem + 0.3vw, 1.3125rem);
+  --text-h3--line-height: 1.3;
+  --text-h3--letter-spacing: -0.012em;
+  --text-lead: clamp(1.0625rem, 1.01rem + 0.28vw, 1.25rem);
+  --text-lead--line-height: 1.6;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Dark theme: same structure, inverted stock. Declared after @theme so it wins. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-paper: #131010;
+    --color-paper-deep: #0d0b0b;
+    --color-card: #1c1817;
+
+    --color-ink: #f3efec;
+    --color-ink-70: #c2b8b4;
+    --color-ink-50: #9a8e8a;
+
+    --color-rule: #2e2725;
+    --color-rule-strong: #453b38;
+
+    --color-red: #d5182f;
+    --color-red-deep: #ef2338;
+    --color-red-ink: #ff7a85;
+    --color-oxblood: #4d0a12;
+    --color-oxblood-deep: #380710;
+    --color-wash: #2a1416;
+
+    --color-ok: #4fbf87;
+  }
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Figures are data in this product; keep them aligned and unambiguous. */
+  .font-mono,
+  [class*="font-mono"] {
+    font-variant-numeric: tabular-nums;
+  }
+
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-red);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background-color: var(--color-red);
+    color: #fff;
+  }
+
+  hr {
+    border-color: var(--color-rule);
+  }
+
+  /* Anchored sections must clear the sticky header when jumped to. */
+  :target,
+  [id] {
+    scroll-margin-top: 5.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* The one orchestrated moment on the site: the hero document falling through
+   the system on first paint. Everything else reacts to the visitor instead. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hero-step {
+  animation: rise 0.55s var(--ease-out-soft) both;
+}
+
+@keyframes fade-only {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Reduced motion softens the reveal instead of removing it: the displacement
+   goes, the short fade stays, so nothing teleports into place. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-step {
+    animation: fade-only 150ms ease both !important;
+    animation-delay: 0ms !important;
+    transform: none !important;
+  }
+}

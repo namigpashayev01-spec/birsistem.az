@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// Which form the request came from. Drives routing and reply templates.
+enum LeadType {
+  DEMO
+  CONTACT
+  CALLBACK
+  PRICING
+  TOOL
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  WON
+  LOST
+  SPAM
+}
+
+/// A sales enquiry submitted from any form on the marketing site.
+model Lead {
+  id String @id @default(cuid())
+
+  type    LeadType
+  name    String
+  company String?
+  phone   String
+  email   String?
+
+  /// Headcount band picked in the form: "1-10", "11-50", "51-200", "200+".
+  employees String?
+  /// Sector slug, e.g. "tikinti", matching src/content/sectors.ts.
+  sector    String?
+  /// Module slugs the visitor ticked, e.g. ["crm", "anbar"].
+  modules   String[]
+  message   String?
+
+  locale     String
+  sourcePath String
+
+  utmSource   String?
+  utmMedium   String?
+  utmCampaign String?
+
+  status LeadStatus @default(NEW)
+  note   String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([createdAt])
+  @@index([status])
+  @@index([type])
+}
