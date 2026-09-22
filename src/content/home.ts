@@ -12,25 +12,24 @@ export type HomeCopy = {
     secondaryCta: string;
     /** Plain sentence, not a row of badges. */
     assurance: string;
-    doc: {
-      caption: string;
-      title: string;
-      number: string;
-      date: string;
-      customer: string;
-      lineItem: string;
-      quantity: string;
-      total: string;
-      /** Where that one document lands, in order. */
-      steps: { module: string; effect: string }[];
-    };
+    /** Says plainly that the screen holds sample data. */
+    screenCaption: string;
+  };
+
+  /** One document moving through the system — the product's whole argument. */
+  flow: {
+    label: string;
+    title: string;
+    sub: string;
+    doc: { title: string; number: string; customer: string; total: string };
+    steps: { module: ModuleSlug; name: string; effect: string }[];
   };
 
   problems: {
     label: string;
     title: string;
     sub: string;
-    items: { text: string; module: ModuleSlug }[];
+    items: { title: string; text: string; module: ModuleSlug }[];
   };
 
   modules: {
@@ -39,13 +38,16 @@ export type HomeCopy = {
     sub: string;
   };
 
-  proof: {
+  /** The dark band: three real screens with a line of explanation each. */
+  tour: {
     label: string;
     title: string;
     sub: string;
-    checks: { title: string; text: string }[];
-    note: string;
+    screens: { screen: ModuleSlug; title: string; text: string }[];
   };
+
+  /** Facts about the product and the work — never invented customer counts. */
+  facts: { value: string; label: string }[];
 
   sectors: {
     label: string;
@@ -58,6 +60,14 @@ export type HomeCopy = {
     title: string;
     sub: string;
     items: { title: string; text: string; duration: string }[];
+  };
+
+  proof: {
+    label: string;
+    title: string;
+    sub: string;
+    checks: { title: string; text: string }[];
+    note: string;
   };
 
   faq: {
@@ -88,22 +98,25 @@ export const HOME: Localized<HomeCopy> = {
       secondaryCta: "Hazır həllərə bax",
       assurance:
         "Qurulma adətən 2–4 həftə çəkir, mövcud məlumatın köçürülməsi qiymətə daxildir, dəstək komandası Bakıdadır.",
+      screenCaption: "Rəhbər paneli — ekrandakı rəqəmlər nümunə məlumatdır.",
+    },
+
+    flow: {
+      label: "Necə işləyir",
+      title: "Bir qaimə, dörd modul, bir dəfə yazılış",
+      sub: "Satış meneceri qaiməni yazır. Ondan sonrakı hər şey sistemin öz işidir — heç kim eyni məlumatı ikinci dəfə daxil etmir.",
       doc: {
-        caption: "Bir qaimə, dörd modul. Məlumat ikinci dəfə yazılmır.",
         title: "Qaimə",
         number: "№ 1042",
-        date: "21.09.2026",
         customer: "Alfa Ticarət MMC",
-        lineItem: "Kabel NYM 3×2,5",
-        quantity: "12 ədəd",
-        total: "1 180,00 AZN",
-        steps: [
-          { module: "Anbar", effect: "qalıq 12 ədəd azalır" },
-          { module: "Mühasibat", effect: "yazılış və e-qaimə hazırlanır" },
-          { module: "Maliyyə", effect: "gözlənilən ödəniş təqvimə düşür" },
-          { module: "Hesabatlar", effect: "gəlir və marja yenilənir" },
-        ],
+        total: "1 180,00 AZN",
       },
+      steps: [
+        { module: "anbar", name: "Anbar", effect: "Qalıq 12 ədəd azalır, rezerv bağlanır" },
+        { module: "muhasibat", name: "Mühasibat", effect: "Yazılış qurulur, e-qaimə hazırlanır" },
+        { module: "maliyye", name: "Maliyyə", effect: "Gözlənilən ödəniş təqvimə düşür" },
+        { module: "hesabatlar", name: "Hesabatlar", effect: "Gəlir və marja yenilənir" },
+      ],
     },
 
     problems: {
@@ -112,19 +125,23 @@ export const HOME: Localized<HomeCopy> = {
       sub: "Aşağıdakılardan biri tanış gəlirsə, məsələ bir modulun çatışmamasında yox, modulların bir-birini görməməsindədir.",
       items: [
         {
-          text: "Satış meneceri anbara zəng edib qalıq soruşur, cavab gələnə qədər müştəri gözləyir",
+          title: "Qalıq telefonla soruşulur",
+          text: "Satış meneceri anbara zəng edir, cavab gələnə qədər müştəri xəttdə gözləyir.",
           module: "anbar",
         },
         {
-          text: "Eyni qaimə üç dəfə yazılır: satışda, anbarda və mühasibatda",
+          title: "Eyni qaimə üç dəfə yazılır",
+          text: "Satışda bir dəfə, anbarda bir dəfə, mühasibatda bir dəfə. Üç rəqəm heç vaxt tam üst-üstə düşmür.",
           module: "muhasibat",
         },
         {
-          text: "Kimin nə qədər borcu olduğu yalnız ay sonunda, üzləşmə zamanı bilinir",
+          title: "Borc ay sonunda üzə çıxır",
+          text: "Kimin nə qədər borcu olduğu yalnız üzləşmə zamanı bilinir, pul isə artıq donub.",
           module: "maliyye",
         },
         {
-          text: "Rəhbər keçən ayın rəqəmini bu ayın ortasında görür",
+          title: "Hesabat gecikir",
+          text: "Rəhbər keçən ayın rəqəmini bu ayın ortasında görür — qərar vermək üçün gec olur.",
           module: "hesabatlar",
         },
       ],
@@ -136,26 +153,35 @@ export const HOME: Localized<HomeCopy> = {
       sub: "Hər modul ayrıca işləyə bilər, amma dəyəri birlikdə verir: bir sənəd bütün zəncir boyunca özü hərəkət edir.",
     },
 
-    proof: {
-      label: "Yoxlama",
-      title: "Sözə yox, öz sənədinizə baxın",
-      sub: "Demo zamanı hazır nümunə göstərmirik. Sizin real qaimənizi, real qiymət siyahınızı və real anbar qalığınızı sistemə salıb birlikdə yoxlayırıq.",
-      checks: [
+    tour: {
+      label: "Sistemin içi",
+      title: "Gündəlik iş belə görünür",
+      sub: "Aşağıdakı ekranlar sistemin real interfeysidir. Rəqəmlər nümunədir — demoda onların yerində sizin öz məlumatınız olur.",
+      screens: [
         {
-          title: "Öz qaimənizi yazın",
-          text: "Adi bir satış sənədinizi sistemdə yaradın və anbar qalığının, mühasibat yazılışının necə dəyişdiyini görün.",
+          screen: "anbar",
+          title: "Anbar qalığı real vaxtda",
+          text: "Satış meneceri ümumi qalığı yox, rezervdən sonra satıla bilən qalığı görür. Minimumdan aşağı düşən mal ayrıca siyahıya düşür.",
         },
         {
-          title: "Öz hesabatınızı çıxarın",
-          text: "Hazırda Excel-də yığdığınız hesabatı sistemdən alın və rəqəmləri tutuşdurun.",
+          screen: "muhasibat",
+          title: "E-qaimə və avtomatik yazılış",
+          text: "Sənəd yazılan anda mühasibat yazılışı qurulur, e-qaimənin statusu isə göndərildi, qəbul və imtina üzrə izlənir.",
         },
         {
-          title: "Ən çətin halınızı verin",
-          text: "Qaytarma, valyuta fərqi, endirim və ya çoxanbarlı transfer — prosesinizin ən dolaşıq yerini demoda yoxlayın.",
+          screen: "maliyye",
+          title: "Ödəniş təqvimi",
+          text: "Bu həftə nə gələcək, nə ödəniləcək və həftə sonunda kassada nə qalacaq — üç rəqəm bir ekranda.",
         },
       ],
-      note: "Demo hesabı sizin məlumatınızla qurulur və istifadədən sonra silinir.",
     },
+
+    facts: [
+      { value: "6", label: "modul, hamısı eyni bazada" },
+      { value: "2–4 həftə", label: "orta qurulma və məlumat köçürülməsi" },
+      { value: "1 dəfə", label: "sənəd yazılır, bütün zəncirdə işləyir" },
+      { value: "Bakı", label: "qurulma və dəstək komandasının yeri" },
+    ],
 
     sectors: {
       label: "Sektorlar",
@@ -189,6 +215,27 @@ export const HOME: Localized<HomeCopy> = {
           duration: "davamlı",
         },
       ],
+    },
+
+    proof: {
+      label: "Yoxlama",
+      title: "Sözə yox, öz sənədinizə baxın",
+      sub: "Demo zamanı hazır nümunə göstərmirik. Sizin real qaimənizi, real qiymət siyahınızı və real anbar qalığınızı sistemə salıb birlikdə yoxlayırıq.",
+      checks: [
+        {
+          title: "Öz qaimənizi yazın",
+          text: "Adi bir satış sənədinizi sistemdə yaradın və anbar qalığının, mühasibat yazılışının necə dəyişdiyini görün.",
+        },
+        {
+          title: "Öz hesabatınızı çıxarın",
+          text: "Hazırda Excel-də yığdığınız hesabatı sistemdən alın və rəqəmləri tutuşdurun.",
+        },
+        {
+          title: "Ən çətin halınızı verin",
+          text: "Qaytarma, valyuta fərqi, endirim və ya çoxanbarlı transfer — prosesinizin ən dolaşıq yerini demoda yoxlayın.",
+        },
+      ],
+      note: "Demo hesabı sizin məlumatınızla qurulur və istifadədən sonra silinir.",
     },
 
     faq: {

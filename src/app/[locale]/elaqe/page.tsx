@@ -97,7 +97,7 @@ export default async function ContactPage({ params }: Props) {
         ]}
       />
 
-      <Section label={copy.title}>
+      <Section tone="card" label={copy.title}>
         <SectionTitle>{t("common.talkToUs")}</SectionTitle>
         <div className="mt-10">
           <LeadForm

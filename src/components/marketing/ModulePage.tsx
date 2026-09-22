@@ -3,15 +3,16 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { MODULE_BY_SLUG, type ModuleSlug } from "@/content/modules";
-import { SECTOR_BY_SLUG } from "@/content/sectors";
+import { SECTOR_BY_SLUG, type SectorSlug } from "@/content/sectors";
 import { pick } from "@/lib/content";
 import { absoluteUrl } from "@/lib/seo";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { CtaLink } from "@/components/ui/Cta";
+import { ProductScreen } from "@/components/product/screens";
 import { PageHero } from "./PageHero";
 import { Section, SectionTitle } from "./Section";
-import { Register } from "./Register";
+import { SECTOR_ICON, Tile } from "./Cards";
 import { FaqList } from "./FaqList";
 import { Stamp } from "./Stamp";
 
@@ -32,19 +33,8 @@ export async function ModulePage({
   const solutionsUrl = absoluteUrl(locale, "/hazir-heller");
 
   const relatedSectors = entry.relatedSectors
-    .map((sectorSlug) => SECTOR_BY_SLUG.get(sectorSlug as never))
-    .filter((sector) => sector !== undefined)
-    .map((sector) => {
-      const sectorCopy = pick(sector.copy, locale);
-      return {
-        href: {
-          pathname: "/sektorlar/[sektor]" as const,
-          params: { sektor: sector.slug },
-        },
-        name: sectorCopy.name,
-        row: sectorCopy.row,
-      };
-    });
+    .map((sectorSlug) => SECTOR_BY_SLUG.get(sectorSlug as SectorSlug))
+    .filter((sector) => sector !== undefined);
 
   const schema = [
     {
@@ -83,10 +73,7 @@ export async function ModulePage({
       <JsonLd data={{ "@context": "https://schema.org", "@graph": schema }} />
 
       <PageHero
-        crumbs={[
-          { label: t("nav.solutions"), href: "/hazir-heller" },
-          { label: copy.name },
-        ]}
+        crumbs={[{ label: t("nav.solutions"), href: "/hazir-heller" }, { label: copy.name }]}
         title={copy.title}
         lead={copy.lead}
         meta={[
@@ -101,17 +88,28 @@ export async function ModulePage({
             </CtaLink>
           </>
         }
+        visual={
+          <figure>
+            <ProductScreen screen={slug} />
+            <figcaption className="mt-3 text-sm text-ink-50">
+              {t("module.screenCaption", { module: copy.name })}
+            </figcaption>
+          </figure>
+        }
       />
 
-      <Section label={copy.name}>
+      <Section tone="card" label={copy.name}>
         <SectionTitle>{t("common.whatItDoes")}</SectionTitle>
-        <ul className="mt-10 border-t border-rule">
+        <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {copy.features.map((feature) => (
-            <li key={feature.title} className="border-b border-rule py-5">
-              <div className="grid gap-x-8 gap-y-1 md:grid-cols-[14rem_minmax(0,1fr)]">
-                <h3 className="text-h3 font-semibold text-ink">{feature.title}</h3>
-                <p className="max-w-2xl leading-relaxed text-ink-70">{feature.text}</p>
-              </div>
+            <li
+              key={feature.title}
+              className="min-w-0 rounded-[2px] border border-rule bg-paper p-5"
+            >
+              {/* One short rule rather than the module icon repeated six times. */}
+              <span aria-hidden="true" className="block h-[2px] w-8 bg-red" />
+              <h3 className="mt-4 font-semibold text-ink">{feature.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-ink-70">{feature.text}</p>
             </li>
           ))}
         </ul>
@@ -119,32 +117,44 @@ export async function ModulePage({
 
       {relatedSectors.length ? (
         <Section
+          tone="paper"
           label={t("nav.sectors")}
           aside={
             <Link
               href="/sektorlar"
-              className="text-sm text-red-ink underline decoration-rule-strong underline-offset-4 hover:decoration-red"
+              className="inline-flex min-h-11 items-center text-sm text-red-ink underline decoration-rule-strong underline-offset-4 hover:decoration-red"
             >
               {t("nav.allSectors")}
             </Link>
           }
         >
           <SectionTitle>{t("common.relatedSectors")}</SectionTitle>
-          <div className="mt-10">
-            <Register items={relatedSectors} />
+          <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {relatedSectors.map((sector) => {
+              const sectorCopy = pick(sector.copy, locale);
+              return (
+                <Tile
+                  key={sector.slug}
+                  href={{ pathname: "/sektorlar/[sektor]", params: { sektor: sector.slug } }}
+                  icon={SECTOR_ICON[sector.slug]}
+                  name={sectorCopy.name}
+                  row={sectorCopy.row}
+                />
+              );
+            })}
           </div>
         </Section>
       ) : null}
 
-      <Section label={t("nav.faq")}>
+      <Section tone="card" label={t("nav.faq")}>
         <SectionTitle>{t("common.frequentQuestions")}</SectionTitle>
-        <div className="mt-10">
+        <div className="mt-10 max-w-3xl">
           <FaqList items={copy.faq} />
         </div>
       </Section>
 
-      <Section tone="card">
-        <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+      <Section tone="paper" size="tight">
+        <div className="flex flex-col gap-8 rounded-[2px] border border-rule bg-card p-8 md:flex-row md:items-end md:justify-between md:p-10">
           <div className="max-w-xl">
             <h2 className="text-h2 font-semibold text-ink">
               {t("common.moduleCtaTitle", { module: copy.name })}

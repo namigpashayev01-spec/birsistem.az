@@ -99,7 +99,7 @@ export default async function ToolPage({ params }: Props) {
         lead={copy.lead}
       />
 
-      <Section label={labels.common.result}>
+      <Section tone="card" label={labels.common.result}>
         <Calculator slug={entry.slug} labels={labels} locale={locale} />
         <p className="mt-8 border-t border-rule pt-4 text-sm text-ink-50">
           {labels.common.disclaimer}{" "}
@@ -107,7 +107,7 @@ export default async function ToolPage({ params }: Props) {
         </p>
       </Section>
 
-      <Section label={t("common.readMore")}>
+      <Section tone="paper" label={t("common.readMore")}>
         <div className="space-y-10">
           {copy.explainer.map((block) => (
             <section key={block.title}>
@@ -118,7 +118,7 @@ export default async function ToolPage({ params }: Props) {
         </div>
       </Section>
 
-      <Section label={t("nav.faq")}>
+      <Section tone="card" label={t("nav.faq")}>
         <SectionTitle>{t("common.frequentQuestions")}</SectionTitle>
         <div className="mt-10">
           <FaqList items={copy.faq} />
@@ -144,7 +144,7 @@ export default async function ToolPage({ params }: Props) {
         </Section>
       ) : null}
 
-      <Section label={t("nav.tools")}>
+      <Section tone="paper" label={t("nav.tools")}>
         <SectionTitle>{t("nav.allTools")}</SectionTitle>
         <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2">
           {TOOLS.filter((tool) => tool.slug !== entry.slug).map((tool) => (

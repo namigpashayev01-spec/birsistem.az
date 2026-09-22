@@ -27,8 +27,16 @@
      paper token — in dark mode that would put near-black on near-black. */
   --color-on-oxblood: #f7f7f5;
   --color-wash: #fdecee;
+  /* A barely-there tint for whole sections, so bands alternate without shouting. */
+  --color-wash-soft: #faf4f3;
 
   --color-ok: #1f7a4d;
+
+  /* Product mockups. The chrome stays dark in both themes so the app always
+     reads as an app; the canvas follows the page surface. */
+  --color-app-chrome: #241717;
+  --color-app-canvas: #ffffff;
+  --color-app-edge: #3a2725;
 
   --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
@@ -73,8 +81,13 @@
     --color-oxblood: #4d0a12;
     --color-oxblood-deep: #380710;
     --color-wash: #2a1416;
+    --color-wash-soft: #191313;
 
     --color-ok: #4fbf87;
+
+    --color-app-chrome: #1a1212;
+    --color-app-canvas: #1c1817;
+    --color-app-edge: #332927;
   }
 }
 

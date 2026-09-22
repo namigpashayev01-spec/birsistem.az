@@ -177,7 +177,7 @@ export default async function BlogPost({ params }: Props) {
         </Section>
       ) : null}
 
-      <Section label={t("nav.blog")}>
+      <Section tone="paper" label={t("nav.blog")}>
         <SectionTitle>{t("blog.moreTitle")}</SectionTitle>
         <ul className="mt-8 border-t border-rule">
           {others.map((entry) => {

@@ -9,8 +9,8 @@ import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { CtaLink } from "@/components/ui/Cta";
 import { PageHero } from "@/components/marketing/PageHero";
-import { Section } from "@/components/marketing/Section";
-import { Register } from "@/components/marketing/Register";
+import { Section, SectionTitle } from "@/components/marketing/Section";
+import { TOOL_ICON, Tile } from "@/components/marketing/Cards";
 import { Prose } from "@/components/marketing/Prose";
 
 const HREF = "/aletler" as const;
@@ -39,6 +39,7 @@ export default async function Page({ params }: Props) {
   const items = TOOLS.map((entry) => {
     const c = pick(entry.copy, locale);
     return {
+      slug: entry.slug,
       href: { pathname: CHILD, params: { alet: entry.slug } },
       name: c.name,
       row: c.row,
@@ -76,12 +77,23 @@ export default async function Page({ params }: Props) {
         actions={<CtaLink href="/demo">{t("common.requestDemo")}</CtaLink>}
       />
 
-      <Section label={t("nav.tools")}>
-        <Register items={items} />
+      <Section tone="card" label={t("nav.tools")}>
+        <SectionTitle>{t("toolsPage.listTitle")}</SectionTitle>
+        <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {items.map((item) => (
+            <Tile
+              key={item.name}
+              href={item.href}
+              icon={TOOL_ICON[item.slug]}
+              name={item.name}
+              row={item.row}
+            />
+          ))}
+        </div>
       </Section>
 
       {copy.sections?.length ? (
-        <Section label={t("common.readMore")}>
+        <Section tone="paper" label={t("common.readMore")}>
           <Prose sections={copy.sections} />
         </Section>
       ) : null}

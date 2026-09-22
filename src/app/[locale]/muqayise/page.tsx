@@ -76,12 +76,12 @@ export default async function Page({ params }: Props) {
         actions={<CtaLink href="/demo">{t("common.requestDemo")}</CtaLink>}
       />
 
-      <Section label={t("nav.comparison")}>
+      <Section tone="card" label={t("nav.comparison")}>
         <Register items={items} />
       </Section>
 
       {copy.sections?.length ? (
-        <Section label={t("common.readMore")}>
+        <Section tone="paper" label={t("common.readMore")}>
           <Prose sections={copy.sections} />
         </Section>
       ) : null}

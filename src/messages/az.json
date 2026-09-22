@@ -131,5 +131,17 @@
   "blog": {
     "ctaTitle": "Bu mövzu {module} modulunda necə həll olunur",
     "moreTitle": "Digər yazılar"
+  },
+  "module": {
+    "screenCaption": "{module} modulunun ekranı — rəqəmlər nümunə məlumatdır."
+  },
+  "solutions": {
+    "listTitle": "Modullar"
+  },
+  "sectorsPage": {
+    "listTitle": "Sahələr"
+  },
+  "toolsPage": {
+    "listTitle": "Kalkulyatorlar"
   }
 }

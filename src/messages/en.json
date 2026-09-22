@@ -131,5 +131,17 @@
   "blog": {
     "ctaTitle": "How the {module} module handles this",
     "moreTitle": "More posts"
+  },
+  "module": {
+    "screenCaption": "The {module} module — the figures shown are sample data."
+  },
+  "solutions": {
+    "listTitle": "Modules"
+  },
+  "sectorsPage": {
+    "listTitle": "Industries"
+  },
+  "toolsPage": {
+    "listTitle": "Calculators"
   }
 }

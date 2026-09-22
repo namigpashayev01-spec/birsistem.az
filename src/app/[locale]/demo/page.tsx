@@ -60,7 +60,7 @@ export default async function DemoPage({ params }: Props) {
 
       <PageHero crumbs={[{ label: copy.title }]} title={copy.title} lead={copy.lead} />
 
-      <Section label={copy.title}>
+      <Section tone="card" label={copy.title}>
         <LeadForm
           type="DEMO"
           submitLabel={t("form.submitDemo")}
@@ -72,7 +72,7 @@ export default async function DemoPage({ params }: Props) {
         />
       </Section>
 
-      <Section label={home.steps.label}>
+      <Section tone="paper" label={home.steps.label}>
         <SectionTitle sub={home.steps.sub}>{home.steps.title}</SectionTitle>
         <div className="mt-10">
           <Steps items={home.steps.items} />

@@ -44,7 +44,7 @@ export default async function Page({ params }: Props) {
       />
 
       {copy.sections?.length ? (
-        <Section label={copy.title}>
+        <Section tone="card" label={copy.title}>
           <Prose sections={copy.sections} />
         </Section>
       ) : null}

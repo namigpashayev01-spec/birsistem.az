@@ -83,7 +83,7 @@ export default async function ComparisonPage({ params }: Props) {
         actions={<CtaLink href="/demo">{t("common.requestDemo")}</CtaLink>}
       />
 
-      <Section label={t("nav.comparison")}>
+      <Section tone="card" label={t("nav.comparison")}>
         <SectionTitle>{t("comparison.tableTitle", { rival: copy.rival })}</SectionTitle>
         <div className="mt-10 overflow-x-auto">
           <table className="w-full min-w-[42rem] border-collapse text-left">
@@ -118,19 +118,19 @@ export default async function ComparisonPage({ params }: Props) {
         </div>
       </Section>
 
-      <Section label={t("comparison.fairLabel")}>
+      <Section tone="paper" label={t("comparison.fairLabel")}>
         <SectionTitle>{copy.rivalWins.title}</SectionTitle>
         <p className="mt-5 max-w-2xl leading-relaxed text-ink-70">{copy.rivalWins.text}</p>
       </Section>
 
-      <Section label={t("nav.faq")}>
+      <Section tone="card" label={t("nav.faq")}>
         <SectionTitle>{t("common.frequentQuestions")}</SectionTitle>
         <div className="mt-10">
           <FaqList items={copy.faq} />
         </div>
       </Section>
 
-      <Section tone="card">
+      <Section tone="paper" size="tight">
         <div className="max-w-xl">
           <h2 className="text-h2 font-semibold text-ink">{t("comparison.ctaTitle")}</h2>
           <p className="mt-4 text-lead text-ink-70">{t("comparison.ctaText")}</p>

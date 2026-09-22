@@ -13,7 +13,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { CtaLink } from "@/components/ui/Cta";
 import { PageHero } from "@/components/marketing/PageHero";
 import { Section, SectionTitle } from "@/components/marketing/Section";
-import { Register } from "@/components/marketing/Register";
+import { MODULE_ICON, Tile } from "@/components/marketing/Cards";
 import { FaqList } from "@/components/marketing/FaqList";
 import { Stamp } from "@/components/marketing/Stamp";
 
@@ -48,13 +48,9 @@ export default async function SectorPage({ params }: Props) {
   const href = { pathname: "/sektorlar/[sektor]" as const, params: { sektor } };
   const url = absoluteUrl(locale, href);
 
-  const moduleItems = entry.modules
+  const relatedModules = entry.modules
     .map((slug) => MODULE_BY_SLUG.get(slug))
-    .filter((module) => module !== undefined)
-    .map((module) => {
-      const c = pick(module.copy, locale);
-      return { href: module.href, name: c.name, row: c.row };
-    });
+    .filter((module) => module !== undefined);
 
   const schema = [
     {
@@ -109,33 +105,39 @@ export default async function SectorPage({ params }: Props) {
         }
       />
 
-      <Section label={t("common.whatItDoes")}>
+      <Section tone="card" label={t("common.whatItDoes")}>
         <SectionTitle>{t("sector.problemsTitle")}</SectionTitle>
-        <ul className="mt-10 border-t border-rule">
+        <ul className="mt-10 grid gap-4 sm:grid-cols-2">
           {copy.problems.map((problem) => (
-            <li key={problem} className="border-b border-rule py-4">
-              <p className="max-w-2xl text-ink">{problem}</p>
+            <li
+              key={problem}
+              className="flex min-w-0 gap-3 rounded-[2px] border border-rule bg-paper p-5"
+            >
+              <span aria-hidden="true" className="mt-2 block h-[2px] w-5 shrink-0 bg-red" />
+              <p className="text-ink-70">{problem}</p>
             </li>
           ))}
         </ul>
       </Section>
 
-      <Section label={copy.name}>
+      <Section tone="paper" label={copy.name}>
         <SectionTitle>{t("sector.featuresTitle")}</SectionTitle>
-        <ul className="mt-10 border-t border-rule">
+        <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {copy.features.map((feature) => (
-            <li key={feature.title} className="border-b border-rule py-5">
-              <div className="grid gap-x-8 gap-y-1 md:grid-cols-[14rem_minmax(0,1fr)]">
-                <h3 className="text-h3 font-semibold text-ink">{feature.title}</h3>
-                <p className="max-w-2xl leading-relaxed text-ink-70">{feature.text}</p>
-              </div>
+            <li
+              key={feature.title}
+              className="min-w-0 rounded-[2px] border border-rule bg-card p-5"
+            >
+              <span aria-hidden="true" className="block h-[2px] w-8 bg-red" />
+              <h3 className="mt-4 font-semibold text-ink">{feature.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-ink-70">{feature.text}</p>
             </li>
           ))}
         </ul>
       </Section>
 
-      {moduleItems.length ? (
-        <Section
+      {relatedModules.length ? (
+        <Section tone="card"
           label={t("nav.solutions")}
           aside={
             <Link
@@ -147,21 +149,31 @@ export default async function SectorPage({ params }: Props) {
           }
         >
           <SectionTitle>{t("common.relatedModules")}</SectionTitle>
-          <div className="mt-10">
-            <Register items={moduleItems} />
+          <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {relatedModules.map((module) => {
+              const c = pick(module.copy, locale);
+              return (
+                <Tile
+                  key={module.slug}
+                  href={module.href}
+                  icon={MODULE_ICON[module.slug]}
+                  name={c.name}
+                />
+              );
+            })}
           </div>
         </Section>
       ) : null}
 
-      <Section label={t("nav.faq")}>
+      <Section tone="paper" label={t("nav.faq")}>
         <SectionTitle>{t("common.frequentQuestions")}</SectionTitle>
         <div className="mt-10">
           <FaqList items={copy.faq} />
         </div>
       </Section>
 
-      <Section tone="card">
-        <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+      <Section tone="card" size="tight">
+        <div className="flex flex-col gap-8 rounded-[2px] border border-rule bg-paper p-8 md:flex-row md:items-end md:justify-between md:p-10">
           <div className="max-w-xl">
             <h2 className="text-h2 font-semibold text-ink">
               {t("sector.ctaTitle", { sector: copy.name.toLocaleLowerCase("az") })}

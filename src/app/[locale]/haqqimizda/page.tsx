@@ -55,12 +55,12 @@ export default async function AboutPage({ params }: Props) {
       />
 
       {copy.sections?.length ? (
-        <Section label={copy.title}>
+        <Section tone="card" label={copy.title}>
           <Prose sections={copy.sections} />
         </Section>
       ) : null}
 
-      <Section label={home.steps.label}>
+      <Section tone="paper" label={home.steps.label}>
         <SectionTitle sub={home.steps.sub}>{home.steps.title}</SectionTitle>
         <div className="mt-10">
           <Steps items={home.steps.items} />

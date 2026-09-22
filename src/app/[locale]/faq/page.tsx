@@ -91,7 +91,11 @@ export default async function FaqPage({ params }: Props) {
       />
 
       {groups.map((group, index) => (
-        <Section key={`${group.title}-${index}`} label={group.label}>
+        <Section
+          key={`${group.title}-${index}`}
+          tone={index % 2 === 0 ? "card" : "paper"}
+          label={group.label}
+        >
           <SectionTitle>{group.title}</SectionTitle>
           <div className="mt-8">
             <FaqList items={group.items} />
@@ -99,7 +103,7 @@ export default async function FaqPage({ params }: Props) {
         </Section>
       ))}
 
-      <Section tone="card">
+      <Section tone="wash" size="tight">
         <div className="max-w-xl">
           <h2 className="text-h2 font-semibold text-ink">{t("faqPage.stillTitle")}</h2>
           <p className="mt-4 text-lead text-ink-70">

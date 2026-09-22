@@ -81,7 +81,7 @@ export default async function PricingPage({ params }: Props) {
         actions={<CtaAnchor href="#teklif">{t("common.requestOffer")}</CtaAnchor>}
       />
 
-      <Section label={page.title}>
+      <Section tone="card" label={page.title}>
         <ul className="grid gap-px border border-rule bg-rule md:grid-cols-3">
           {copy.tiers.map((tier) => (
             <li key={tier.name} className="bg-card p-6">
@@ -104,7 +104,7 @@ export default async function PricingPage({ params }: Props) {
         </ul>
       </Section>
 
-      <Section label={t("pricing.matrixLabel")}>
+      <Section tone="paper" label={t("pricing.matrixLabel")}>
         <SectionTitle>{t("pricing.matrixTitle")}</SectionTitle>
         <div className="mt-10 overflow-x-auto">
           <table className="w-full min-w-[46rem] border-collapse text-left">
@@ -153,7 +153,7 @@ export default async function PricingPage({ params }: Props) {
         </div>
       </Section>
 
-      <Section label={t("pricing.includedLabel")}>
+      <Section tone="card" label={t("pricing.includedLabel")}>
         <SectionTitle>{t("pricing.includedTitle")}</SectionTitle>
         <ul className="mt-10 border-t border-rule">
           {copy.included.map((item) => (
@@ -167,7 +167,7 @@ export default async function PricingPage({ params }: Props) {
         </ul>
       </Section>
 
-      <Section label={t("nav.faq")}>
+      <Section tone="paper" label={t("nav.faq")}>
         <SectionTitle>{t("common.frequentQuestions")}</SectionTitle>
         <div className="mt-10">
           <FaqList items={copy.faq} />

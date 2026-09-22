@@ -9,8 +9,8 @@ import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { CtaLink } from "@/components/ui/Cta";
 import { PageHero } from "@/components/marketing/PageHero";
-import { Section } from "@/components/marketing/Section";
-import { Register } from "@/components/marketing/Register";
+import { Section, SectionTitle } from "@/components/marketing/Section";
+import { MODULE_ICON, ModuleCard } from "@/components/marketing/Cards";
 import { Prose } from "@/components/marketing/Prose";
 
 type Props = { params: Promise<{ locale: Locale }> };
@@ -33,18 +33,7 @@ export default async function SolutionsPage({ params }: Props) {
   const copy = pick(SOLUTIONS_PAGE, locale);
   const t = await getTranslations();
 
-  const items = MODULES.map((m) => {
-    const c = pick(m.copy, locale);
-    return {
-      href: m.href,
-      name: c.name,
-      row: c.row,
-      meta: [
-        { label: t("common.whoUsesIt"), value: c.audience },
-        { label: t("common.whichDocuments"), value: c.documents },
-      ],
-    };
-  });
+
 
   const schema = [
     {
@@ -82,12 +71,30 @@ export default async function SolutionsPage({ params }: Props) {
         actions={<CtaLink href="/demo">{t("common.requestDemo")}</CtaLink>}
       />
 
-      <Section label={t("nav.solutions")}>
-        <Register items={items} />
+      <Section tone="card" label={t("nav.solutions")}>
+        <SectionTitle>{t("solutions.listTitle")}</SectionTitle>
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {MODULES.map((module) => {
+            const c = pick(module.copy, locale);
+            return (
+              <ModuleCard
+                key={module.slug}
+                href={module.href}
+                icon={MODULE_ICON[module.slug]}
+                name={c.name}
+                row={c.row}
+                meta={[
+                  { label: t("common.whoUsesIt"), value: c.audience },
+                  { label: t("common.whichDocuments"), value: c.documents },
+                ]}
+              />
+            );
+          })}
+        </div>
       </Section>
 
       {copy.sections?.length ? (
-        <Section label={t("common.readMore")}>
+        <Section tone="paper" label={t("common.readMore")}>
           <Prose sections={copy.sections} />
         </Section>
       ) : null}
