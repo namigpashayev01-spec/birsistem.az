@@ -1,3 +1,4 @@
+import { ArrowRight } from "lucide-react";
 import type { ComponentProps, ReactNode } from "react";
 import { Link } from "@/i18n/navigation";
 
@@ -10,7 +11,7 @@ const variants: Record<Variant, string> = {
   primary: "bg-red text-white shadow-card hover:bg-red-deep",
   secondary: "border border-rule-strong bg-card text-ink hover:border-ink/30 hover:bg-tint",
   ghost: "border border-white/25 text-white hover:border-white/60 hover:bg-white/10",
-  quiet: "min-h-11 px-0 font-medium text-red-ink underline decoration-red/30 underline-offset-4 hover:decoration-red",
+  quiet: "min-h-11 px-0 font-semibold text-red-ink hover:text-red",
 };
 
 export function CtaLink({
@@ -53,18 +54,31 @@ export function CtaAnchor({
   );
 }
 
-/** Plain text link in brand colour, used inside body copy and card footers. */
+/**
+ * Onward link: brand colour, semibold, no underline, and an arrow that nudges
+ * forward on hover. The arrow is an icon rather than a typed "→" so it keeps
+ * the right weight and baseline at every size.
+ */
 export function TextLink({
   className = "",
   children,
+  arrow = true,
   ...props
-}: ComponentProps<typeof Link>) {
+}: { arrow?: boolean } & ComponentProps<typeof Link>) {
   return (
     <Link
       {...props}
-      className={`inline-flex min-h-11 items-center font-medium text-red-ink underline decoration-red/30 underline-offset-4 transition-colors hover:decoration-red ${className}`}
+      className={`group/link inline-flex min-h-11 items-center gap-2 font-semibold text-red-ink transition-colors hover:text-red ${className}`}
     >
       {children}
+      {arrow ? (
+        <ArrowRight
+          size={17}
+          strokeWidth={2.25}
+          aria-hidden="true"
+          className="shrink-0 transition-transform duration-200 ease-out-soft group-hover/link:translate-x-1"
+        />
+      ) : null}
     </Link>
   );
 }

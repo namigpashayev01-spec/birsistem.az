@@ -57,7 +57,10 @@ export const SECTOR_ICON: Record<SectorSlug, LucideIcon> = {
   xidmet: Briefcase,
 };
 
-/** Rounded, softly tinted icon holder. */
+/**
+ * A bare line icon in the brand colour — no tinted tile behind it. The tile
+ * version adds weight that competes with the headings next to it.
+ */
 export function IconMark({
   icon: Icon,
   tone = "brand",
@@ -67,15 +70,12 @@ export function IconMark({
   tone?: "brand" | "light";
   size?: "sm" | "md";
 }) {
-  const box = size === "sm" ? "h-9 w-9 rounded-sm" : "h-11 w-11 rounded-md";
   return (
     <span
       aria-hidden="true"
-      className={`flex shrink-0 items-center justify-center ${box} ${
-        tone === "light" ? "bg-white/12 text-on-oxblood" : "bg-red-soft text-red"
-      }`}
+      className={`block shrink-0 ${tone === "light" ? "text-on-oxblood" : "text-red"}`}
     >
-      <Icon size={size === "sm" ? 18 : 21} strokeWidth={1.75} />
+      <Icon size={size === "sm" ? 22 : 26} strokeWidth={1.6} />
     </span>
   );
 }
@@ -100,7 +100,7 @@ export function ModuleCard({
   return (
     <Link href={href} className={`group ${cardBase} hover:shadow-lift`}>
       <IconMark icon={icon} />
-      <h3 className="mt-5 text-h3 font-semibold text-ink group-hover:text-red-ink">{name}</h3>
+      <h3 className="mt-4 text-h3 font-semibold text-ink group-hover:text-red-ink">{name}</h3>
       <p className="mt-2 leading-relaxed text-ink-70">{row}</p>
       {meta?.length ? (
         <dl className="mt-5 space-y-1.5 border-t border-rule pt-4 text-2xs">
@@ -134,7 +134,7 @@ export function Tile({
       className="group flex min-w-0 items-start gap-4 rounded-lg border border-rule bg-card p-5 shadow-card transition-shadow duration-200 hover:shadow-lift"
     >
       <IconMark icon={icon} size="sm" />
-      <span className="min-w-0">
+      <span className="min-w-0 pt-0.5">
         <span className="block font-semibold text-ink group-hover:text-red-ink">{name}</span>
         {row ? <span className="mt-1 block text-sm leading-relaxed text-ink-70">{row}</span> : null}
       </span>
@@ -161,7 +161,7 @@ export function NoteCard({
         dark ? "bg-white/6" : "border border-rule bg-card shadow-card"
       }`}
     >
-      {icon ? <IconMark icon={icon} tone={dark ? "light" : "brand"} size="sm" /> : null}
+      {icon ? <IconMark icon={icon} tone={dark ? "light" : "brand"} /> : null}
       <h3
         className={`${icon ? "mt-4" : ""} font-semibold ${dark ? "text-on-oxblood" : "text-ink"}`}
       >
@@ -212,15 +212,13 @@ export function CheckList({
   return (
     <ul className={`grid gap-x-8 gap-y-3 ${columns === 2 ? "sm:grid-cols-2" : ""}`}>
       {items.map((item) => (
-        <li key={item} className="flex min-w-0 items-start gap-3">
-          <span
+        <li key={item} className="flex min-w-0 items-start gap-2.5">
+          <Check
             aria-hidden="true"
-            className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${
-              dark ? "bg-white/15 text-on-oxblood" : "bg-red-soft text-red"
-            }`}
-          >
-            <Check size={13} strokeWidth={2.75} />
-          </span>
+            size={18}
+            strokeWidth={2.5}
+            className={`mt-1 shrink-0 ${dark ? "text-on-oxblood" : "text-red"}`}
+          />
           <span className={dark ? "text-on-oxblood/85" : "text-ink-70"}>{item}</span>
         </li>
       ))}
