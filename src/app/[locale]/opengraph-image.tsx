@@ -14,17 +14,17 @@ export const alt = `${SITE_NAME} — ERP`;
 const FONT_DIR = join(process.cwd(), "src", "assets", "fonts");
 
 /**
- * The renderer uses one file per family name, and no single Plex file ships
+ * The renderer uses one file per family name, and no single DM Sans file ships
  * both Latin and Latin Extended. "ə", "ğ", "ı" and "ş" therefore always come
- * from a second file, so the card is set entirely in Regular: one weight means
- * the fallback glyphs match the letters around them instead of looking thin.
- * Only the ASCII wordmark uses the SemiBold file.
+ * from a second file, so the headline is set in one weight: that way the
+ * fallback glyphs match the letters around them instead of looking thin. Only
+ * the ASCII wordmark uses the heavier file.
  */
 async function loadFonts() {
   const files = [
-    ["ibm-plex-sans-latin-400-normal.woff", "PlexBody"],
-    ["ibm-plex-sans-latin-ext-400-normal.woff", "PlexExt"],
-    ["ibm-plex-sans-latin-600-normal.woff", "PlexBold"],
+    ["dm-sans-latin-500-normal.woff", "Brand"],
+    ["dm-sans-latin-ext-500-normal.woff", "BrandExt"],
+    ["dm-sans-latin-600-normal.woff", "BrandBold"],
   ] as const;
 
   return Promise.all(
@@ -50,22 +50,22 @@ export default async function Image({ params }: { params: Promise<{ locale: Loca
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#6B0F1A",
-          color: "#F7F7F5",
+          background: "#5D0D17",
+          color: "#FDF7F7",
           padding: 72,
-          fontFamily: "PlexBody",
+          fontFamily: "Brand",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
           <div style={{ width: 8, height: 44, background: "#C8102E" }} />
-          <div style={{ fontSize: 40, fontFamily: "PlexBold", letterSpacing: -1 }}>birsistem</div>
+          <div style={{ fontSize: 40, fontFamily: "BrandBold", letterSpacing: -1 }}>birsistem</div>
         </div>
 
         <div
           style={{
             display: "flex",
             fontSize: 66,
-            fontFamily: "PlexBody",
+            fontFamily: "Brand",
             lineHeight: 1.1,
             letterSpacing: -1.5,
             maxWidth: 940,
@@ -79,10 +79,10 @@ export default async function Image({ params }: { params: Promise<{ locale: Loca
             display: "flex",
             justifyContent: "space-between",
             alignItems: "flex-end",
-            borderTop: "1px solid rgba(247,247,245,0.25)",
+            borderTop: "1px solid rgba(253,247,247,0.25)",
             paddingTop: 24,
             fontSize: 26,
-            color: "rgba(247,247,245,0.75)",
+            color: "rgba(253,247,247,0.78)",
           }}
         >
           <div style={{ display: "flex" }}>CRM · Anbar · Mühasibat · Maliyyə · HR</div>

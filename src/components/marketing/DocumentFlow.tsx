@@ -14,7 +14,7 @@ export function DocumentFlow({ copy }: { copy: HomeCopy["flow"] }) {
   return (
     <div className="grid gap-8 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)] lg:gap-12">
       <div className="min-w-0">
-        <div className="rounded-[2px] border border-rule bg-card">
+        <div className="rounded-lg border border-rule bg-card shadow-card">
           <div className="flex items-center gap-2 border-b border-rule px-4 py-3">
             <FileText size={16} strokeWidth={1.75} className="shrink-0 text-red" aria-hidden="true" />
             <span className="text-sm font-medium text-ink">{doc.title}</span>
@@ -47,7 +47,7 @@ export function DocumentFlow({ copy }: { copy: HomeCopy["flow"] }) {
               />
               <span
                 aria-hidden="true"
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[2px] border border-rule bg-card text-red"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-rule bg-card shadow-card text-red"
               >
                 <Icon size={18} strokeWidth={1.75} />
               </span>

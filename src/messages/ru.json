@@ -143,5 +143,8 @@
   },
   "toolsPage": {
     "listTitle": "Калькуляторы"
+  },
+  "home": {
+    "moreAbout": "Подробнее о модуле «{module}»"
   }
 }

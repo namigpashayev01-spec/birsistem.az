@@ -11,6 +11,7 @@ import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import { CONTACT } from "@/lib/site";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { CtaAnchor } from "@/components/ui/Cta";
+import { CheckList } from "@/components/marketing/Cards";
 import { PageHero } from "@/components/marketing/PageHero";
 import { Section, SectionTitle } from "@/components/marketing/Section";
 import { FaqList } from "@/components/marketing/FaqList";
@@ -82,21 +83,27 @@ export default async function PricingPage({ params }: Props) {
       />
 
       <Section tone="card" label={page.title}>
-        <ul className="grid gap-px border border-rule bg-rule md:grid-cols-3">
-          {copy.tiers.map((tier) => (
-            <li key={tier.name} className="bg-card p-6">
+        <ul className="mt-12 grid gap-5 md:grid-cols-3">
+          {copy.tiers.map((tier, index) => (
+            <li
+              key={tier.name}
+              className={`flex min-w-0 flex-col rounded-lg border p-7 ${
+                index === 1
+                  ? "border-red/25 bg-card shadow-lift"
+                  : "border-rule bg-card shadow-card"
+              }`}
+            >
               <h2 className="text-h3 font-semibold text-ink">{tier.name}</h2>
               <p className="mt-1 text-sm text-ink-50">{tier.forWhom}</p>
               <p className="mt-4 leading-relaxed text-ink-70">{tier.summary}</p>
-              <ul className="mt-5 space-y-2 border-t border-rule pt-4 text-sm text-ink-70">
-                {tier.includes.map((item) => (
-                  <li key={item} className="flex gap-2">
-                    <span aria-hidden="true" className="mt-2 block h-px w-3 shrink-0 bg-rule-strong" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <CtaAnchor href="#teklif" variant="secondary" className="mt-6 w-full">
+              <div className="mb-7 mt-6 border-t border-rule pt-5">
+                <CheckList items={tier.includes} columns={1} />
+              </div>
+              <CtaAnchor
+                href="#teklif"
+                variant={index === 1 ? "primary" : "secondary"}
+                className="mt-auto w-full"
+              >
                 {t("common.requestOffer")}
               </CtaAnchor>
             </li>
@@ -176,7 +183,7 @@ export default async function PricingPage({ params }: Props) {
 
       <Section label={t("common.requestOffer")} tone="card" id="teklif">
         <SectionTitle sub={copy.formLead}>{copy.formTitle}</SectionTitle>
-        <div className="mt-10">
+        <div className="mt-10 rounded-xl border border-rule bg-card p-7 shadow-card md:p-10">
           <LeadForm
             type="PRICING"
             submitLabel={t("form.submitOffer")}

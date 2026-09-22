@@ -10,7 +10,7 @@ import { CtaButton } from "@/components/ui/Cta";
 export type LeadFormOption = { value: string; label: string };
 
 const inputClass =
-  "mt-1.5 block h-11 w-full rounded-[2px] border border-rule-strong bg-card px-3 text-ink outline-none transition-colors focus:border-red";
+  "mt-1.5 block h-11 w-full rounded-lg border border-rule-strong bg-card px-3 text-ink outline-none transition-colors focus:border-red";
 
 const initialState: LeadState = { status: "idle" };
 
@@ -207,7 +207,7 @@ export function LeadForm({
           name="message"
           rows={4}
           placeholder={t("messagePlaceholder")}
-          className="mt-1.5 block w-full rounded-[2px] border border-rule-strong bg-card px-3 py-2.5 leading-relaxed text-ink outline-none transition-colors focus:border-red"
+          className="mt-1.5 block w-full rounded-lg border border-rule-strong bg-card px-3 py-2.5 leading-relaxed text-ink outline-none transition-colors focus:border-red"
         />
       </div>
 
@@ -216,7 +216,7 @@ export function LeadForm({
           ref={statusRef}
           tabIndex={-1}
           role="alert"
-          className="border border-red bg-wash px-4 py-3 outline-none"
+          className="border border-red bg-red-soft px-4 py-3 outline-none"
         >
           <p className="font-medium text-ink">{t("errorTitle")}</p>
           <p className="mt-1 text-sm text-ink-70">{t(errorKey, { phone })}</p>

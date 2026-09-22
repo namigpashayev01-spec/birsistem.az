@@ -143,5 +143,8 @@
   },
   "toolsPage": {
     "listTitle": "Calculators"
+  },
+  "home": {
+    "moreAbout": "More about {module}"
   }
 }

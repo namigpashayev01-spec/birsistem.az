@@ -8,7 +8,7 @@ import { routing } from "@/i18n/routing";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { plexMono, plexSans } from "@/lib/fonts";
+import { dmSans, plexMono } from "@/lib/fonts";
 import {
   CONTACT,
   HTML_LANG,
@@ -75,14 +75,14 @@ export default async function LocaleLayout({
   };
 
   return (
-    <html lang={locale} dir="ltr" className={`${plexSans.variable} ${plexMono.variable}`}>
+    <html lang={locale} dir="ltr" className={`${dmSans.variable} ${plexMono.variable}`}>
       <body className="min-h-dvh font-sans antialiased">
         {!isPublished(locale) && <meta name="robots" content="noindex, nofollow" />}
         <JsonLd data={{ "@context": "https://schema.org", "@graph": [organization, website] }} />
 
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-[2px] focus:bg-ink focus:px-4 focus:py-2 focus:text-paper"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-sm focus:bg-ink focus:px-4 focus:py-2 focus:text-paper"
         >
           {t("skipToContent")}
         </a>

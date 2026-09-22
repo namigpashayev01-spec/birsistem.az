@@ -16,6 +16,9 @@ export type HomeCopy = {
     screenCaption: string;
   };
 
+  /** Three short promises directly under the hero. */
+  highlights: { title: string; text: string }[];
+
   /** One document moving through the system — the product's whole argument. */
   flow: {
     label: string;
@@ -43,7 +46,7 @@ export type HomeCopy = {
     label: string;
     title: string;
     sub: string;
-    screens: { screen: ModuleSlug; title: string; text: string }[];
+    screens: { screen: ModuleSlug; chip: string; title: string; text: string; checks: string[] }[];
   };
 
   /** Facts about the product and the work — never invented customer counts. */
@@ -100,6 +103,21 @@ export const HOME: Localized<HomeCopy> = {
         "Qurulma adətən 2–4 həftə çəkir, mövcud məlumatın köçürülməsi qiymətə daxildir, dəstək komandası Bakıdadır.",
       screenCaption: "Rəhbər paneli — ekrandakı rəqəmlər nümunə məlumatdır.",
     },
+
+    highlights: [
+      {
+        title: "Öyrənmək asandır",
+        text: "İnterfeys Azərbaycan dilindədir və gündəlik işin ardıcıllığına görə qurulub. Komanda bir neçə gündə öyrəşir.",
+      },
+      {
+        title: "Hər yerdən giriş",
+        text: "Brauzerdən işləyir — ofisdə, anbarda və ya yolda. Ayrıca proqram quraşdırmağa ehtiyac yoxdur.",
+      },
+      {
+        title: "Bir baza, bir həqiqət",
+        text: "Satış, anbar və mühasibat eyni məlumatı görür. Şöbələr arasında uyğunsuzluq yaranmır.",
+      },
+    ],
 
     flow: {
       label: "Necə işləyir",
@@ -160,18 +178,39 @@ export const HOME: Localized<HomeCopy> = {
       screens: [
         {
           screen: "anbar",
+          chip: "Anbar",
           title: "Anbar qalığı real vaxtda",
           text: "Satış meneceri ümumi qalığı yox, rezervdən sonra satıla bilən qalığı görür. Minimumdan aşağı düşən mal ayrıca siyahıya düşür.",
+          checks: [
+            "Çoxanbarlı qalıq və transfer",
+            "Barkodla sayım",
+            "Partiya və yararlılıq müddəti",
+            "Real maya dəyəri",
+          ],
         },
         {
           screen: "muhasibat",
+          chip: "Mühasibat",
           title: "E-qaimə və avtomatik yazılış",
           text: "Sənəd yazılan anda mühasibat yazılışı qurulur, e-qaimənin statusu isə göndərildi, qəbul və imtina üzrə izlənir.",
+          checks: [
+            "Elektron qaimə-faktura",
+            "Avtomatik mühasibat yazılışı",
+            "ƏDV bazasının formalaşması",
+            "Ay bağlanışı nəzarət siyahısı",
+          ],
         },
         {
           screen: "maliyye",
-          title: "Ödəniş təqvimi",
-          text: "Bu həftə nə gələcək, nə ödəniləcək və həftə sonunda kassada nə qalacaq — üç rəqəm bir ekranda.",
+          chip: "Maliyyə",
+          title: "Ödəniş təqvimi bir ekranda",
+          text: "Bu həftə nə gələcək, nə ödəniləcək və həftə sonunda kassada nə qalacaq — üç rəqəm, bir baxış.",
+          checks: [
+            "Kassa və bank hesabları",
+            "Ödəniş təsdiqi marşrutu",
+            "Borc-alacaq və kredit limiti",
+            "Büdcə və plan-fakt",
+          ],
         },
       ],
     },

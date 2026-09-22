@@ -111,7 +111,7 @@ export default async function SectorPage({ params }: Props) {
           {copy.problems.map((problem) => (
             <li
               key={problem}
-              className="flex min-w-0 gap-3 rounded-[2px] border border-rule bg-paper p-5"
+              className="flex min-w-0 gap-3 rounded-lg border border-rule bg-tint p-6"
             >
               <span aria-hidden="true" className="mt-2 block h-[2px] w-5 shrink-0 bg-red" />
               <p className="text-ink-70">{problem}</p>
@@ -126,7 +126,7 @@ export default async function SectorPage({ params }: Props) {
           {copy.features.map((feature) => (
             <li
               key={feature.title}
-              className="min-w-0 rounded-[2px] border border-rule bg-card p-5"
+              className="min-w-0 rounded-lg border border-rule bg-card p-6 shadow-card"
             >
               <span aria-hidden="true" className="block h-[2px] w-8 bg-red" />
               <h3 className="mt-4 font-semibold text-ink">{feature.title}</h3>
@@ -173,7 +173,7 @@ export default async function SectorPage({ params }: Props) {
       </Section>
 
       <Section tone="card" size="tight">
-        <div className="flex flex-col gap-8 rounded-[2px] border border-rule bg-paper p-8 md:flex-row md:items-end md:justify-between md:p-10">
+        <div className="flex flex-col gap-8 rounded-xl border border-rule bg-tint p-8 md:flex-row md:items-end md:justify-between md:p-10">
           <div className="max-w-xl">
             <h2 className="text-h2 font-semibold text-ink">
               {t("sector.ctaTitle", { sector: copy.name.toLocaleLowerCase("az") })}

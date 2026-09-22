@@ -27,25 +27,25 @@ function PanelRegister({
   moreLabel: string;
 }) {
   return (
-    <div className="mx-auto max-w-[80rem] px-4 py-5 md:px-8">
-      <ul className="border-y border-rule">
+    <div className="mx-auto max-w-[78rem] px-5 py-6 md:px-8">
+      <ul className="grid gap-1 md:grid-cols-2">
         {rows.map((row, index) => (
-          <li key={index} className={index > 0 ? "border-t border-rule" : undefined}>
+          <li key={index}>
             <Link
               href={row.href}
-              className="group flex flex-col gap-0.5 py-3 sm:flex-row sm:items-baseline sm:gap-6"
+              className="group block rounded-sm px-3 py-2.5 transition-colors hover:bg-tint"
             >
-              <span className="w-44 shrink-0 font-medium text-ink group-hover:text-red-ink">
+              <span className="block font-medium text-ink group-hover:text-red-ink">
                 {row.name}
               </span>
-              <span className="text-sm text-ink-70">{row.row}</span>
+              <span className="mt-0.5 block text-sm leading-relaxed text-ink-70">{row.row}</span>
             </Link>
           </li>
         ))}
       </ul>
       <Link
         href={moreHref}
-        className="mt-4 inline-block text-sm text-red-ink underline decoration-rule-strong underline-offset-4 hover:decoration-red"
+        className="mt-4 inline-block px-3 text-sm font-medium text-red-ink underline decoration-red/30 underline-offset-4 hover:decoration-red"
       >
         {moreLabel}
       </Link>
@@ -92,8 +92,8 @@ export async function Header({ locale }: { locale: Locale }) {
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-rule bg-paper/92 backdrop-blur-sm">
-      <div className="mx-auto flex h-16 max-w-[80rem] items-center gap-4 px-4 md:px-8">
+    <header className="sticky top-0 z-40 border-b border-rule bg-paper/90 backdrop-blur-md">
+      <div className="mx-auto flex h-18 max-w-[78rem] items-center gap-4 px-5 md:px-8">
         <Logo />
 
         <nav aria-label={SITE_NAV_LABEL} className="hidden lg:flex lg:items-center lg:gap-0.5">
@@ -106,7 +106,7 @@ export async function Header({ locale }: { locale: Locale }) {
               <Link
                 key={item.messageKey}
                 href={item.href}
-                className="inline-flex min-h-11 items-center px-3 text-[0.9375rem] text-ink transition-colors hover:text-red-ink"
+                className="inline-flex min-h-11 items-center rounded-sm px-3 text-[0.9375rem] text-ink transition-colors hover:bg-tint"
               >
                 {t(`nav.${item.messageKey}`)}
               </Link>

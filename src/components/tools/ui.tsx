@@ -5,7 +5,7 @@ import { useId, type ReactNode } from "react";
 export { formatMoney, formatNumber } from "@/lib/format";
 
 const inputClass =
-  "mt-1.5 block h-11 w-full rounded-[2px] border border-rule-strong bg-card px-3 font-mono text-ink outline-none transition-colors focus:border-red";
+  "mt-1.5 block h-11 w-full rounded-lg border border-rule-strong bg-card px-3 font-mono text-ink outline-none transition-colors focus:border-red";
 
 export function NumberField({
   label,

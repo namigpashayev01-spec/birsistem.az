@@ -103,7 +103,7 @@ export default async function FaqPage({ params }: Props) {
         </Section>
       ))}
 
-      <Section tone="wash" size="tight">
+      <Section tone="tint" size="tight">
         <div className="max-w-xl">
           <h2 className="text-h2 font-semibold text-ink">{t("faqPage.stillTitle")}</h2>
           <p className="mt-4 text-lead text-ink-70">

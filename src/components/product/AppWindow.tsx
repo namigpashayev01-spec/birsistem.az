@@ -45,7 +45,7 @@ export function AppWindow({
 }) {
   return (
     <div
-      className={`overflow-hidden rounded-[4px] border border-app-edge bg-app-chrome shadow-[0_28px_60px_-40px_rgba(27,14,14,0.75)] ${className}`}
+      className={`overflow-hidden rounded-lg border border-app-edge bg-app-chrome shadow-float ${className}`}
     >
       <div className="flex items-center gap-2 border-b border-white/10 px-3 py-2.5">
         <span className="flex gap-1.5" aria-hidden="true">
@@ -53,7 +53,7 @@ export function AppWindow({
           <span className="block h-2 w-2 rounded-full bg-white/25" />
           <span className="block h-2 w-2 rounded-full bg-white/25" />
         </span>
-        <span className="mx-auto rounded-[2px] bg-white/8 px-3 py-0.5 font-mono text-2xs text-white/55">
+        <span className="mx-auto rounded-full bg-white/8 px-3 py-0.5 font-mono text-2xs text-white/55">
           birsistem.az
         </span>
         <span
@@ -73,7 +73,7 @@ export function AppWindow({
               return (
                 <li key={item.key}>
                   <span
-                    className={`flex items-center gap-2.5 rounded-[2px] px-2 py-1.5 text-[0.8125rem] ${
+                    className={`flex items-center gap-2.5 rounded-sm px-2.5 py-2 text-[0.8125rem] ${
                       isActive ? "bg-red text-white" : "text-white/60"
                     }`}
                   >
@@ -90,7 +90,7 @@ export function AppWindow({
           <div className="flex items-center justify-between gap-3 border-b border-rule px-3 py-2.5 sm:px-4">
             <span className="truncate text-sm font-medium text-ink">{title}</span>
             {action ? (
-              <span className="shrink-0 rounded-[2px] bg-red px-2.5 py-1 text-2xs font-medium text-white">
+              <span className="shrink-0 rounded-full bg-red px-3 py-1 text-[0.6875rem] font-medium text-white">
                 {action}
               </span>
             ) : null}
@@ -117,7 +117,7 @@ export function Kpi({
   const deltaColor =
     tone === "up" ? "text-ok" : tone === "down" ? "text-red-ink" : "text-ink-50";
   return (
-    <div className="flex min-w-0 flex-col rounded-[2px] border border-rule px-2.5 py-2">
+    <div className="flex min-w-0 flex-col rounded-sm border border-rule px-3 py-2.5">
       <p className="text-[0.6875rem] leading-tight text-ink-50">{label}</p>
       <p className="mt-1 font-mono text-sm font-medium leading-tight text-ink">{value}</p>
       {delta ? (
@@ -143,7 +143,7 @@ export function Bars({ values, className = "" }: { values: number[]; className?:
       {values.map((value, index) => (
         <span
           key={index}
-          className={`block min-w-0 flex-1 rounded-[1px] ${
+          className={`block min-w-0 flex-1 rounded-xs ${
             index === values.length - 1 ? "bg-red" : "bg-ink/15"
           }`}
           style={{ height: `${Math.max(8, (value / max) * 100)}%` }}
@@ -168,7 +168,7 @@ export function Pill({
   } as const;
   return (
     <span
-      className={`inline-block shrink-0 rounded-[2px] px-1.5 py-0.5 text-[0.625rem] font-medium ${tones[tone]}`}
+      className={`inline-block shrink-0 rounded-full px-2 py-0.5 text-[0.625rem] font-medium ${tones[tone]}`}
     >
       {children}
     </span>

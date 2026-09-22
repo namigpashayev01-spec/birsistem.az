@@ -1,16 +1,16 @@
 import type { ComponentProps, ReactNode } from "react";
 import { Link } from "@/i18n/navigation";
 
-type Variant = "primary" | "secondary" | "quiet";
+type Variant = "primary" | "secondary" | "ghost" | "quiet";
 
 const base =
-  "inline-flex min-h-11 items-center justify-center gap-2 rounded-[2px] px-5 text-[0.9375rem] font-medium transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-60";
+  "inline-flex min-h-12 items-center justify-center gap-2 rounded-md px-6 text-[0.9375rem] font-medium transition-[background-color,border-color,color,box-shadow] duration-150 disabled:cursor-not-allowed disabled:opacity-60";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-red text-white hover:bg-red-deep",
-  secondary:
-    "border border-rule-strong bg-card text-ink hover:border-ink hover:bg-paper-deep",
-  quiet: "text-red-ink underline decoration-rule-strong underline-offset-4 hover:decoration-red",
+  primary: "bg-red text-white shadow-card hover:bg-red-deep",
+  secondary: "border border-rule-strong bg-card text-ink hover:border-ink/30 hover:bg-tint",
+  ghost: "border border-white/25 text-white hover:border-white/60 hover:bg-white/10",
+  quiet: "min-h-11 px-0 font-medium text-red-ink underline decoration-red/30 underline-offset-4 hover:decoration-red",
 };
 
 export function CtaLink({
@@ -50,5 +50,21 @@ export function CtaAnchor({
     <a {...props} className={`${base} ${variants[variant]} ${className}`}>
       {children}
     </a>
+  );
+}
+
+/** Plain text link in brand colour, used inside body copy and card footers. */
+export function TextLink({
+  className = "",
+  children,
+  ...props
+}: ComponentProps<typeof Link>) {
+  return (
+    <Link
+      {...props}
+      className={`inline-flex min-h-11 items-center font-medium text-red-ink underline decoration-red/30 underline-offset-4 transition-colors hover:decoration-red ${className}`}
+    >
+      {children}
+    </Link>
   );
 }

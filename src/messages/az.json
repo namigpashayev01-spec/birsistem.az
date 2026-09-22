@@ -143,5 +143,8 @@
   },
   "toolsPage": {
     "listTitle": "Kalkulyatorlar"
+  },
+  "home": {
+    "moreAbout": "{module} haqqında ətraflı"
   }
 }

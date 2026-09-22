@@ -25,8 +25,8 @@ export async function Footer({ locale }: { locale: Locale }) {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-24 border-t border-rule bg-paper-deep">
-      <div className="mx-auto max-w-[80rem] px-4 py-14 md:px-8">
+    <footer className="border-t border-rule bg-tint">
+      <div className="mx-auto max-w-[78rem] px-5 py-16 md:px-8">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)]">
           <div>
             <Logo />

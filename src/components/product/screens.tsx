@@ -25,7 +25,7 @@ const SCREENS: Record<ScreenKey, (className: string) => React.ReactElement> = {
         <Kpi label="Kassa qalığı" value="18 600" delta="bu həftə" />
       </div>
 
-      <div className="mt-3 rounded-[2px] border border-rule p-2.5">
+      <div className="mt-3 rounded-sm border border-rule p-3">
         <div className="flex items-baseline justify-between">
           <span className="text-[0.6875rem] text-ink-50">Gündəlik satış</span>
           <span className="font-mono text-[0.6875rem] text-ink-70">son 10 gün</span>
@@ -50,7 +50,7 @@ const SCREENS: Record<ScreenKey, (className: string) => React.ReactElement> = {
           { stage: "Razılaşdırma", count: "5", sum: "28 900", deals: ["Bərəkət MMC", "Kaspi Tikinti"] },
           { stage: "Müqavilə", count: "3", sum: "19 200", deals: ["Zəfər Logistika"] },
         ].map((column) => (
-          <div key={column.stage} className="min-w-0 rounded-[2px] border border-rule p-2">
+          <div key={column.stage} className="min-w-0 rounded-sm border border-rule p-2.5">
             <div className="flex items-baseline justify-between gap-1">
               <span className="truncate text-[0.6875rem] font-medium text-ink">{column.stage}</span>
               <span className="font-mono text-[0.625rem] text-ink-50">{column.count}</span>
@@ -60,7 +60,7 @@ const SCREENS: Record<ScreenKey, (className: string) => React.ReactElement> = {
               {column.deals.map((deal) => (
                 <li
                   key={deal}
-                  className="truncate rounded-[2px] border border-rule bg-paper px-1.5 py-1 text-[0.6875rem] text-ink-70"
+                  className="truncate rounded-xs border border-rule bg-tint px-2 py-1 text-[0.6875rem] text-ink-70"
                 >
                   {deal}
                 </li>
@@ -97,7 +97,7 @@ const SCREENS: Record<ScreenKey, (className: string) => React.ReactElement> = {
         <Row cells={["Lyustr klemi 4 mm", "58 əd", <Pill key="e" tone="ok">Kifayət</Pill>]} />
       </div>
 
-      <p className="mt-3 rounded-[2px] bg-wash px-2.5 py-1.5 text-[0.6875rem] text-ink-70">
+      <p className="mt-3 rounded-sm bg-red-soft px-3 py-2 text-[0.6875rem] text-ink-70">
         Satılan 12 ədəd qaimə yazılan anda qalıqdan silindi.
       </p>
     </AppWindow>
@@ -120,7 +120,7 @@ const SCREENS: Record<ScreenKey, (className: string) => React.ReactElement> = {
         <Row cells={["e-Qaimə № 1036 · Nur Aptek", "2 140,00", <Pill key="d" tone="bad">İmtina</Pill>]} />
       </div>
 
-      <div className="mt-3 rounded-[2px] border border-rule p-2.5">
+      <div className="mt-3 rounded-sm border border-rule p-3">
         <p className="text-[0.6875rem] text-ink-50">Avtomatik yazılış — Qaimə № 1042</p>
         <div className="mt-1.5 space-y-1 font-mono text-[0.6875rem] text-ink-70">
           <p>Dt 211 Alıcılar ............ 1 180,00</p>
@@ -148,11 +148,11 @@ const SCREENS: Record<ScreenKey, (className: string) => React.ReactElement> = {
           { day: "C.a", inflow: 45, outflow: 40 },
           { day: "C", inflow: 55, outflow: 95 },
         ].map((day) => (
-          <div key={day.day} className="min-w-0 rounded-[2px] border border-rule px-1.5 py-1.5">
+          <div key={day.day} className="min-w-0 rounded-sm border border-rule px-2 py-2">
             <p className="text-center text-[0.625rem] text-ink-50">{day.day}</p>
             <div aria-hidden="true" className="mt-1.5 flex h-10 items-end justify-center gap-1">
-              <span className="block w-1.5 rounded-[1px] bg-ok/60" style={{ height: `${day.inflow}%` }} />
-              <span className="block w-1.5 rounded-[1px] bg-red" style={{ height: `${day.outflow}%` }} />
+              <span className="block w-1.5 rounded-xs bg-ok" style={{ height: `${day.inflow}%` }} />
+              <span className="block w-1.5 rounded-xs bg-red" style={{ height: `${day.outflow}%` }} />
             </div>
           </div>
         ))}
@@ -176,7 +176,7 @@ const SCREENS: Record<ScreenKey, (className: string) => React.ReactElement> = {
         <Kpi label="Əmək haqqı fondu" value="61 200" />
       </div>
 
-      <div className="mt-3 overflow-hidden rounded-[2px] border border-rule">
+      <div className="mt-3 overflow-hidden rounded-sm border border-rule">
         <div className="grid grid-cols-[minmax(0,1fr)_repeat(7,1.25rem)] items-center gap-1 border-b border-rule px-2 py-1.5 text-[0.625rem] text-ink-50">
           <span>İşçi</span>
           {["1", "2", "3", "4", "5", "6", "7"].map((d) => (
@@ -207,7 +207,7 @@ const SCREENS: Record<ScreenKey, (className: string) => React.ReactElement> = {
         ))}
       </div>
 
-      <p className="mt-3 rounded-[2px] bg-wash px-2.5 py-1.5 text-[0.6875rem] text-ink-70">
+      <p className="mt-3 rounded-sm bg-red-soft px-3 py-2 text-[0.6875rem] text-ink-70">
         M — məzuniyyət, X — xəstəlik vərəqəsi. Tabel bağlananda hesablama hazır olur.
       </p>
     </AppWindow>
@@ -215,7 +215,7 @@ const SCREENS: Record<ScreenKey, (className: string) => React.ReactElement> = {
 
   hesabatlar: (className) => (
     <AppWindow active="hesabatlar" title="Mənfəətlilik — mal qrupları" action="Excel" className={className}>
-      <div className="rounded-[2px] border border-rule p-2.5">
+      <div className="rounded-sm border border-rule p-3">
         <div className="flex items-baseline justify-between">
           <span className="text-[0.6875rem] text-ink-50">Aylıq ümumi marja</span>
           <span className="font-mono text-[0.6875rem] text-ink-70">son 8 ay</span>

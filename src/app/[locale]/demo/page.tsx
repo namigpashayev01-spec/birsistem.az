@@ -60,16 +60,18 @@ export default async function DemoPage({ params }: Props) {
 
       <PageHero crumbs={[{ label: copy.title }]} title={copy.title} lead={copy.lead} />
 
-      <Section tone="card" label={copy.title}>
-        <LeadForm
-          type="DEMO"
-          submitLabel={t("form.submitDemo")}
-          sectors={sectors}
-          modules={modules}
-          withModules
-          withEmployees
-          phone={CONTACT.phone}
-        />
+      <Section tone="tint" label={copy.title}>
+        <div className="rounded-xl border border-rule bg-card p-7 shadow-card md:p-10">
+          <LeadForm
+            type="DEMO"
+            submitLabel={t("form.submitDemo")}
+            sectors={sectors}
+            modules={modules}
+            withModules
+            withEmployees
+            phone={CONTACT.phone}
+          />
+        </div>
       </Section>
 
       <Section tone="paper" label={home.steps.label}>

@@ -3,13 +3,14 @@ import {
   BanknoteArrowUp,
   Briefcase,
   Building2,
+  CalendarDays,
   ChartColumn,
+  Check,
   Factory,
+  Landmark,
   Package,
   Pill,
   ReceiptText,
-  CalendarDays,
-  Landmark,
   Stethoscope,
   Store,
   TrendingUp,
@@ -56,27 +57,33 @@ export const SECTOR_ICON: Record<SectorSlug, LucideIcon> = {
   xidmet: Briefcase,
 };
 
-/** Square icon holder. The red rule under it is the register motif, shrunk. */
-function IconMark({ icon: Icon, tone = "ink" }: { icon: LucideIcon; tone?: "ink" | "light" }) {
+/** Rounded, softly tinted icon holder. */
+export function IconMark({
+  icon: Icon,
+  tone = "brand",
+  size = "md",
+}: {
+  icon: LucideIcon;
+  tone?: "brand" | "light";
+  size?: "sm" | "md";
+}) {
+  const box = size === "sm" ? "h-9 w-9 rounded-sm" : "h-11 w-11 rounded-md";
   return (
     <span
       aria-hidden="true"
-      className={`flex h-9 w-9 items-center justify-center rounded-[2px] border ${
-        tone === "light"
-          ? "border-on-oxblood/25 text-on-oxblood"
-          : "border-rule bg-paper text-red"
+      className={`flex shrink-0 items-center justify-center ${box} ${
+        tone === "light" ? "bg-white/12 text-on-oxblood" : "bg-red-soft text-red"
       }`}
     >
-      <Icon size={18} strokeWidth={1.75} />
+      <Icon size={size === "sm" ? 18 : 21} strokeWidth={1.75} />
     </span>
   );
 }
 
-/**
- * Module card. Cards here are not the usual identical rounded boxes: a square
- * edge, a hairline border and a red rule that draws across the top on hover —
- * the same rule that runs down the product's own tables.
- */
+const cardBase =
+  "flex min-w-0 flex-col rounded-lg border border-rule bg-card p-6 shadow-card transition-shadow duration-200";
+
+/** Module card — icon, name, one line, and the columns a buyer asks about. */
 export function ModuleCard({
   href,
   icon,
@@ -91,19 +98,12 @@ export function ModuleCard({
   meta?: { label: string; value: string }[];
 }) {
   return (
-    <Link
-      href={href}
-      className="group relative flex min-w-0 flex-col rounded-[2px] border border-rule bg-card p-5 transition-colors hover:border-rule-strong"
-    >
-      <span
-        aria-hidden="true"
-        className="absolute inset-x-0 top-0 h-[2px] origin-left scale-x-0 bg-red transition-transform duration-200 ease-out-soft group-hover:scale-x-100"
-      />
+    <Link href={href} className={`group ${cardBase} hover:shadow-lift`}>
       <IconMark icon={icon} />
-      <h3 className="mt-4 text-h3 font-semibold text-ink group-hover:text-red-ink">{name}</h3>
-      <p className="mt-2 text-sm leading-relaxed text-ink-70">{row}</p>
+      <h3 className="mt-5 text-h3 font-semibold text-ink group-hover:text-red-ink">{name}</h3>
+      <p className="mt-2 leading-relaxed text-ink-70">{row}</p>
       {meta?.length ? (
-        <dl className="mt-4 space-y-1 border-t border-rule pt-3 text-2xs">
+        <dl className="mt-5 space-y-1.5 border-t border-rule pt-4 text-2xs">
           {meta.map((entry) => (
             <div key={entry.label} className="flex gap-1.5">
               <dt className="shrink-0 text-ink-50">{entry.label}:</dt>
@@ -116,7 +116,7 @@ export function ModuleCard({
   );
 }
 
-/** Compact tile — used where there are many items and little to say about each. */
+/** Compact tile — many items, little to say about each. */
 export function Tile({
   href,
   icon,
@@ -131,12 +131,12 @@ export function Tile({
   return (
     <Link
       href={href}
-      className="group flex min-w-0 items-start gap-3 rounded-[2px] border border-rule bg-card p-4 transition-colors hover:border-rule-strong"
+      className="group flex min-w-0 items-start gap-4 rounded-lg border border-rule bg-card p-5 shadow-card transition-shadow duration-200 hover:shadow-lift"
     >
-      <IconMark icon={icon} />
+      <IconMark icon={icon} size="sm" />
       <span className="min-w-0">
-        <span className="block font-medium text-ink group-hover:text-red-ink">{name}</span>
-        {row ? <span className="mt-1 block text-sm text-ink-70">{row}</span> : null}
+        <span className="block font-semibold text-ink group-hover:text-red-ink">{name}</span>
+        {row ? <span className="mt-1 block text-sm leading-relaxed text-ink-70">{row}</span> : null}
       </span>
     </Link>
   );
@@ -157,19 +157,17 @@ export function NoteCard({
   const dark = tone === "oxblood";
   return (
     <div
-      className={`min-w-0 rounded-[2px] border p-5 ${
-        dark ? "border-on-oxblood/20 bg-on-oxblood/5" : "border-rule bg-card"
+      className={`min-w-0 rounded-lg p-6 ${
+        dark ? "bg-white/6" : "border border-rule bg-card shadow-card"
       }`}
     >
-      {icon ? <IconMark icon={icon} tone={dark ? "light" : "ink"} /> : null}
+      {icon ? <IconMark icon={icon} tone={dark ? "light" : "brand"} size="sm" /> : null}
       <h3
         className={`${icon ? "mt-4" : ""} font-semibold ${dark ? "text-on-oxblood" : "text-ink"}`}
       >
         {title}
       </h3>
-      <div
-        className={`mt-2 text-sm leading-relaxed ${dark ? "text-on-oxblood/80" : "text-ink-70"}`}
-      >
+      <div className={`mt-2 leading-relaxed ${dark ? "text-on-oxblood/80" : "text-ink-70"}`}>
         {children}
       </div>
     </div>
@@ -177,11 +175,55 @@ export function NoteCard({
 }
 
 /** A single factual figure. Product facts only — never invented customer counts. */
-export function Fact({ value, label }: { value: string; label: string }) {
+export function Fact({
+  value,
+  label,
+  tone = "oxblood",
+}: {
+  value: string;
+  label: string;
+  tone?: "oxblood" | "paper";
+}) {
+  const dark = tone === "oxblood";
   return (
-    <div className="min-w-0 border-l-2 border-on-oxblood/30 pl-4">
-      <p className="font-mono text-h2 font-medium text-on-oxblood">{value}</p>
-      <p className="mt-1 text-sm text-on-oxblood/75">{label}</p>
+    <div className="min-w-0">
+      <p className={`text-h2 font-medium ${dark ? "text-on-oxblood" : "text-ink"}`}>{value}</p>
+      <p className={`mt-2 text-sm leading-relaxed ${dark ? "text-on-oxblood/75" : "text-ink-70"}`}>
+        {label}
+      </p>
     </div>
+  );
+}
+
+/**
+ * Ticked list, two columns on wide screens — the pattern this kind of buyer
+ * scans fastest when comparing what is and is not included.
+ */
+export function CheckList({
+  items,
+  tone = "paper",
+  columns = 2,
+}: {
+  items: string[];
+  tone?: "paper" | "oxblood";
+  columns?: 1 | 2;
+}) {
+  const dark = tone === "oxblood";
+  return (
+    <ul className={`grid gap-x-8 gap-y-3 ${columns === 2 ? "sm:grid-cols-2" : ""}`}>
+      {items.map((item) => (
+        <li key={item} className="flex min-w-0 items-start gap-3">
+          <span
+            aria-hidden="true"
+            className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${
+              dark ? "bg-white/15 text-on-oxblood" : "bg-red-soft text-red"
+            }`}
+          >
+            <Check size={13} strokeWidth={2.75} />
+          </span>
+          <span className={dark ? "text-on-oxblood/85" : "text-ink-70"}>{item}</span>
+        </li>
+      ))}
+    </ul>
   );
 }

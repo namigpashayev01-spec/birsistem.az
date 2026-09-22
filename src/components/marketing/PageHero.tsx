@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Breadcrumbs, type Crumb } from "@/components/layout/Breadcrumbs";
+import { Chip } from "./Section";
 
 /**
  * Standard opening for an inner page. With a `visual` it splits in two; without
@@ -7,6 +8,7 @@ import { Breadcrumbs, type Crumb } from "@/components/layout/Breadcrumbs";
  */
 export function PageHero({
   crumbs,
+  chip,
   title,
   lead,
   meta,
@@ -14,6 +16,7 @@ export function PageHero({
   visual,
 }: {
   crumbs: Crumb[];
+  chip?: string;
   title: string;
   lead: string;
   meta?: { label: string; value: string }[];
@@ -21,27 +24,32 @@ export function PageHero({
   visual?: ReactNode;
 }) {
   return (
-    <div className="border-b border-rule bg-paper">
-      <div className="mx-auto max-w-[80rem] px-4 pb-14 md:px-8 md:pb-20">
+    <div className="bg-paper">
+      <div className="mx-auto max-w-[78rem] px-5 pb-16 md:px-8 md:pb-20">
         <Breadcrumbs trail={crumbs} />
 
         <div
           className={
             visual
-              ? "grid items-center gap-10 pt-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,32rem)] lg:gap-14"
+              ? "grid items-center gap-12 pt-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,34rem)] lg:gap-16"
               : "pt-6"
           }
         >
           <div className="min-w-0">
-            <h1 className="max-w-3xl text-h1 font-semibold text-ink">{title}</h1>
+            {chip ? (
+              <div className="mb-4">
+                <Chip>{chip}</Chip>
+              </div>
+            ) : null}
+            <h1 className="max-w-3xl text-h1 font-medium text-ink">{title}</h1>
             <p className="mt-5 max-w-2xl text-lead text-ink-70">{lead}</p>
 
             {meta?.length ? (
-              <dl className="mt-8 grid max-w-3xl gap-x-10 gap-y-4 border-t border-rule pt-5 sm:grid-cols-2">
+              <dl className="mt-8 grid max-w-3xl gap-5 rounded-lg border border-rule bg-tint p-6 sm:grid-cols-2">
                 {meta.map((entry) => (
                   <div key={entry.label} className="min-w-0">
                     <dt className="text-sm text-ink-50">{entry.label}</dt>
-                    <dd className="mt-0.5 text-ink">{entry.value}</dd>
+                    <dd className="mt-1 text-ink">{entry.value}</dd>
                   </div>
                 ))}
               </dl>

@@ -1,62 +1,71 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------ *
- * BirSistem design tokens — "register" direction.
- * Paper and ink carry the page; red appears at most three times on it.
+ * BirSistem design tokens.
+ * Soft, rounded and spacious: white page, neutral tinted bands, gentle
+ * shadows, medium-weight headings. The brand red carries the accents.
  * ------------------------------------------------------------------ */
 @theme {
-  --color-paper: #f7f7f5;
-  --color-paper-deep: #efeeea;
+  --color-paper: #ffffff;
   --color-card: #ffffff;
+  /* Section bands. Neutral grey first; the warm tint is the rare one. */
+  --color-tint: #f2f3f5;
+  --color-tint-warm: #fdf5f5;
 
-  --color-ink: #1b0e0e;
-  --color-ink-70: #4a3c3c;
-  --color-ink-50: #6f6261;
+  --color-ink: #1b1418;
+  --color-ink-70: #4d4449;
+  --color-ink-50: #6e6469;
 
-  --color-rule: #e3e0dc;
-  --color-rule-strong: #c9c4be;
+  --color-rule: #e6e6e9;
+  --color-rule-strong: #d2d2d7;
 
   /* Solid brand fill — always carries white text. */
   --color-red: #c8102e;
-  --color-red-deep: #a00c24;
+  --color-red-deep: #a80c26;
   /* Brand colour when it has to read as text or a link. */
-  --color-red-ink: #a00c24;
-  --color-oxblood: #6b0f1a;
-  --color-oxblood-deep: #4d0a12;
-  /* The oxblood band is dark in both themes, so its text must not follow the
-     paper token — in dark mode that would put near-black on near-black. */
-  --color-on-oxblood: #f7f7f5;
-  --color-wash: #fdecee;
-  /* A barely-there tint for whole sections, so bands alternate without shouting. */
-  --color-wash-soft: #faf4f3;
+  --color-red-ink: #a80c26;
+  --color-red-soft: #fbe9ec;
+  --color-oxblood: #5d0d17;
+  --color-on-oxblood: #fdf7f7;
 
-  --color-ok: #1f7a4d;
+  --color-ok: #17794f;
+  --color-ok-soft: #e6f4ed;
 
-  /* Product mockups. The chrome stays dark in both themes so the app always
-     reads as an app; the canvas follows the page surface. */
-  --color-app-chrome: #241717;
+  /* Product mockups: the chrome stays dark in both themes so the app
+     always reads as an app; the canvas follows the page surface. */
+  --color-app-chrome: #241719;
   --color-app-canvas: #ffffff;
-  --color-app-edge: #3a2725;
+  --color-app-edge: #3a2729;
 
-  --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
 
-  --text-2xs: 0.6875rem;
-  --text-2xs--line-height: 1rem;
-  --text-display: clamp(2.5rem, 1.55rem + 3.8vw, 4.5rem);
-  --text-display--line-height: 1.03;
-  --text-display--letter-spacing: -0.028em;
-  --text-h1: clamp(2rem, 1.42rem + 2.3vw, 3.25rem);
-  --text-h1--line-height: 1.08;
-  --text-h1--letter-spacing: -0.024em;
-  --text-h2: clamp(1.5rem, 1.23rem + 1.1vw, 2.125rem);
-  --text-h2--line-height: 1.15;
-  --text-h2--letter-spacing: -0.018em;
+  --text-2xs: 0.75rem;
+  --text-2xs--line-height: 1.1rem;
+  --text-display: clamp(2.25rem, 1.5rem + 3vw, 3.5rem);
+  --text-display--line-height: 1.14;
+  --text-display--letter-spacing: -0.02em;
+  --text-h1: clamp(2rem, 1.5rem + 2vw, 2.875rem);
+  --text-h1--line-height: 1.18;
+  --text-h1--letter-spacing: -0.018em;
+  --text-h2: clamp(1.625rem, 1.35rem + 1.15vw, 2.25rem);
+  --text-h2--line-height: 1.22;
+  --text-h2--letter-spacing: -0.014em;
   --text-h3: clamp(1.125rem, 1.05rem + 0.3vw, 1.3125rem);
-  --text-h3--line-height: 1.3;
-  --text-h3--letter-spacing: -0.012em;
-  --text-lead: clamp(1.0625rem, 1.01rem + 0.28vw, 1.25rem);
-  --text-lead--line-height: 1.6;
+  --text-h3--line-height: 1.35;
+  --text-h3--letter-spacing: -0.008em;
+  --text-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+  --text-lead--line-height: 1.65;
+
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+
+  --shadow-card: 0 1px 2px rgba(20, 16, 18, 0.04), 0 10px 28px -16px rgba(20, 16, 18, 0.16);
+  --shadow-lift: 0 2px 6px rgba(20, 16, 18, 0.06), 0 18px 40px -20px rgba(20, 16, 18, 0.22);
+  --shadow-float: 0 30px 60px -28px rgba(20, 16, 18, 0.34);
 
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -64,30 +73,34 @@
 /* Dark theme: same structure, inverted stock. Declared after @theme so it wins. */
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-paper: #131010;
-    --color-paper-deep: #0d0b0b;
-    --color-card: #1c1817;
+    --color-paper: #141115;
+    --color-card: #1c181c;
+    --color-tint: #1a171b;
+    --color-tint-warm: #211619;
 
-    --color-ink: #f3efec;
-    --color-ink-70: #c2b8b4;
-    --color-ink-50: #9a8e8a;
+    --color-ink: #f4f1f2;
+    --color-ink-70: #c3bbbf;
+    --color-ink-50: #9b9297;
 
-    --color-rule: #2e2725;
-    --color-rule-strong: #453b38;
+    --color-rule: #2e292d;
+    --color-rule-strong: #443d42;
 
     --color-red: #d5182f;
     --color-red-deep: #ef2338;
-    --color-red-ink: #ff7a85;
-    --color-oxblood: #4d0a12;
-    --color-oxblood-deep: #380710;
-    --color-wash: #2a1416;
-    --color-wash-soft: #191313;
+    --color-red-ink: #ff8a93;
+    --color-red-soft: #2b1519;
+    --color-oxblood: #45080f;
 
-    --color-ok: #4fbf87;
+    --color-ok: #58c48d;
+    --color-ok-soft: #14241c;
 
-    --color-app-chrome: #1a1212;
-    --color-app-canvas: #1c1817;
-    --color-app-edge: #332927;
+    --color-app-chrome: #1a1214;
+    --color-app-canvas: #1c181c;
+    --color-app-edge: #33272a;
+
+    --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 28px -16px rgba(0, 0, 0, 0.6);
+    --shadow-lift: 0 2px 6px rgba(0, 0, 0, 0.45), 0 18px 40px -20px rgba(0, 0, 0, 0.7);
+    --shadow-float: 0 30px 60px -28px rgba(0, 0, 0, 0.8);
   }
 }
 
@@ -123,7 +136,7 @@
   :focus-visible {
     outline: 2px solid var(--color-red);
     outline-offset: 2px;
-    border-radius: 2px;
+    border-radius: 4px;
   }
 
   ::selection {
@@ -138,7 +151,7 @@
   /* Anchored sections must clear the sticky header when jumped to. */
   :target,
   [id] {
-    scroll-margin-top: 5.5rem;
+    scroll-margin-top: 6rem;
   }
 }
 
@@ -155,8 +168,8 @@
   }
 }
 
-/* The one orchestrated moment on the site: the hero document falling through
-   the system on first paint. Everything else reacts to the visitor instead. */
+/* The one orchestrated moment on the site: the product window settling in on
+   first paint. Everything else reacts to the visitor instead. */
 @keyframes rise {
   from {
     opacity: 0;
@@ -169,7 +182,7 @@
 }
 
 .hero-step {
-  animation: rise 0.55s var(--ease-out-soft) both;
+  animation: rise 0.6s var(--ease-out-soft) both;
 }
 
 @keyframes fade-only {

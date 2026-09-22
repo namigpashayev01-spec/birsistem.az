@@ -104,7 +104,7 @@ export async function ModulePage({
           {copy.features.map((feature) => (
             <li
               key={feature.title}
-              className="min-w-0 rounded-[2px] border border-rule bg-paper p-5"
+              className="min-w-0 rounded-lg border border-rule bg-tint p-6"
             >
               {/* One short rule rather than the module icon repeated six times. */}
               <span aria-hidden="true" className="block h-[2px] w-8 bg-red" />
@@ -154,7 +154,7 @@ export async function ModulePage({
       </Section>
 
       <Section tone="paper" size="tight">
-        <div className="flex flex-col gap-8 rounded-[2px] border border-rule bg-card p-8 md:flex-row md:items-end md:justify-between md:p-10">
+        <div className="flex flex-col gap-8 rounded-xl border border-rule bg-tint p-8 md:flex-row md:items-end md:justify-between md:p-10">
           <div className="max-w-xl">
             <h2 className="text-h2 font-semibold text-ink">
               {t("common.moduleCtaTitle", { module: copy.name })}
