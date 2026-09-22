@@ -10,7 +10,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { CtaLink } from "@/components/ui/Cta";
 import { PageHero } from "@/components/marketing/PageHero";
 import { Section, SectionTitle } from "@/components/marketing/Section";
-import { MODULE_ICON, ModuleCard } from "@/components/marketing/Cards";
+import { MODULE_ICON, LinkCard } from "@/components/marketing/Cards";
 import { Prose } from "@/components/marketing/Prose";
 
 type Props = { params: Promise<{ locale: Locale }> };
@@ -77,7 +77,7 @@ export default async function SolutionsPage({ params }: Props) {
           {MODULES.map((module) => {
             const c = pick(module.copy, locale);
             return (
-              <ModuleCard
+              <LinkCard
                 key={module.slug}
                 href={module.href}
                 icon={MODULE_ICON[module.slug]}

@@ -18,11 +18,10 @@ import { Split } from "@/components/marketing/Split";
 import {
   Fact,
   IconMark,
+  LinkCard,
   MODULE_ICON,
-  ModuleCard,
   NoteCard,
   SECTOR_ICON,
-  Tile,
 } from "@/components/marketing/Cards";
 import { DocumentFlow } from "@/components/marketing/DocumentFlow";
 import { FaqList } from "@/components/marketing/FaqList";
@@ -68,8 +67,32 @@ export default async function HomePage({ params }: Props) {
 
       <Hero copy={copy.hero} />
 
-      {/* Three promises, straight under the hero */}
-      <Section tone="tint" size="tight">
+      {/* Industries first: the visitor's opening question is "is this for me?" */}
+      <Section tone="tint" label={copy.sectors.label} align="center">
+        <SectionTitle align="center" sub={copy.sectors.sub}>
+          {copy.sectors.title}
+        </SectionTitle>
+        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {SECTORS.map((sector) => {
+            const c = pick(sector.copy, locale);
+            return (
+              <LinkCard
+                key={sector.slug}
+                href={{ pathname: "/sektorlar/[sektor]", params: { sektor: sector.slug } }}
+                icon={SECTOR_ICON[sector.slug]}
+                name={c.name}
+                row={c.row}
+              />
+            );
+          })}
+        </div>
+        <div className="mt-10 flex justify-center">
+          <TextLink href="/sektorlar">{t("nav.allSectors")}</TextLink>
+        </div>
+      </Section>
+
+      {/* Three promises */}
+      <Section tone="paper" size="tight">
         <ul className="grid gap-8 md:grid-cols-3 md:gap-10">
           {copy.highlights.map((item, index) => {
             const Icon = HIGHLIGHT_ICON[index] ?? Gauge;
@@ -87,7 +110,7 @@ export default async function HomePage({ params }: Props) {
       </Section>
 
       {/* What the product actually looks like — alternating screens */}
-      <Section tone="paper">
+      <Section tone="tint">
         <SectionTitle align="center" sub={copy.tour.sub}>
           {copy.tour.title}
         </SectionTitle>
@@ -120,7 +143,7 @@ export default async function HomePage({ params }: Props) {
       </Section>
 
       {/* One document, four modules */}
-      <Section tone="tint" label={copy.flow.label}>
+      <Section tone="paper" label={copy.flow.label}>
         <SectionTitle sub={copy.flow.sub}>{copy.flow.title}</SectionTitle>
         <div className="mt-12">
           <DocumentFlow copy={copy.flow} />
@@ -128,17 +151,15 @@ export default async function HomePage({ params }: Props) {
       </Section>
 
       {/* Modules */}
-      <Section
-        tone="paper"
-        label={copy.modules.label}
-        aside={<TextLink href="/hazir-heller">{t("nav.allModules")}</TextLink>}
-      >
-        <SectionTitle sub={copy.modules.sub}>{copy.modules.title}</SectionTitle>
+      <Section tone="tint" label={copy.modules.label} align="center">
+        <SectionTitle align="center" sub={copy.modules.sub}>
+          {copy.modules.title}
+        </SectionTitle>
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {MODULES.map((entry) => {
             const c = pick(entry.copy, locale);
             return (
-              <ModuleCard
+              <LinkCard
                 key={entry.slug}
                 href={entry.href}
                 icon={MODULE_ICON[entry.slug]}
@@ -152,28 +173,8 @@ export default async function HomePage({ params }: Props) {
             );
           })}
         </div>
-      </Section>
-
-      {/* Sectors */}
-      <Section
-        tone="tint"
-        label={copy.sectors.label}
-        aside={<TextLink href="/sektorlar">{t("nav.allSectors")}</TextLink>}
-      >
-        <SectionTitle sub={copy.sectors.sub}>{copy.sectors.title}</SectionTitle>
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {SECTORS.map((sector) => {
-            const c = pick(sector.copy, locale);
-            return (
-              <Tile
-                key={sector.slug}
-                href={{ pathname: "/sektorlar/[sektor]", params: { sektor: sector.slug } }}
-                icon={SECTOR_ICON[sector.slug]}
-                name={c.name}
-                row={c.row}
-              />
-            );
-          })}
+        <div className="mt-10 flex justify-center">
+          <TextLink href="/hazir-heller">{t("nav.allModules")}</TextLink>
         </div>
       </Section>
 

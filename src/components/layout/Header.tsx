@@ -1,3 +1,4 @@
+import { Phone } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Link, type Href } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
@@ -117,8 +118,9 @@ export async function Header({ locale }: { locale: Locale }) {
         <div className="ml-auto flex items-center gap-2 sm:gap-3">
           <a
             href={`tel:${CONTACT.phoneHref}`}
-            className="hidden font-mono text-sm text-ink-70 transition-colors hover:text-ink xl:inline"
+            className="hidden min-h-11 items-center gap-2 rounded-md border border-rule-strong px-4 font-mono text-sm text-ink transition-colors hover:border-ink/30 hover:bg-tint xl:inline-flex"
           >
+            <Phone size={15} strokeWidth={1.75} aria-hidden="true" className="shrink-0 text-red" />
             {CONTACT.phone}
           </a>
           <LocaleSwitcher label={t("nav.language")} />

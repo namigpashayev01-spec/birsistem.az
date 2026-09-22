@@ -10,8 +10,8 @@ export type HomeCopy = {
     lead: string;
     primaryCta: string;
     secondaryCta: string;
-    /** Plain sentence, not a row of badges. */
-    assurance: string;
+    /** Three short facts under the buttons, ticked rather than run together. */
+    assurances: string[];
     /** Says plainly that the screen holds sample data. */
     screenCaption: string;
   };
@@ -99,8 +99,11 @@ export const HOME: Localized<HomeCopy> = {
       lead: "BirSistem sənədi bir dəfə yazdırır. Satış qaiməsi anbardan malı silir, mühasibat yazılışını yaradır və rəhbərin panelindəki rəqəmi eyni anda yeniləyir.",
       primaryCta: "Demo sorğusu göndər",
       secondaryCta: "Hazır həllərə bax",
-      assurance:
-        "Qurulma adətən 2–4 həftə çəkir, mövcud məlumatın köçürülməsi qiymətə daxildir, dəstək komandası Bakıdadır.",
+      assurances: [
+        "Qurulma 2–4 həftə",
+        "Məlumat köçürülməsi qiymətə daxildir",
+        "Dəstək Bakıda, Azərbaycan dilində",
+      ],
       screenCaption: "Rəhbər paneli — ekrandakı rəqəmlər nümunə məlumatdır.",
     },
 
@@ -224,8 +227,8 @@ export const HOME: Localized<HomeCopy> = {
 
     sectors: {
       label: "Sektorlar",
-      title: "Hər sektorun öz sənədi var",
-      sub: "Tikintidə obyekt, restoranda texnoloji xəritə, aptekdə seriya — qurulma sizin sahənin sənəd dövriyyəsinə görə aparılır.",
+      title: "Sahənizi seçin — qurulma ona görə aparılır",
+      sub: "Tikintidə obyekt, restoranda texnoloji xəritə, aptekdə seriya. Eyni modullar, amma sizin sənəd dövriyyənizə uyğun qurulmuş halda.",
     },
 
     steps: {

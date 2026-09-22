@@ -14,8 +14,8 @@ export function DocumentFlow({ copy }: { copy: HomeCopy["flow"] }) {
   return (
     <div className="grid gap-8 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)] lg:gap-12">
       <div className="min-w-0">
-        <div className="rounded-lg border border-rule bg-card shadow-card">
-          <div className="flex items-center gap-2 border-b border-rule px-4 py-3">
+        <div className="overflow-hidden rounded-lg border border-rule bg-card shadow-lift">
+          <div className="flex items-center gap-2 border-b border-rule bg-tint px-4 py-3">
             <FileText size={16} strokeWidth={1.75} className="shrink-0 text-red" aria-hidden="true" />
             <span className="text-sm font-medium text-ink">{doc.title}</span>
             <span className="ml-auto font-mono text-2xs text-ink-50">{doc.number}</span>
@@ -31,28 +31,22 @@ export function DocumentFlow({ copy }: { copy: HomeCopy["flow"] }) {
         </p>
       </div>
 
-      <ol className="min-w-0 border-l border-rule pl-6 lg:pl-8">
-        {steps.map((step, index) => {
+      <ol className="grid min-w-0 gap-4 sm:grid-cols-2">
+        {steps.map((step) => {
           const Icon = MODULE_ICON[step.module];
           return (
             <li
               key={step.module}
-              className={`relative flex min-w-0 items-start gap-4 ${
-                index === 0 ? "pb-5" : "py-5"
-              } ${index === steps.length - 1 ? "pb-0" : "border-b border-rule"}`}
+              className="flex min-w-0 items-start gap-4 rounded-lg border border-rule bg-card p-5 shadow-card"
             >
-              <span
+              <Icon
                 aria-hidden="true"
-                className="absolute left-[-1.5rem] top-7 h-px w-4 bg-rule lg:left-[-2rem] lg:w-6"
+                size={22}
+                strokeWidth={1.6}
+                className="mt-0.5 shrink-0 text-red"
               />
-              <span
-                aria-hidden="true"
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-rule bg-card shadow-card text-red"
-              >
-                <Icon size={18} strokeWidth={1.75} />
-              </span>
               <div className="min-w-0">
-                <h3 className="font-medium text-ink">{step.name}</h3>
+                <h3 className="font-semibold text-ink">{step.name}</h3>
                 <p className="mt-1 text-sm leading-relaxed text-ink-70">{step.effect}</p>
               </div>
             </li>

@@ -5,6 +5,7 @@ import {
   Building2,
   CalendarDays,
   ChartColumn,
+  ArrowRight,
   Check,
   Factory,
   Landmark,
@@ -83,8 +84,13 @@ export function IconMark({
 const cardBase =
   "flex min-w-0 flex-col rounded-lg border border-rule bg-card p-6 shadow-card transition-shadow duration-200";
 
-/** Module card — icon, name, one line, and the columns a buyer asks about. */
-export function ModuleCard({
+/**
+ * The card used for both modules and industries: icon, name, one line, and —
+ * where the page has room for it — the columns a buyer asks about. The arrow
+ * sits at the foot and slides forward on hover, so a whole grid of cards reads
+ * as a set of destinations rather than a set of boxes.
+ */
+export function LinkCard({
   href,
   icon,
   name,
@@ -112,6 +118,12 @@ export function ModuleCard({
           ))}
         </dl>
       ) : null}
+      <ArrowRight
+        aria-hidden="true"
+        size={18}
+        strokeWidth={2.25}
+        className="mt-auto shrink-0 pt-5 text-red-ink opacity-0 transition-all duration-200 ease-out-soft group-hover:translate-x-1 group-hover:opacity-100"
+      />
     </Link>
   );
 }
