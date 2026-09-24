@@ -16,13 +16,28 @@ npm run build   # istehsal üçün yığmaq
 npm run start   # yığılmış saytı işə salmaq
 ```
 
-## Gələn sorğulara baxmaq
+## Admin panel
 
-Demo və əlaqə formaları Postgres bazasına yazılır:
+Saytdakı demo, əlaqə və qiymət formalarından gələn sorğular **`/admin`**
+ünvanında idarə olunur (məs. <https://birsistem.az/admin>):
 
-```bash
-npm run check:leads
-```
+- sorğuların siyahısı, statusa görə tablar (Yeni → Əlaqə saxlanılıb → Uyğundur → Müştəri oldu / İtirildi / Spam);
+- ad, şirkət, telefon, e-poçt üzrə axtarış və növə görə filtr;
+- hər sorğunun tam məlumatı, zəng və WhatsApp linki, status dəyişmək və komanda üçün qeyd;
+- seçilmiş filtrə görə **CSV yükləmə** (Excel-də birbaşa açılır).
+
+Giriş bir ümumi parolla olur. Serverdə iki dəyişən təyin olunmalıdır:
+
+| Dəyişən | Dəyər |
+|---|---|
+| `ADMIN_PASSWORD` | Admin parolu — uzun və təsadüfi olsun. |
+| `ADMIN_SESSION_SECRET` | Ən azı 32 simvolluq təsadüfi sətir: `openssl rand -base64 32`. Dəyişdirsəniz, hamı sistemdən çıxır. |
+
+Bunlar təyin olunmayıbsa, panel heç kimi içəri buraxmır. Sessiya 12 saat
+qüvvədədir; 15 dəqiqədə 10 uğursuz cəhddən sonra giriş müvəqqəti bağlanır.
+Panel axtarış sistemlərindən gizlidir (`noindex`, `robots.txt`).
+
+Terminaldan son sorğulara baxmaq da mümkündür: `npm run check:leads`.
 
 ## Quruluş
 
@@ -65,6 +80,7 @@ Serverdə təyin olunmalı mühit dəyişənləri:
 |---|---|
 | `NEXT_PUBLIC_SITE_URL` | `https://birsistem.az` — canonical, hreflang və sitemap bu ünvandan qurulur. **`localhost` qalmamalıdır.** |
 | `DATABASE_URL` | Postgres bağlantısı (formalar buraya yazır). |
+| `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET` | Admin panelə giriş üçün (yuxarıya baxın). |
 
 Addımlar:
 

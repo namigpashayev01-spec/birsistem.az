@@ -12,7 +12,7 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
         // `/_next/` must stay crawlable: it serves the CSS and JS Google needs
         // to render the pages it indexes.
-        disallow: ["/api/"],
+        disallow: ["/api/", "/admin"],
       },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,
