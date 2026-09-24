@@ -8,7 +8,11 @@ import { routing, type Locale } from "@/i18n/routing";
 import { canonicalParam } from "@/i18n/slugs";
 import { PUBLISHED_LOCALES } from "@/lib/site";
 
-const LABEL: Record<string, string> = { az: "AZ", ru: "RU" };
+/** Short code on the chip; the full name, in its own language, for screen readers. */
+const LANGUAGE: Record<Locale, { code: string; name: string }> = {
+  az: { code: "AZ", name: "Azərbaycanca" },
+  ru: { code: "RU", name: "Русский" },
+};
 
 /**
  * `usePathname` gives the route template on some pages (`/sektorlar/[sektor]`)
@@ -51,27 +55,50 @@ export function LocaleSwitcher({ label }: { label: string }) {
 
   if (PUBLISHED_LOCALES.length < 2) return null;
 
+  // A segmented control in the same family as the calculators' mode toggle.
+  // The current language sits on a white chip rather than an ink fill, so the
+  // red demo button beside it stays the one loud thing in the bar; and it is
+  // plain text, since a link to the page you are already on goes nowhere.
   return (
-    <nav aria-label={label} className="flex items-center gap-0.5 font-mono text-2xs">
+    <nav aria-label={label} className="flex h-11 items-center gap-0.5 rounded-pill bg-cloud p-1">
       {routing.locales
         .filter((locale) => PUBLISHED_LOCALES.includes(locale))
-        .map((locale) => (
-          <NextLink
-            key={locale}
-            href={getPathname({
-              locale,
-              href: { pathname, params: canonical } as Parameters<typeof getPathname>[0]["href"],
-            })}
-            hrefLang={locale}
-            lang={locale}
-            aria-current={locale === active ? "true" : undefined}
-            className={`min-h-9 px-1.5 py-2 tracking-wider ${
-              locale === active ? "text-brand-ink" : "text-ink-50 hover:text-ink"
-            }`}
-          >
-            {LABEL[locale] ?? locale.toUpperCase()}
-          </NextLink>
-        ))}
+        .map((locale) => {
+          const { code, name } = LANGUAGE[locale];
+          const chip =
+            "inline-flex h-9 min-w-10 items-center justify-center rounded-pill px-2.5 text-[0.8125rem] font-bold tracking-[0.02em]";
+
+          if (locale === active) {
+            return (
+              <span
+                key={locale}
+                lang={locale}
+                aria-current="true"
+                className={`${chip} bg-paper text-ink shadow-card`}
+              >
+                <span aria-hidden="true">{code}</span>
+                <span className="sr-only">{name}</span>
+              </span>
+            );
+          }
+
+          return (
+            <NextLink
+              key={locale}
+              href={getPathname({
+                locale,
+                href: { pathname, params: canonical } as Parameters<typeof getPathname>[0]["href"],
+              })}
+              hrefLang={locale}
+              lang={locale}
+              title={name}
+              className={`${chip} text-ink-50 transition-colors hover:bg-paper/70 hover:text-ink focus-visible:outline-offset-0`}
+            >
+              <span aria-hidden="true">{code}</span>
+              <span className="sr-only">{name}</span>
+            </NextLink>
+          );
+        })}
     </nav>
   );
 }

@@ -137,7 +137,10 @@ export async function Header({ locale }: { locale: Locale }) {
             <Phone size={17} strokeWidth={2} aria-hidden="true" />
           </a>
           <LocaleSwitcher label={t("nav.language")} />
-          <CtaLink href="/demo" className="hidden !min-h-11 !px-5 sm:inline-flex">
+          {/* `max-sm:hidden`, not `hidden sm:inline-flex`: CtaLink's own
+              `inline-flex` beats a plain `hidden`, which left this button on
+              phones and pushed the menu toggle off the edge of the bar. */}
+          <CtaLink href="/demo" className="!min-h-11 !px-5 max-sm:hidden">
             {t("nav.demo")}
           </CtaLink>
           <MobileMenu openLabel={t("nav.openMenu")} closeLabel={t("nav.closeMenu")}>
