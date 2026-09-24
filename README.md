@@ -89,6 +89,42 @@ Addımlar:
 3. `npm run build` və `npm run start`.
 4. `public/` qovluğu (sektor şəkilləri) git-ə əlavə olunmalıdır — əks halda serverdə şəkillər olmayacaq.
 
+### Yalnız `https://birsistem.az` (www və http yoxdur)
+
+Axtarış sistemləri üçün hər səhifənin bir ünvanı var: `https://birsistem.az/...`.
+Tətbiq özü yönləndirir (308, bir addımda, yol və parametrlər saxlanılır):
+
+- `www.birsistem.az/...` → `https://birsistem.az/...`
+- `http://...` → `https://birsistem.az/...` — hosting proksisi `X-Forwarded-Proto`
+  başlığını göndərəndə (Vercel və əksər hostinqlər göndərir).
+
+`NEXT_PUBLIC_SITE_URL` `www` və ya `http` ilə yazılsa, build dayanır — canonical
+və sitemap səhvən başqa ünvana keçə bilməz. Brauzerlər HSTS başlığı ilə ilk
+girişdən sonra saytı həmişə https ilə açır.
+
+Hosting tərəfində lazım olanlar:
+
+- DNS-də **`www` yazısı da** eyni serverə yönəlsin, SSL sertifikatı həm
+  `birsistem.az`, həm də `www.birsistem.az` üçün olsun — əks halda `www` ünvanı
+  yönləndirməyə çatmadan xəta verər.
+- Öz serverinizdə nginx işlədirsinizsə, 80-ci portu https-ə yönləndirin və
+  proksi başlığını ötürün:
+
+  ```nginx
+  server {
+    listen 80;
+    server_name birsistem.az www.birsistem.az;
+    return 301 https://birsistem.az$request_uri;
+  }
+  # 443 blokunda, location / içində:
+  proxy_set_header Host $host;
+  proxy_set_header X-Forwarded-Proto $scheme;
+  ```
+
+- Vercel-də `www.birsistem.az` domenini əlavə edib "Redirect to birsistem.az" seçin.
+- Google Search Console-da `https://birsistem.az` mülkünü (və ya bütün domen
+  üçün "Domain" mülkünü) əlavə edin.
+
 Yerləşdirmədən sonra:
 
 - Google Search Console və Yandex Webmaster-ə saytı əlavə edib `https://birsistem.az/sitemap.xml` göndərin.
