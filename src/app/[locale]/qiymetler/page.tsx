@@ -82,18 +82,18 @@ export default async function PricingPage({ params }: Props) {
         actions={<CtaAnchor href="#teklif">{t("common.requestOffer")}</CtaAnchor>}
       />
 
-      <Section tone="card" label={page.title}>
+      <Section tone="paper" label={page.title}>
         <ul className="mt-12 grid gap-5 md:grid-cols-3">
           {copy.tiers.map((tier, index) => (
             <li
               key={tier.name}
               className={`flex min-w-0 flex-col rounded-lg border p-7 ${
                 index === 1
-                  ? "border-red/25 bg-card shadow-lift"
+                  ? "border-brand-ink/25 bg-card shadow-lift"
                   : "border-rule bg-card shadow-card"
               }`}
             >
-              <h2 className="text-h3 font-semibold text-ink">{tier.name}</h2>
+              <h2 className="text-h3 font-bold text-ink">{tier.name}</h2>
               <p className="mt-1 text-sm text-ink-50">{tier.forWhom}</p>
               <p className="mt-4 leading-relaxed text-ink-70">{tier.summary}</p>
               <div className="mb-7 mt-6 border-t border-rule pt-5">
@@ -111,9 +111,15 @@ export default async function PricingPage({ params }: Props) {
         </ul>
       </Section>
 
-      <Section tone="paper" label={t("pricing.matrixLabel")}>
+      <Section tone="cloud" label={t("pricing.matrixLabel")}>
         <SectionTitle>{t("pricing.matrixTitle")}</SectionTitle>
-        <div className="mt-10 overflow-x-auto">
+        <p className="mt-10 text-sm text-ink-50 lg:hidden">{t("common.scrollTable")} →</p>
+        <div
+          role="region"
+          aria-label={t("pricing.matrixTitle")}
+          tabIndex={0}
+          className="mt-3 overflow-x-auto lg:mt-10"
+        >
           <table className="w-full min-w-[46rem] border-collapse text-left">
             <thead>
               <tr className="border-y border-rule">
@@ -160,13 +166,13 @@ export default async function PricingPage({ params }: Props) {
         </div>
       </Section>
 
-      <Section tone="card" label={t("pricing.includedLabel")}>
+      <Section tone="paper" label={t("pricing.includedLabel")}>
         <SectionTitle>{t("pricing.includedTitle")}</SectionTitle>
         <ul className="mt-10 border-t border-rule">
           {copy.included.map((item) => (
             <li key={item.title} className="border-b border-rule py-5">
               <div className="grid gap-x-8 gap-y-1 md:grid-cols-[14rem_minmax(0,1fr)]">
-                <h3 className="text-h3 font-semibold text-ink">{item.title}</h3>
+                <h3 className="text-h3 font-bold text-ink">{item.title}</h3>
                 <p className="max-w-2xl leading-relaxed text-ink-70">{item.text}</p>
               </div>
             </li>
@@ -174,16 +180,16 @@ export default async function PricingPage({ params }: Props) {
         </ul>
       </Section>
 
-      <Section tone="paper" label={t("nav.faq")}>
+      <Section tone="cloud" label={t("nav.faq")}>
         <SectionTitle>{t("common.frequentQuestions")}</SectionTitle>
         <div className="mt-10">
           <FaqList items={copy.faq} />
         </div>
       </Section>
 
-      <Section label={t("common.requestOffer")} tone="card" id="teklif">
+      <Section label={t("common.requestOffer")} tone="paper" id="teklif">
         <SectionTitle sub={copy.formLead}>{copy.formTitle}</SectionTitle>
-        <div className="mt-10 rounded-xl border border-rule bg-card p-7 shadow-card md:p-10">
+        <div className="mt-10 rounded-md bg-card p-7 shadow-card md:p-10">
           <LeadForm
             type="PRICING"
             submitLabel={t("form.submitOffer")}

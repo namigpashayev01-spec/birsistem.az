@@ -52,7 +52,7 @@ export default async function BlogIndex({ params }: Props) {
 
       <PageHero crumbs={[{ label: copy.title }]} title={copy.title} lead={copy.lead} />
 
-      <Section tone="card" label={t("nav.blog")}>
+      <Section tone="paper" label={t("nav.blog")}>
         <ul className="border-t border-rule">
           {POSTS_BY_DATE.map((post) => {
             const c = pick(post.copy, locale);
@@ -70,7 +70,7 @@ export default async function BlogIndex({ params }: Props) {
                       {formatDate(post.published, locale)}
                     </time>
                     <div>
-                      <h2 className="text-h3 font-semibold text-ink group-hover:text-red-ink">
+                      <h2 className="text-h3 font-bold text-ink group-hover:text-brand-ink">
                         {c.title}
                       </h2>
                       <p className="mt-2 max-w-2xl text-ink-70">{c.excerpt}</p>

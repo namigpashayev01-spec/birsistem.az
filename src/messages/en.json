@@ -18,6 +18,7 @@
     "language": "Language"
   },
   "common": {
+    "scrollTable": "Scroll the table sideways",
     "skipToContent": "Skip to main content",
     "home": "Home",
     "readMore": "Read more",
@@ -42,7 +43,10 @@
     "solution": "Solution",
     "moduleCtaTitle": "Test the {module} module on your own documents",
     "moduleCtaText": "The demo account is set up with your data — we walk the process together.",
-    "localTeam": "Local team"
+    "localTeam": "Local team",
+    "errorTitle": "This page did not load",
+    "errorText": "The connection dropped or the server did not answer. Try again — nothing you entered is lost.",
+    "errorRetry": "Try again"
   },
   "form": {
     "nameLabel": "Full name",
@@ -106,9 +110,12 @@
     "ctaText": "In the {module} module the same figure comes straight from the documents and lands in the report."
   },
   "sector": {
-    "problemsTitle": "What usually goes wrong in this industry",
-    "featuresTitle": "What the setup covers",
-    "ctaTitle": "Test the system on your {sector} process"
+    "benefitsLabel": "What you gain",
+    "ctaTitle": "Test the system on your {sector} process",
+    "todayLabel": "How it works today",
+    "withSystemLabel": "With BirSistem",
+    "functionsTitle": "What the system does",
+    "whyLabel": "Why you need it"
   },
   "comparison": {
     "tableTitle": "Differences from {rival}, point by point",
@@ -132,11 +139,10 @@
     "ctaTitle": "How the {module} module handles this",
     "moreTitle": "More posts"
   },
-  "module": {
-    "screenCaption": "The {module} module — the figures shown are sample data."
-  },
   "solutions": {
-    "listTitle": "Modules"
+    "listTitle": "Modules",
+    "ctaTitle": "Let's pick the module you start with",
+    "ctaText": "In the demo we look at your process and say which module is worth turning on first, and what it changes."
   },
   "sectorsPage": {
     "listTitle": "Industries"

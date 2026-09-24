@@ -10,7 +10,7 @@ import { CtaButton } from "@/components/ui/Cta";
 export type LeadFormOption = { value: string; label: string };
 
 const inputClass =
-  "mt-1.5 block h-11 w-full rounded-lg border border-rule-strong bg-card px-3 text-ink outline-none transition-colors focus:border-red";
+  "mt-2 block h-12 w-full rounded-sm border border-rule-strong bg-card px-4 text-ink outline-none transition-colors focus:border-brand-ink";
 
 const initialState: LeadState = { status: "idle" };
 
@@ -55,10 +55,10 @@ export function LeadForm({
       <div
         ref={statusRef}
         tabIndex={-1}
-        className="border border-rule bg-card p-6 outline-none"
+        className="rounded-md bg-card p-7 shadow-card outline-none"
         role="status"
       >
-        <h3 className="text-h3 font-semibold text-ink">{t("successTitle")}</h3>
+        <h3 className="text-h3 font-bold text-ink">{t("successTitle")}</h3>
         <p className="mt-2 max-w-md leading-relaxed text-ink-70">
           {t("successText", { phone })}
         </p>
@@ -188,7 +188,7 @@ export function LeadForm({
                   type="checkbox"
                   name="modules"
                   value={module.value}
-                  className="h-4 w-4 accent-[var(--color-red)]"
+                  className="h-4 w-4 accent-[var(--color-brand-ink)]"
                 />
                 {module.label}
               </label>
@@ -207,7 +207,7 @@ export function LeadForm({
           name="message"
           rows={4}
           placeholder={t("messagePlaceholder")}
-          className="mt-1.5 block w-full rounded-lg border border-rule-strong bg-card px-3 py-2.5 leading-relaxed text-ink outline-none transition-colors focus:border-red"
+          className="mt-2 block w-full rounded-sm border border-rule-strong bg-card px-4 py-3 leading-relaxed text-ink outline-none transition-colors focus:border-brand-ink"
         />
       </div>
 
@@ -216,7 +216,7 @@ export function LeadForm({
           ref={statusRef}
           tabIndex={-1}
           role="alert"
-          className="border border-red bg-red-soft px-4 py-3 outline-none"
+          className="border border-deep bg-brand-soft px-4 py-3 outline-none"
         >
           <p className="font-medium text-ink">{t("errorTitle")}</p>
           <p className="mt-1 text-sm text-ink-70">{t(errorKey, { phone })}</p>

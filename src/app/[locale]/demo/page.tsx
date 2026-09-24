@@ -60,8 +60,8 @@ export default async function DemoPage({ params }: Props) {
 
       <PageHero crumbs={[{ label: copy.title }]} title={copy.title} lead={copy.lead} />
 
-      <Section tone="tint" label={copy.title}>
-        <div className="rounded-xl border border-rule bg-card p-7 shadow-card md:p-10">
+      <Section tone="cloud" label={copy.title}>
+        <div className="rounded-md bg-card p-7 shadow-card md:p-10">
           <LeadForm
             type="DEMO"
             submitLabel={t("form.submitDemo")}
@@ -81,13 +81,13 @@ export default async function DemoPage({ params }: Props) {
         </div>
       </Section>
 
-      <Section label={t("nav.contact")} tone="card">
+      <Section label={t("nav.contact")} tone="cloud">
         <SectionTitle>{t("common.talkToUs")}</SectionTitle>
         <dl className="mt-8 grid max-w-2xl gap-x-10 gap-y-4 sm:grid-cols-2">
           <div>
             <dt className="text-sm text-ink-50">{t("form.phoneLabel")}</dt>
             <dd className="mt-0.5">
-              <a href={`tel:${CONTACT.phoneHref}`} className="font-mono text-ink hover:text-red-ink">
+              <a href={`tel:${CONTACT.phoneHref}`} className="font-mono text-ink hover:text-brand-ink">
                 {CONTACT.phone}
               </a>
             </dd>
@@ -95,18 +95,18 @@ export default async function DemoPage({ params }: Props) {
           <div>
             <dt className="text-sm text-ink-50">{t("form.emailLabel")}</dt>
             <dd className="mt-0.5">
-              <a href={`mailto:${CONTACT.salesEmail}`} className="text-ink hover:text-red-ink">
+              <a href={`mailto:${CONTACT.salesEmail}`} className="text-ink hover:text-brand-ink">
                 {CONTACT.salesEmail}
               </a>
             </dd>
           </div>
           <div>
             <dt className="text-sm text-ink-50">{t("footer.hours")}</dt>
-            <dd className="mt-0.5 text-ink">{CONTACT.hoursAz}</dd>
+            <dd className="mt-0.5 text-ink">{CONTACT.hours[locale]}</dd>
           </div>
           <div>
             <dt className="text-sm text-ink-50">{t("footer.address")}</dt>
-            <dd className="mt-0.5 text-ink">{CONTACT.addressAz}</dd>
+            <dd className="mt-0.5 text-ink">{CONTACT.address[locale]}</dd>
           </div>
         </dl>
       </Section>

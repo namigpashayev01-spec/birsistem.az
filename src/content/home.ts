@@ -6,14 +6,15 @@ export type HomeCopy = {
   seoDescription: string;
 
   hero: {
+    /** Short marker above the headline, set beside the gold star. */
+    eyebrow: string;
     h1: string;
     lead: string;
     primaryCta: string;
     secondaryCta: string;
-    /** Three short facts under the buttons, ticked rather than run together. */
-    assurances: string[];
-    /** Says plainly that the screen holds sample data. */
-    screenCaption: string;
+    /** The one figure surfaced on the hero itself, in the accent pill. */
+    badgeValue: string;
+    badgeLabel: string;
   };
 
   /** Three short promises directly under the hero. */
@@ -24,7 +25,9 @@ export type HomeCopy = {
     label: string;
     title: string;
     sub: string;
-    doc: { title: string; number: string; customer: string; total: string };
+    doc: { title: string; number: string; customer: string; totalLabel: string; total: string };
+    /** Line under the document: the only thing a person types. */
+    docNote: string;
     steps: { module: ModuleSlug; name: string; effect: string }[];
   };
 
@@ -49,13 +52,19 @@ export type HomeCopy = {
     screens: { screen: ModuleSlug; chip: string; title: string; text: string; checks: string[] }[];
   };
 
-  /** Facts about the product and the work — never invented customer counts. */
-  facts: { value: string; label: string }[];
-
   sectors: {
     label: string;
     title: string;
     sub: string;
+  };
+
+  /** The band that meets a buyer where they already work: Excel, 1C or Odoo. */
+  migration: {
+    label: string;
+    title: string;
+    sub: string;
+    /** The link under each alternative, e.g. "BirSistem ilə müqayisə". */
+    linkLabel: string;
   };
 
   steps: {
@@ -95,16 +104,13 @@ export const HOME: Localized<HomeCopy> = {
       "Satış, anbar, mühasibat, maliyyə və HR bir ERP sistemində. Sənəd bir dəfə yazılır, bütün modullarda işləyir. Yerli komanda, 2–4 həftəyə qurulma. Demo sorğusu göndərin.",
 
     hero: {
+      eyebrow: "Azərbaycan biznesi üçün ERP",
       h1: "Satış, anbar və mühasibat bir ERP sistemində",
       lead: "BirSistem sənədi bir dəfə yazdırır. Satış qaiməsi anbardan malı silir, mühasibat yazılışını yaradır və rəhbərin panelindəki rəqəmi eyni anda yeniləyir.",
       primaryCta: "Demo sorğusu göndər",
       secondaryCta: "Hazır həllərə bax",
-      assurances: [
-        "Qurulma 2–4 həftə",
-        "Məlumat köçürülməsi qiymətə daxildir",
-        "Dəstək Bakıda, Azərbaycan dilində",
-      ],
-      screenCaption: "Rəhbər paneli — ekrandakı rəqəmlər nümunə məlumatdır.",
+      badgeValue: "6",
+      badgeLabel: "modul, bir baza",
     },
 
     highlights: [
@@ -130,8 +136,10 @@ export const HOME: Localized<HomeCopy> = {
         title: "Qaimə",
         number: "№ 1042",
         customer: "Alfa Ticarət MMC",
+        totalLabel: "Cəmi",
         total: "1 180,00 AZN",
       },
+      docNote: "Menecer yalnız bunu yazır. Aşağıdakı dörd nəticə sistemin öz işidir.",
       steps: [
         { module: "anbar", name: "Anbar", effect: "Qalıq 12 ədəd azalır, rezerv bağlanır" },
         { module: "muhasibat", name: "Mühasibat", effect: "Yazılış qurulur, e-qaimə hazırlanır" },
@@ -177,7 +185,7 @@ export const HOME: Localized<HomeCopy> = {
     tour: {
       label: "Sistemin içi",
       title: "Gündəlik iş belə görünür",
-      sub: "Aşağıdakı ekranlar sistemin real interfeysidir. Rəqəmlər nümunədir — demoda onların yerində sizin öz məlumatınız olur.",
+      sub: "Sistemin ən işlək üç modulu. Solda modulun həll etdiyi iş, sağda onun sizə hazır verdiyi sənəd və hesabatlar.",
       screens: [
         {
           screen: "anbar",
@@ -218,17 +226,17 @@ export const HOME: Localized<HomeCopy> = {
       ],
     },
 
-    facts: [
-      { value: "6", label: "modul, hamısı eyni bazada" },
-      { value: "2–4 həftə", label: "orta qurulma və məlumat köçürülməsi" },
-      { value: "1 dəfə", label: "sənəd yazılır, bütün zəncirdə işləyir" },
-      { value: "Bakı", label: "qurulma və dəstək komandasının yeri" },
-    ],
-
     sectors: {
       label: "Sektorlar",
       title: "Sahənizi seçin — qurulma ona görə aparılır",
       sub: "Tikintidə obyekt, restoranda texnoloji xəritə, aptekdə seriya. Eyni modullar, amma sizin sənəd dövriyyənizə uyğun qurulmuş halda.",
+    },
+
+    migration: {
+      label: "Keçid",
+      title: "Excel-dən, yoxsa 1C-dən gəlirsiniz?",
+      sub: "Keçidin nəyi dəyişdiyini əvvəlcədən bilin. Hər müqayisə həm də alternativin sizin üçün daha yaxşı qaldığı halları göstərir.",
+      linkLabel: "Müqayisəyə bax",
     },
 
     steps: {
@@ -317,6 +325,236 @@ export const HOME: Localized<HomeCopy> = {
       primaryCta: "Demo sorğusu göndər",
       secondaryCta: "Qiymət təklifi alın",
       stamp: "Yerli komanda",
+    },
+  },
+
+  ru: {
+    seoTitle: "BirSistem — ERP-система для бизнеса в Азербайджане",
+    seoDescription:
+      "Продажи, склад, бухгалтерия, финансы и HR в одной ERP-системе. Документ вводится один раз и работает во всех модулях. Местная команда, внедрение за 2–4 недели.",
+
+    hero: {
+      eyebrow: "ERP для бизнеса в Азербайджане",
+      h1: "Продажи, склад и бухгалтерия в одной ERP-системе",
+      lead: "В BirSistem документ вводится один раз. Накладная на продажу списывает товар со склада, создаёт бухгалтерскую проводку и одновременно обновляет цифру на панели руководителя.",
+      primaryCta: "Запросить демо",
+      secondaryCta: "Смотреть решения",
+      badgeValue: "6",
+      badgeLabel: "модулей, одна база",
+    },
+
+    highlights: [
+      {
+        title: "Легко освоить",
+        text: "Интерфейс выстроен по порядку ежедневной работы. Команда осваивается за несколько дней.",
+      },
+      {
+        title: "Доступ откуда угодно",
+        text: "Работает в браузере — в офисе, на складе или в дороге. Ничего устанавливать не нужно.",
+      },
+      {
+        title: "Одна база — одна правда",
+        text: "Продажи, склад и бухгалтерия видят одни и те же данные. Расхождений между отделами не возникает.",
+      },
+    ],
+
+    flow: {
+      label: "Как это работает",
+      title: "Одна накладная, четыре модуля, один ввод",
+      sub: "Менеджер по продажам выписывает накладную. Всё остальное система делает сама — никто не вводит те же данные второй раз.",
+      doc: {
+        title: "Накладная",
+        number: "№ 1042",
+        customer: "Alfa Ticarət MMC",
+        totalLabel: "Итого",
+        total: "1 180,00 AZN",
+      },
+      docNote: "Менеджер вводит только это. Четыре результата ниже система делает сама.",
+      steps: [
+        { module: "anbar", name: "Склад", effect: "Остаток уменьшается на 12 шт., резерв закрывается" },
+        { module: "muhasibat", name: "Бухгалтерия", effect: "Формируется проводка, готовится э-счёт-фактура" },
+        { module: "maliyye", name: "Финансы", effect: "Ожидаемый платёж попадает в календарь" },
+        { module: "hesabatlar", name: "Отчёты", effect: "Обновляются выручка и маржа" },
+      ],
+    },
+
+    problems: {
+      label: "Проблема",
+      title: "Проблема не в программе, а в количестве программ",
+      sub: "Если что-то из этого знакомо, дело не в нехватке модуля, а в том, что модули не видят друг друга.",
+      items: [
+        {
+          title: "Остаток узнают по телефону",
+          text: "Менеджер звонит на склад, а клиент ждёт на линии, пока не придёт ответ.",
+          module: "anbar",
+        },
+        {
+          title: "Одну накладную вводят трижды",
+          text: "Один раз в продажах, один раз на складе, один раз в бухгалтерии. Три цифры никогда полностью не совпадают.",
+          module: "muhasibat",
+        },
+        {
+          title: "Долги всплывают в конце месяца",
+          text: "Кто сколько должен, выясняется только при сверке, а деньги к тому времени уже заморожены.",
+          module: "maliyye",
+        },
+        {
+          title: "Отчёт опаздывает",
+          text: "Руководитель видит цифры прошлого месяца в середине текущего — для решения уже поздно.",
+          module: "hesabatlar",
+        },
+      ],
+    },
+
+    modules: {
+      label: "Готовые решения",
+      title: "Шесть модулей, одна база, один вход",
+      sub: "Каждый модуль может работать отдельно, но ценность дают вместе: один документ сам проходит по всей цепочке.",
+    },
+
+    tour: {
+      label: "Внутри системы",
+      title: "Так выглядит ежедневная работа",
+      sub: "Три самых востребованных модуля. Слева — задача, которую решает модуль, справа — готовые документы и отчёты, которые он даёт.",
+      screens: [
+        {
+          screen: "anbar",
+          chip: "Склад",
+          title: "Складские остатки в реальном времени",
+          text: "Менеджер видит не общий остаток, а доступный к продаже после резерва. Товар ниже минимума попадает в отдельный список.",
+          checks: [
+            "Остатки по нескольким складам и перемещения",
+            "Инвентаризация по штрихкоду",
+            "Партии и сроки годности",
+            "Фактическая себестоимость",
+          ],
+        },
+        {
+          screen: "muhasibat",
+          chip: "Бухгалтерия",
+          title: "Э-счёт-фактура и автоматические проводки",
+          text: "Проводка формируется в момент записи документа, а статус э-счёт-фактуры отслеживается: отправлена, принята, отклонена.",
+          checks: [
+            "Электронная счёт-фактура",
+            "Автоматические бухгалтерские проводки",
+            "Формирование базы НДС",
+            "Чек-лист закрытия месяца",
+          ],
+        },
+        {
+          screen: "maliyye",
+          chip: "Финансы",
+          title: "Платёжный календарь на одном экране",
+          text: "Что поступит на этой неделе, что нужно оплатить и сколько останется в кассе к концу недели — три цифры, один взгляд.",
+          checks: [
+            "Кассы и банковские счета",
+            "Маршрут согласования платежей",
+            "Дебиторка, кредиторка и кредитный лимит",
+            "Бюджет и план-факт",
+          ],
+        },
+      ],
+    },
+
+    sectors: {
+      label: "Отрасли",
+      title: "Выберите отрасль — внедрение идёт под неё",
+      sub: "В строительстве — объект, в ресторане — технологическая карта, в аптеке — серия. Те же модули, но настроенные под ваш документооборот.",
+    },
+
+    migration: {
+      label: "Переход",
+      title: "Переходите с Excel или с 1С?",
+      sub: "Узнайте заранее, что изменит переход. Каждое сравнение показывает и случаи, когда альтернатива остаётся для вас лучшим выбором.",
+      linkLabel: "Смотреть сравнение",
+    },
+
+    steps: {
+      label: "Как начать",
+      title: "Четыре шага от заявки до рабочей системы",
+      sub: "Шаги идут по порядку, и после каждого у вас на руках остаётся конкретный результат.",
+      items: [
+        {
+          title: "Заявка и разговор",
+          text: "За 30 минут разговора узнаём ваши текущие процессы и документы, с которыми вы работаете.",
+          duration: "1 день",
+        },
+        {
+          title: "Демо на ваших документах",
+          text: "Проходим ваш процесс вместе в демо-аккаунте, настроенном на ваших данных.",
+          duration: "3–5 дней",
+        },
+        {
+          title: "Настройка и перенос данных",
+          text: "Переносим план счетов, склады, прайс-листы и начальные остатки, назначаем роли.",
+          duration: "2–4 недели",
+        },
+        {
+          title: "Запуск и поддержка",
+          text: "Команда проходит обучение, первый месяц мы плотно сопровождаем работу, затем — постоянная поддержка.",
+          duration: "постоянно",
+        },
+      ],
+    },
+
+    proof: {
+      label: "Проверка",
+      title: "Верьте не словам, а своим документам",
+      sub: "На демо мы не показываем готовый пример. Мы загружаем в систему вашу реальную накладную, реальный прайс-лист и реальные остатки и проверяем вместе.",
+      checks: [
+        {
+          title: "Выпишите свою накладную",
+          text: "Создайте в системе обычный документ продажи и посмотрите, как меняются складской остаток и проводка.",
+        },
+        {
+          title: "Получите свой отчёт",
+          text: "Выгрузите из системы отчёт, который сейчас собираете в Excel, и сверьте цифры.",
+        },
+        {
+          title: "Дайте самый сложный случай",
+          text: "Возврат, курсовая разница, скидка или перемещение между складами — проверьте на демо самое запутанное место процесса.",
+        },
+      ],
+      note: "Демо-аккаунт настраивается на ваших данных и удаляется после использования.",
+    },
+
+    faq: {
+      label: "Вопросы",
+      title: "Частые вопросы",
+      items: [
+        {
+          q: "Сколько занимает переход с 1С или Excel?",
+          a: "В компании среднего размера настройка и перенос данных обычно занимают 2–4 недели. Срок зависит от количества складов, объёма номенклатуры и того, сколько прошлых периодов нужно перенести.",
+        },
+        {
+          q: "Где хранятся наши данные?",
+          a: "Стандартный вариант — облачный хостинг. При необходимости систему можно развернуть на вашем собственном сервере — технические требования в этом случае согласуются заранее.",
+        },
+        {
+          q: "Нужно ли покупать все модули сразу?",
+          a: "Нет. Обычно начинают с самого болезненного участка — чаще всего со склада и продаж, — а остальные модули позже добавляются в ту же базу.",
+        },
+        {
+          q: "Можно ли адаптировать систему под наш процесс?",
+          a: "Формы документов, маршруты согласования, план счетов и разрезы отчётов настраиваются на этапе внедрения. Более глубокие изменения оцениваются как отдельная работа.",
+        },
+        {
+          q: "Останавливается ли работа, если пропал интернет?",
+          a: "Кассы и точки продаж продолжают работать офлайн, а при восстановлении связи данные отправляются в центр. Для офисной работы нужен интернет.",
+        },
+        {
+          q: "Как работает поддержка?",
+          a: "Поддержка на азербайджанском и русском языках, по телефону и в переписке. У каждого обращения есть номер и срок ответа, для срочных случаев выделен отдельный канал.",
+        },
+      ],
+    },
+
+    close: {
+      title: "Проверьте свой процесс на демо",
+      text: "Один разговор и одно демо — и вы сами по цифрам увидите, подходит ли вам система.",
+      primaryCta: "Запросить демо",
+      secondaryCta: "Получить предложение",
+      stamp: "Местная команда",
     },
   },
 };

@@ -1,14 +1,15 @@
-import { DM_Sans, IBM_Plex_Mono } from "next/font/google";
+import { IBM_Plex_Mono, Manrope } from "next/font/google";
 
 /**
- * DM Sans: a low-contrast geometric sans that stays friendly at display sizes
- * and reads cleanly at 16px. Latin Extended covers the Azerbaijani alphabet,
- * including the schwa "ə", and Cyrillic covers the Russian locale.
+ * Manrope: a geometric sans with semi-rounded terminals and a genuinely heavy
+ * ExtraBold, which is what the display sizes on this site are set in. Latin
+ * Extended covers the Azerbaijani alphabet, including the schwa "ə"; Cyrillic
+ * covers the Russian locale.
  */
-export const dmSans = DM_Sans({
-  subsets: ["latin", "latin-ext"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-dm-sans",
+export const manrope = Manrope({
+  subsets: ["latin", "latin-ext", "cyrillic"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-manrope",
   display: "swap",
 });
 

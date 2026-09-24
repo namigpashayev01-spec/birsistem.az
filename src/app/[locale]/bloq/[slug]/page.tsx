@@ -4,6 +4,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
+import { canonicalParam, localizeParam } from "@/i18n/slugs";
 import { AUTHOR, POSTS, POSTS_BY_DATE, POST_BY_SLUG } from "@/content/blog";
 import { MODULE_BY_SLUG } from "@/content/modules";
 import { pick } from "@/lib/content";
@@ -17,12 +18,13 @@ import { Section, SectionTitle } from "@/components/marketing/Section";
 
 type Props = { params: Promise<{ locale: Locale; slug: string }> };
 
-export function generateStaticParams() {
-  return POSTS.map((post) => ({ slug: post.slug }));
+export function generateStaticParams({ params }: { params: { locale: string } }) {
+  return POSTS.map((post) => ({ slug: localizeParam("slug", post.slug, params.locale as Locale) }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale, slug } = await params;
+  const { locale, slug: raw } = await params;
+  const slug = canonicalParam("slug", raw, locale) ?? "";
   const post = POST_BY_SLUG.get(slug);
   if (!post) return {};
   const copy = pick(post.copy, locale);
@@ -34,12 +36,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ogType: "article",
     publishedTime: post.published,
     modifiedTime: post.updated,
-    authors: [AUTHOR],
+    authors: [pick(AUTHOR, locale)],
   });
 }
 
 export default async function BlogPost({ params }: Props) {
-  const { locale, slug } = await params;
+  const { locale, slug: raw } = await params;
+  const slug = canonicalParam("slug", raw, locale) ?? "";
   setRequestLocale(locale);
 
   const post = POST_BY_SLUG.get(slug);
@@ -67,7 +70,7 @@ export default async function BlogPost({ params }: Props) {
         .flatMap((block) => [...(block.paragraphs ?? []), ...(block.list ?? [])])
         .join(" ")
         .split(/\s+/).length,
-      author: { "@type": "Organization", name: AUTHOR, url: SITE_URL },
+      author: { "@type": "Organization", name: pick(AUTHOR, locale), url: SITE_URL },
       publisher: { "@id": `${SITE_URL}/#organization` },
       mainEntityOfPage: { "@type": "WebPage", "@id": url },
       isPartOf: { "@type": "Blog", name: SITE_NAME, url: absoluteUrl(locale, "/bloq") },
@@ -114,7 +117,7 @@ export default async function BlogPost({ params }: Props) {
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-ink-50">{AUTHOR}</dt>
+                  <dt className="text-ink-50">{pick(AUTHOR, locale)}</dt>
                   <dd className="mt-0.5 font-mono text-ink">
                     {t("common.readingTime", { minutes: post.readingMinutes })}
                   </dd>
@@ -123,14 +126,14 @@ export default async function BlogPost({ params }: Props) {
             </div>
 
             <div className="min-w-0 md:border-l md:border-rule md:pl-10">
-              <h1 className="max-w-3xl text-h1 font-semibold text-ink">{copy.title}</h1>
+              <h1 className="max-w-3xl text-h1 font-extrabold text-ink">{copy.title}</h1>
               <p className="mt-5 max-w-2xl text-lead text-ink-70">{copy.excerpt}</p>
 
               <div className="mt-10 space-y-8">
                 {copy.blocks.map((block, index) => (
                   <section key={index}>
                     {block.heading ? (
-                      <h2 className="text-h3 font-semibold text-ink">{block.heading}</h2>
+                      <h2 className="text-h3 font-bold text-ink">{block.heading}</h2>
                     ) : null}
                     {block.paragraphs?.map((paragraph, pIndex) => (
                       <p
@@ -161,9 +164,9 @@ export default async function BlogPost({ params }: Props) {
       </article>
 
       {relatedCopy && relatedModule ? (
-        <Section label={t("nav.solutions")} tone="card">
+        <Section label={t("nav.solutions")} tone="paper">
           <div className="max-w-xl">
-            <h2 className="text-h2 font-semibold text-ink">
+            <h2 className="text-h2 font-extrabold text-ink">
               {t("blog.ctaTitle", { module: relatedCopy.name })}
             </h2>
             <p className="mt-4 text-lead text-ink-70">{relatedCopy.row}</p>
@@ -177,7 +180,7 @@ export default async function BlogPost({ params }: Props) {
         </Section>
       ) : null}
 
-      <Section tone="paper" label={t("nav.blog")}>
+      <Section tone="cloud" label={t("nav.blog")}>
         <SectionTitle>{t("blog.moreTitle")}</SectionTitle>
         <ul className="mt-8 border-t border-rule">
           {others.map((entry) => {
@@ -188,7 +191,7 @@ export default async function BlogPost({ params }: Props) {
                   href={{ pathname: "/bloq/[slug]", params: { slug: entry.slug } }}
                   className="group block py-4"
                 >
-                  <span className="font-medium text-ink group-hover:text-red-ink">
+                  <span className="font-medium text-ink group-hover:text-brand-ink">
                     {c.title}
                   </span>
                   <span className="mt-1 block max-w-2xl text-sm text-ink-70">{c.excerpt}</span>

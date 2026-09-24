@@ -59,8 +59,9 @@ export const SECTOR_ICON: Record<SectorSlug, LucideIcon> = {
 };
 
 /**
- * A bare line icon in the brand colour — no tinted tile behind it. The tile
- * version adds weight that competes with the headings next to it.
+ * The icon sits inside a thin ring — a circle drawn, not filled, so a grid of
+ * cards reads as a set of marks rather than a row of coloured tiles. On an
+ * oxblood slab the ring and glyph go rose; everywhere else they are brand red.
  */
 export function IconMark({
   icon: Icon,
@@ -71,18 +72,33 @@ export function IconMark({
   tone?: "brand" | "light";
   size?: "sm" | "md";
 }) {
+  const light = tone === "light";
   return (
     <span
       aria-hidden="true"
-      className={`block shrink-0 ${tone === "light" ? "text-on-oxblood" : "text-red"}`}
+      className={`flex shrink-0 items-center justify-center rounded-full border ${
+        size === "sm" ? "h-10 w-10" : "h-12 w-12"
+      } ${light ? "border-on-deep/45 text-on-deep" : "border-brand-ink/25 text-brand-ink"}`}
     >
-      <Icon size={size === "sm" ? 22 : 26} strokeWidth={1.6} />
+      <Icon size={size === "sm" ? 18 : 21} strokeWidth={1.75} />
     </span>
   );
 }
 
 const cardBase =
-  "flex min-w-0 flex-col rounded-lg border border-rule bg-card p-6 shadow-card transition-shadow duration-200";
+  "group flex min-w-0 flex-col transition-[box-shadow,transform] duration-200 ease-out-soft hover:-translate-y-1 hover:shadow-lift";
+
+/**
+ * Two surfaces for the same card. `paper` is the quiet one — a white card with
+ * a 20px radius, used wherever a grid sits inside a slab. `deep` restates the
+ * hero at card scale: the brand red fill, the 30px slab radius and white type,
+ * so a row of them reads as four small hero blocks rather than a card grid.
+ * A `deep` card needs white space around it, never a slab of its own tone.
+ */
+const CARD_SURFACE = {
+  paper: "rounded-md bg-card p-7 shadow-card",
+  deep: "on-deep rounded-lg bg-deep p-6 text-on-deep shadow-card sm:p-8",
+} as const;
 
 /**
  * The card used for both modules and industries: icon, name, one line, and —
@@ -96,24 +112,37 @@ export function LinkCard({
   name,
   row,
   meta,
+  tone = "paper",
 }: {
   href: Href;
   icon: LucideIcon;
   name: string;
   row: string;
   meta?: { label: string; value: string }[];
+  tone?: "paper" | "deep";
 }) {
+  const dark = tone === "deep";
   return (
-    <Link href={href} className={`group ${cardBase} hover:shadow-lift`}>
-      <IconMark icon={icon} />
-      <h3 className="mt-4 text-h3 font-semibold text-ink group-hover:text-red-ink">{name}</h3>
-      <p className="mt-2 leading-relaxed text-ink-70">{row}</p>
+    <Link href={href} className={`${cardBase} ${CARD_SURFACE[tone]}`}>
+      <IconMark icon={icon} tone={dark ? "light" : "brand"} />
+      <h3 className={`mt-5 text-h3 font-bold ${dark ? "text-on-deep" : "text-ink"}`}>{name}</h3>
+      <p className={`mt-2.5 leading-relaxed ${dark ? "text-on-deep/85" : "text-ink-70"}`}>{row}</p>
       {meta?.length ? (
-        <dl className="mt-5 space-y-1.5 border-t border-rule pt-4 text-2xs">
+        <dl
+          className={`mt-5 space-y-1.5 border-t pt-4 text-2xs ${
+            dark ? "border-on-deep/25" : "border-rule"
+          }`}
+        >
           {meta.map((entry) => (
             <div key={entry.label} className="flex gap-1.5">
-              <dt className="shrink-0 text-ink-50">{entry.label}:</dt>
-              <dd className="line-clamp-2 min-w-0 text-ink-70">{entry.value}</dd>
+              <dt className={`shrink-0 font-semibold ${dark ? "text-on-deep/85" : "text-ink-50"}`}>
+                {entry.label}:
+              </dt>
+              <dd
+                className={`line-clamp-2 min-w-0 ${dark ? "text-on-deep/85" : "text-ink-70"}`}
+              >
+                {entry.value}
+              </dd>
             </div>
           ))}
         </dl>
@@ -122,7 +151,9 @@ export function LinkCard({
         aria-hidden="true"
         size={18}
         strokeWidth={2.25}
-        className="mt-auto shrink-0 pt-5 text-red-ink opacity-0 transition-all duration-200 ease-out-soft group-hover:translate-x-1 group-hover:opacity-100"
+        className={`mt-auto shrink-0 pt-5 opacity-0 transition-all duration-200 ease-out-soft group-hover:translate-x-1 group-hover:opacity-100 ${
+          dark ? "text-on-deep-accent" : "text-brand-ink"
+        }`}
       />
     </Link>
   );
@@ -143,11 +174,11 @@ export function Tile({
   return (
     <Link
       href={href}
-      className="group flex min-w-0 items-start gap-4 rounded-lg border border-rule bg-card p-5 shadow-card transition-shadow duration-200 hover:shadow-lift"
+      className="group flex min-w-0 items-start gap-4 rounded-md bg-card p-5 shadow-card transition-[box-shadow,transform] duration-200 ease-out-soft hover:-translate-y-1 hover:shadow-lift"
     >
       <IconMark icon={icon} size="sm" />
-      <span className="min-w-0 pt-0.5">
-        <span className="block font-semibold text-ink group-hover:text-red-ink">{name}</span>
+      <span className="min-w-0 pt-1.5">
+        <span className="block font-bold text-ink">{name}</span>
         {row ? <span className="mt-1 block text-sm leading-relaxed text-ink-70">{row}</span> : null}
       </span>
     </Link>
@@ -164,45 +195,24 @@ export function NoteCard({
   icon?: LucideIcon;
   title: string;
   children: ReactNode;
-  tone?: "paper" | "oxblood";
+  tone?: "paper" | "deep";
 }) {
-  const dark = tone === "oxblood";
+  const dark = tone === "deep";
   return (
     <div
-      className={`min-w-0 rounded-lg p-6 ${
-        dark ? "bg-white/6" : "border border-rule bg-card shadow-card"
+      className={`min-w-0 rounded-md p-7 ${
+        dark ? "bg-white/[0.07]" : "bg-card shadow-card"
       }`}
     >
       {icon ? <IconMark icon={icon} tone={dark ? "light" : "brand"} /> : null}
       <h3
-        className={`${icon ? "mt-4" : ""} font-semibold ${dark ? "text-on-oxblood" : "text-ink"}`}
+        className={`${icon ? "mt-5" : ""} text-h3 font-bold ${dark ? "text-on-deep" : "text-ink"}`}
       >
         {title}
       </h3>
-      <div className={`mt-2 leading-relaxed ${dark ? "text-on-oxblood/80" : "text-ink-70"}`}>
+      <div className={`mt-2 leading-relaxed ${dark ? "text-on-deep/85" : "text-ink-70"}`}>
         {children}
       </div>
-    </div>
-  );
-}
-
-/** A single factual figure. Product facts only — never invented customer counts. */
-export function Fact({
-  value,
-  label,
-  tone = "oxblood",
-}: {
-  value: string;
-  label: string;
-  tone?: "oxblood" | "paper";
-}) {
-  const dark = tone === "oxblood";
-  return (
-    <div className="min-w-0">
-      <p className={`text-h2 font-medium ${dark ? "text-on-oxblood" : "text-ink"}`}>{value}</p>
-      <p className={`mt-2 text-sm leading-relaxed ${dark ? "text-on-oxblood/75" : "text-ink-70"}`}>
-        {label}
-      </p>
     </div>
   );
 }
@@ -217,10 +227,10 @@ export function CheckList({
   columns = 2,
 }: {
   items: string[];
-  tone?: "paper" | "oxblood";
+  tone?: "paper" | "deep";
   columns?: 1 | 2;
 }) {
-  const dark = tone === "oxblood";
+  const dark = tone === "deep";
   return (
     <ul className={`grid gap-x-8 gap-y-3 ${columns === 2 ? "sm:grid-cols-2" : ""}`}>
       {items.map((item) => (
@@ -228,10 +238,10 @@ export function CheckList({
           <Check
             aria-hidden="true"
             size={18}
-            strokeWidth={2.5}
-            className={`mt-1 shrink-0 ${dark ? "text-on-oxblood" : "text-red"}`}
+            strokeWidth={3}
+            className={`mt-1 shrink-0 ${dark ? "text-on-deep-accent" : "text-brand-ink"}`}
           />
-          <span className={dark ? "text-on-oxblood/85" : "text-ink-70"}>{item}</span>
+          <span className={dark ? "text-on-deep/85" : "text-ink-70"}>{item}</span>
         </li>
       ))}
     </ul>

@@ -18,6 +18,7 @@
     "language": "Dil"
   },
   "common": {
+    "scrollTable": "Cədvəli yana sürüşdürün",
     "skipToContent": "Əsas məzmuna keç",
     "home": "Ana səhifə",
     "readMore": "Ətraflı",
@@ -42,7 +43,10 @@
     "solution": "Həlli",
     "moduleCtaTitle": "{module} modulunu öz sənədlərinizlə yoxlayın",
     "moduleCtaText": "Demo hesabı sizin məlumatınızla qurulur — prosesi birlikdə keçirik.",
-    "localTeam": "Yerli komanda"
+    "localTeam": "Yerli komanda",
+    "errorTitle": "Səhifə yüklənmədi",
+    "errorText": "Əlaqə kəsildi və ya server cavab vermədi. Yenidən cəhd edin — məlumatınız itmir.",
+    "errorRetry": "Yenidən cəhd et"
   },
   "form": {
     "nameLabel": "Ad, soyad",
@@ -106,9 +110,12 @@
     "ctaText": "{module} modulunda eyni hesablama sənədlərdən avtomatik gəlir və hesabata düşür."
   },
   "sector": {
-    "problemsTitle": "Bu sahədə ən çox rast gəlinən çətinliklər",
-    "featuresTitle": "Qurulmaya nələr daxildir",
-    "ctaTitle": "Sistemi {sector} prosesinizdə yoxlayın"
+    "benefitsLabel": "Nə qazanırsınız",
+    "ctaTitle": "Sistemi {sector} prosesinizdə yoxlayın",
+    "todayLabel": "Bu gün necədir",
+    "withSystemLabel": "BirSistem ilə",
+    "functionsTitle": "Hansı funksiyalar var",
+    "whyLabel": "Niyə lazımdır"
   },
   "comparison": {
     "tableTitle": "{rival} ilə fərqlər, bənd-bənd",
@@ -132,11 +139,10 @@
     "ctaTitle": "Bu mövzu {module} modulunda necə həll olunur",
     "moreTitle": "Digər yazılar"
   },
-  "module": {
-    "screenCaption": "{module} modulunun ekranı — rəqəmlər nümunə məlumatdır."
-  },
   "solutions": {
-    "listTitle": "Modullar"
+    "listTitle": "Modullar",
+    "ctaTitle": "Hansı moduldan başlayacağınızı birlikdə seçək",
+    "ctaText": "Demo zamanı prosesinizə baxırıq və hansı modulun ilk növbədə işə düşməsinin sizə nə qazandıracağını deyirik."
   },
   "sectorsPage": {
     "listTitle": "Sahələr"

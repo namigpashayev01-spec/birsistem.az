@@ -55,22 +55,22 @@ export default async function AboutPage({ params }: Props) {
       />
 
       {copy.sections?.length ? (
-        <Section tone="card" label={copy.title}>
+        <Section tone="paper" label={copy.title}>
           <Prose sections={copy.sections} />
         </Section>
       ) : null}
 
-      <Section tone="paper" label={home.steps.label}>
+      <Section tone="cloud" label={home.steps.label}>
         <SectionTitle sub={home.steps.sub}>{home.steps.title}</SectionTitle>
         <div className="mt-10">
           <Steps items={home.steps.items} />
         </div>
       </Section>
 
-      <Section tone="card">
+      <Section tone="paper">
         <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <div className="max-w-xl">
-            <h2 className="text-h2 font-semibold text-ink">{home.close.title}</h2>
+            <h2 className="text-h2 font-extrabold text-ink">{home.close.title}</h2>
             <p className="mt-4 text-lead text-ink-70">{home.close.text}</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <CtaLink href="/demo">{t("common.requestDemo")}</CtaLink>

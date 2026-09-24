@@ -25,7 +25,7 @@ export function PageHero({
 }) {
   return (
     <div className="bg-paper">
-      <div className="mx-auto max-w-[78rem] px-5 pb-16 md:px-8 md:pb-20">
+      <div className="mx-auto max-w-[76rem] px-5 pb-16 pt-2 md:px-8 md:pb-20">
         <Breadcrumbs trail={crumbs} />
 
         <div
@@ -41,15 +41,15 @@ export function PageHero({
                 <Chip>{chip}</Chip>
               </div>
             ) : null}
-            <h1 className="max-w-3xl text-h1 font-medium text-ink">{title}</h1>
-            <p className="mt-5 max-w-2xl text-lead text-ink-70">{lead}</p>
+            <h1 className="max-w-3xl text-h1 font-extrabold text-ink">{title}</h1>
+            <p className="mt-6 max-w-2xl text-lead text-ink-70">{lead}</p>
 
             {meta?.length ? (
-              <dl className="mt-8 grid max-w-3xl gap-5 rounded-lg border border-rule bg-tint p-6 sm:grid-cols-2">
+              <dl className="mt-9 grid max-w-3xl gap-6 rounded-md bg-cloud p-7 sm:grid-cols-2">
                 {meta.map((entry) => (
                   <div key={entry.label} className="min-w-0">
                     <dt className="text-sm text-ink-50">{entry.label}</dt>
-                    <dd className="mt-1 text-ink">{entry.value}</dd>
+                    <dd className="mt-1 font-medium text-ink">{entry.value}</dd>
                   </div>
                 ))}
               </dl>

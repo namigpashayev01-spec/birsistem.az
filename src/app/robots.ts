@@ -10,10 +10,11 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/", "/admin", "/_next/"],
+        // `/_next/` must stay crawlable: it serves the CSS and JS Google needs
+        // to render the pages it indexes.
+        disallow: ["/api/"],
       },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,
-    host: SITE_URL,
   };
 }

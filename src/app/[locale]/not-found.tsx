@@ -1,7 +1,9 @@
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 
 import { Link } from "@/i18n/navigation";
 import { MODULES } from "@/content/modules";
+import type { Locale } from "@/i18n/routing";
+import { pick } from "@/lib/content";
 import { CtaLink } from "@/components/ui/Cta";
 
 /**
@@ -11,13 +13,14 @@ import { CtaLink } from "@/components/ui/Cta";
 export default async function NotFound() {
   const t = await getTranslations("common");
   const nav = await getTranslations("nav");
+  const locale = (await getLocale()) as Locale;
 
   return (
     <div className="mx-auto max-w-[80rem] px-4 py-20 md:px-8 md:py-28">
       <div className="grid gap-8 md:grid-cols-[11rem_minmax(0,1fr)] md:gap-0">
         <p className="font-mono text-sm text-ink-50 md:pr-8">404</p>
         <div className="min-w-0 md:border-l md:border-rule md:pl-10">
-          <h1 className="max-w-2xl text-h1 font-semibold text-ink">{t("notFoundTitle")}</h1>
+          <h1 className="max-w-2xl text-h1 font-extrabold text-ink">{t("notFoundTitle")}</h1>
           <p className="mt-5 max-w-xl text-lead text-ink-70">{t("notFoundText")}</p>
 
           <div className="mt-8 flex flex-wrap gap-3">
@@ -32,9 +35,9 @@ export default async function NotFound() {
               <li key={module.slug}>
                 <Link
                   href={module.href}
-                  className="text-sm text-red-ink underline decoration-rule-strong underline-offset-4 hover:decoration-red"
+                  className="text-sm text-brand-ink underline decoration-rule-strong underline-offset-4 hover:decoration-brand-ink"
                 >
-                  {module.slug.toUpperCase()}
+                  {pick(module.copy, locale).name}
                 </Link>
               </li>
             ))}

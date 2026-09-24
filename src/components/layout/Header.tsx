@@ -28,15 +28,15 @@ function PanelRegister({
   moreLabel: string;
 }) {
   return (
-    <div className="mx-auto max-w-[78rem] px-5 py-6 md:px-8">
+    <div className="mx-auto max-w-[76rem] px-6 py-7 md:px-10">
       <ul className="grid gap-1 md:grid-cols-2">
         {rows.map((row, index) => (
           <li key={index}>
             <Link
               href={row.href}
-              className="group block rounded-sm px-3 py-2.5 transition-colors hover:bg-tint"
+              className="group block rounded-sm px-4 py-3 transition-colors hover:bg-cloud"
             >
-              <span className="block font-medium text-ink group-hover:text-red-ink">
+              <span className="block font-bold text-ink group-hover:text-brand-ink">
                 {row.name}
               </span>
               <span className="mt-0.5 block text-sm leading-relaxed text-ink-70">{row.row}</span>
@@ -46,7 +46,7 @@ function PanelRegister({
       </ul>
       <Link
         href={moreHref}
-        className="mt-4 inline-block px-3 text-sm font-medium text-red-ink underline decoration-red/30 underline-offset-4 hover:decoration-red"
+        className="mt-4 inline-block px-4 text-sm font-bold text-brand-ink underline decoration-brand-ink/30 decoration-2 underline-offset-4 hover:decoration-brand-ink"
       >
         {moreLabel}
       </Link>
@@ -93,8 +93,11 @@ export async function Header({ locale }: { locale: Locale }) {
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-rule bg-paper/90 backdrop-blur-md">
-      <div className="mx-auto flex h-18 max-w-[78rem] items-center gap-4 px-5 md:px-8">
+    // The bar floats: it sits inside the page gutter rather than spanning the
+    // viewport, so it reads as one more rounded object on the page instead of
+    // a browser chrome strip pinned to the top of it.
+    <header className="sticky top-0 z-40 px-3 pb-2 pt-3 md:px-4 md:pt-4">
+      <div className="relative mx-auto flex h-16 max-w-[82rem] items-center gap-3 rounded-pill border border-rule bg-paper/92 pl-5 pr-2 shadow-bar backdrop-blur-xl md:h-18 md:pl-8 md:pr-3">
         <Logo />
 
         <nav aria-label={SITE_NAV_LABEL} className="hidden lg:flex lg:items-center lg:gap-0.5">
@@ -107,7 +110,7 @@ export async function Header({ locale }: { locale: Locale }) {
               <Link
                 key={item.messageKey}
                 href={item.href}
-                className="inline-flex min-h-11 items-center rounded-sm px-3 text-[0.9375rem] text-ink transition-colors hover:bg-tint"
+                className="inline-flex min-h-11 items-center rounded-pill px-3.5 text-[0.9375rem] font-medium text-ink transition-colors hover:bg-cloud"
               >
                 {t(`nav.${item.messageKey}`)}
               </Link>
@@ -118,13 +121,23 @@ export async function Header({ locale }: { locale: Locale }) {
         <div className="ml-auto flex items-center gap-2 sm:gap-3">
           <a
             href={`tel:${CONTACT.phoneHref}`}
-            className="hidden min-h-11 items-center gap-2 rounded-md border border-rule-strong px-4 font-mono text-sm text-ink transition-colors hover:border-ink/30 hover:bg-tint xl:inline-flex"
+            className="hidden min-h-11 items-center gap-2 rounded-pill border border-rule px-4 font-mono text-sm text-ink transition-colors hover:border-brand-ink/35 hover:bg-cloud xl:inline-flex"
           >
-            <Phone size={15} strokeWidth={1.75} aria-hidden="true" className="shrink-0 text-red" />
+            <Phone size={15} strokeWidth={2} aria-hidden="true" className="shrink-0 text-brand-ink" />
             {CONTACT.phone}
           </a>
+          {/* Below xl the number does not fit, and on a phone calling is the
+              highest-intent action this page offers — it should not be buried
+              two taps deep in the menu. */}
+          <a
+            href={`tel:${CONTACT.phoneHref}`}
+            aria-label={CONTACT.phone}
+            className="inline-flex h-11 w-11 items-center justify-center rounded-pill border border-rule text-brand-ink transition-colors hover:bg-cloud xl:hidden"
+          >
+            <Phone size={17} strokeWidth={2} aria-hidden="true" />
+          </a>
           <LocaleSwitcher label={t("nav.language")} />
-          <CtaLink href="/demo" className="hidden sm:inline-flex">
+          <CtaLink href="/demo" className="hidden !min-h-11 !px-5 sm:inline-flex">
             {t("nav.demo")}
           </CtaLink>
           <MobileMenu openLabel={t("nav.openMenu")} closeLabel={t("nav.closeMenu")}>

@@ -11,19 +11,19 @@ export function FaqList({ items }: { items: Faq[] }) {
       {items.map((item) => (
         <details
           key={item.q}
-          className="group rounded-lg border border-rule bg-card px-5 shadow-card open:shadow-lift"
+          className="group rounded-md bg-card px-6 shadow-card transition-shadow duration-200 open:shadow-lift"
         >
-          <summary className="flex cursor-pointer list-none items-start justify-between gap-6 py-5 [&::-webkit-details-marker]:hidden">
-            <span className="font-semibold text-ink group-open:text-red-ink">{item.q}</span>
+          <summary className="flex cursor-pointer list-none items-start justify-between gap-6 py-6 [&::-webkit-details-marker]:hidden">
+            <span className="text-h3 font-bold text-ink">{item.q}</span>
             <span
               aria-hidden="true"
-              className="relative mt-1.5 block h-3.5 w-3.5 shrink-0 text-red"
+              className="relative mt-2 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-rule text-brand-ink transition-colors group-open:border-transparent group-open:bg-brand group-open:text-white"
             >
-              <span className="absolute left-0 top-1/2 h-0.5 w-3.5 -translate-y-1/2 rounded-full bg-current" />
-              <span className="absolute left-1/2 top-0 h-3.5 w-0.5 -translate-x-1/2 rounded-full bg-current transition-transform duration-200 ease-out-soft group-open:rotate-90" />
+              <span className="absolute h-0.5 w-3.5 rounded-full bg-current" />
+              <span className="absolute h-3.5 w-0.5 rounded-full bg-current transition-transform duration-200 ease-out-soft group-open:rotate-90" />
             </span>
           </summary>
-          <p className="max-w-2xl pb-5 leading-relaxed text-ink-70">{item.a}</p>
+          <p className="max-w-2xl pb-6 leading-relaxed text-ink-70">{item.a}</p>
         </details>
       ))}
     </div>

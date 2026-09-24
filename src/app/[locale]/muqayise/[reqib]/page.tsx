@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import type { Locale } from "@/i18n/routing";
+import { canonicalParam, localizeParam } from "@/i18n/slugs";
 import {
   COMPARISONS,
   COMPARISON_BY_SLUG,
@@ -19,12 +20,13 @@ import { FaqList } from "@/components/marketing/FaqList";
 
 type Props = { params: Promise<{ locale: Locale; reqib: string }> };
 
-export function generateStaticParams() {
-  return COMPARISONS.map((entry) => ({ reqib: entry.slug }));
+export function generateStaticParams({ params }: { params: { locale: string } }) {
+  return COMPARISONS.map((entry) => ({ reqib: localizeParam("reqib", entry.slug, params.locale as Locale) }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale, reqib } = await params;
+  const { locale, reqib: raw } = await params;
+  const reqib = canonicalParam("reqib", raw, locale) ?? "";
   const entry = COMPARISON_BY_SLUG.get(reqib as ComparisonSlug);
   if (!entry) return {};
   const copy = pick(entry.copy, locale);
@@ -37,7 +39,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ComparisonPage({ params }: Props) {
-  const { locale, reqib } = await params;
+  const { locale, reqib: raw } = await params;
+  const reqib = canonicalParam("reqib", raw, locale) ?? "";
   setRequestLocale(locale);
 
   const entry = COMPARISON_BY_SLUG.get(reqib as ComparisonSlug);
@@ -83,9 +86,15 @@ export default async function ComparisonPage({ params }: Props) {
         actions={<CtaLink href="/demo">{t("common.requestDemo")}</CtaLink>}
       />
 
-      <Section tone="card" label={t("nav.comparison")}>
+      <Section tone="paper" label={t("nav.comparison")}>
         <SectionTitle>{t("comparison.tableTitle", { rival: copy.rival })}</SectionTitle>
-        <div className="mt-10 overflow-x-auto">
+        <p className="mt-10 text-sm text-ink-50 lg:hidden">{t("common.scrollTable")} →</p>
+        <div
+          role="region"
+          aria-label={t("comparison.tableTitle", { rival: copy.rival })}
+          tabIndex={0}
+          className="mt-3 overflow-x-auto lg:mt-10"
+        >
           <table className="w-full min-w-[42rem] border-collapse text-left">
             <caption className="sr-only">
               {t("comparison.tableTitle", { rival: copy.rival })}
@@ -118,12 +127,12 @@ export default async function ComparisonPage({ params }: Props) {
         </div>
       </Section>
 
-      <Section tone="paper" label={t("comparison.fairLabel")}>
+      <Section tone="cloud" label={t("comparison.fairLabel")}>
         <SectionTitle>{copy.rivalWins.title}</SectionTitle>
         <p className="mt-5 max-w-2xl leading-relaxed text-ink-70">{copy.rivalWins.text}</p>
       </Section>
 
-      <Section tone="card" label={t("nav.faq")}>
+      <Section tone="paper" label={t("nav.faq")}>
         <SectionTitle>{t("common.frequentQuestions")}</SectionTitle>
         <div className="mt-10">
           <FaqList items={copy.faq} />
@@ -131,14 +140,16 @@ export default async function ComparisonPage({ params }: Props) {
       </Section>
 
       <Section tone="paper" size="tight">
-        <div className="max-w-xl">
-          <h2 className="text-h2 font-semibold text-ink">{t("comparison.ctaTitle")}</h2>
-          <p className="mt-4 text-lead text-ink-70">{t("comparison.ctaText")}</p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <CtaLink href="/demo">{t("common.requestDemo")}</CtaLink>
-            <CtaLink href="/hazir-heller" variant="secondary">
-              {t("nav.allModules")}
-            </CtaLink>
+        <div className="rounded-lg bg-cloud p-8 md:p-10">
+          <div className="max-w-xl">
+            <h2 className="text-h2 font-extrabold text-ink">{t("comparison.ctaTitle")}</h2>
+            <p className="mt-4 text-lead text-ink-70">{t("comparison.ctaText")}</p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <CtaLink href="/demo">{t("common.requestDemo")}</CtaLink>
+              <CtaLink href="/hazir-heller" variant="secondary">
+                {t("nav.allModules")}
+              </CtaLink>
+            </div>
           </div>
         </div>
       </Section>

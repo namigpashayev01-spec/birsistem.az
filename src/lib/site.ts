@@ -11,9 +11,8 @@ export const SITE_LEGAL_NAME = "BirSistem MMC";
  * Locales whose content is finished. Anything outside this list is served with
  * `noindex`, kept out of the sitemap and left out of the hreflang cluster, so a
  * half-translated page never competes with the Azerbaijani original.
- * Add "ru" / "en" here once their copy lands.
  */
-export const PUBLISHED_LOCALES: readonly Locale[] = ["az"];
+export const PUBLISHED_LOCALES: readonly Locale[] = ["az", "ru"];
 
 export function isPublished(locale: Locale) {
   return PUBLISHED_LOCALES.includes(locale);
@@ -21,16 +20,21 @@ export function isPublished(locale: Locale) {
 
 /** Placeholder until the real company details arrive. */
 export const CONTACT = {
-  phone: "+994 12 310 00 00",
-  phoneHref: "+994123100000",
-  whatsapp: "+994503100000",
+  phone: "077 315 15 80",
+  phoneHref: "+994773151580",
+  whatsapp: "+994773151580",
   email: "salam@birsistem.az",
   salesEmail: "satis@birsistem.az",
-  addressAz: "Bakı, Nəsimi rayonu, Nizami küç. 203",
-  addressRu: "Баку, Насиминский район, ул. Низами 203",
-  addressEn: "203 Nizami str., Nasimi, Baku",
+  address: {
+    az: "Bakı, Nəsimi rayonu, Nizami küç. 203",
+    ru: "Баку, Насиминский район, ул. Низами 203",
+  } satisfies Record<Locale, string>,
+  city: { az: "Bakı", ru: "Баку" } satisfies Record<Locale, string>,
   postalCode: "AZ1010",
-  hoursAz: "Bazar ertəsi – Cümə, 09:00–18:00",
+  hours: {
+    az: "Bazar ertəsi – Cümə, 09:00–18:00",
+    ru: "Понедельник – пятница, 09:00–18:00",
+  } satisfies Record<Locale, string>,
 } as const;
 
 export const SOCIAL = {
@@ -43,11 +47,9 @@ export const SOCIAL = {
 export const OG_LOCALE: Record<Locale, string> = {
   az: "az_AZ",
   ru: "ru_RU",
-  en: "en_US",
 };
 
 export const HTML_LANG: Record<Locale, string> = {
   az: "az-AZ",
   ru: "ru-RU",
-  en: "en-US",
 };

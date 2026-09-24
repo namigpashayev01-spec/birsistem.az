@@ -14,8 +14,8 @@ import { Logo } from "./Logo";
 function Column({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="min-w-0">
-      <h2 className="text-sm font-medium text-ink">{title}</h2>
-      <ul className="mt-3 space-y-2 text-sm text-ink-70">{children}</ul>
+      <h2 className="text-sm font-bold text-on-deep">{title}</h2>
+      <ul className="mt-4 space-y-2.5 text-sm text-on-deep/85">{children}</ul>
     </div>
   );
 }
@@ -25,29 +25,32 @@ export async function Footer({ locale }: { locale: Locale }) {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-rule bg-tint">
-      <div className="mx-auto max-w-[78rem] px-5 py-16 md:px-8">
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)]">
+    // The deepest slab on the site, and the last one: it closes the stack of
+    // rounded panels rather than running off the bottom of the window.
+    <footer className="on-deep px-3 pb-3 md:px-4 md:pb-4">
+      <div className="mx-auto max-w-[82rem] rounded-lg bg-deep text-on-deep">
+        <div className="mx-auto max-w-[76rem] px-5 py-16 md:px-12 md:py-20">
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)]">
           <div>
-            <Logo />
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-ink-70">
+            <Logo tone="light" />
+            <p className="mt-5 max-w-xs text-sm leading-relaxed text-on-deep/85">
               {t("footer.tagline")}
             </p>
-            <div className="mt-6 space-y-1.5 text-sm">
+            <div className="mt-7 space-y-2 text-sm">
               <a
                 href={`tel:${CONTACT.phoneHref}`}
-                className="block font-mono text-ink hover:text-red-ink"
+                className="block font-mono text-on-deep hover:text-on-deep-accent"
               >
                 {CONTACT.phone}
               </a>
               <a
                 href={`mailto:${CONTACT.email}`}
-                className="block text-ink-70 hover:text-red-ink"
+                className="block text-on-deep/85 hover:text-on-deep-accent"
               >
                 {CONTACT.email}
               </a>
-              <p className="text-ink-50">{CONTACT.addressAz}</p>
-              <p className="text-ink-50">{CONTACT.hoursAz}</p>
+              <p className="text-on-deep/85">{CONTACT.address[locale]}</p>
+              <p className="text-on-deep/85">{CONTACT.hours[locale]}</p>
             </div>
           </div>
 
@@ -55,7 +58,7 @@ export async function Footer({ locale }: { locale: Locale }) {
             <Column title={t("footer.solutions")}>
               {MODULES.map((m) => (
                 <li key={m.slug}>
-                  <Link href={m.href} className="hover:text-red-ink">
+                  <Link href={m.href} className="hover:text-on-deep-accent">
                     {pick(m.copy, locale).name}
                   </Link>
                 </li>
@@ -67,7 +70,7 @@ export async function Footer({ locale }: { locale: Locale }) {
                 <li key={s.slug}>
                   <Link
                     href={{ pathname: "/sektorlar/[sektor]", params: { sektor: s.slug } }}
-                    className="hover:text-red-ink"
+                    className="hover:text-on-deep-accent"
                   >
                     {pick(s.copy, locale).name}
                   </Link>
@@ -80,7 +83,7 @@ export async function Footer({ locale }: { locale: Locale }) {
                 <li key={tool.slug}>
                   <Link
                     href={{ pathname: "/aletler/[alet]", params: { alet: tool.slug } }}
-                    className="hover:text-red-ink"
+                    className="hover:text-on-deep-accent"
                   >
                     {pick(tool.copy, locale).name}
                   </Link>
@@ -91,14 +94,14 @@ export async function Footer({ locale }: { locale: Locale }) {
             <Column title={t("footer.company")}>
               {FOOTER_COMPANY.map((item) => (
                 <li key={item.messageKey}>
-                  <Link href={item.href} className="hover:text-red-ink">
+                  <Link href={item.href} className="hover:text-on-deep-accent">
                     {t(`nav.${item.messageKey}`)}
                   </Link>
                 </li>
               ))}
               {FOOTER_LEGAL.map((item) => (
                 <li key={item.messageKey}>
-                  <Link href={item.href} className="hover:text-red-ink">
+                  <Link href={item.href} className="hover:text-on-deep-accent">
                     {t(`footer.${item.messageKey}`)}
                   </Link>
                 </li>
@@ -107,9 +110,10 @@ export async function Footer({ locale }: { locale: Locale }) {
           </div>
         </div>
 
-        <p className="mt-12 border-t border-rule pt-6 text-sm text-ink-50">
+        <p className="mt-14 border-t border-on-deep/15 pt-7 text-sm text-on-deep/85">
           © {year} {SITE_LEGAL_NAME}. {t("footer.rights")}
         </p>
+        </div>
       </div>
     </footer>
   );

@@ -17,12 +17,18 @@ import { FaqList } from "@/components/marketing/FaqList";
 
 type Props = { params: Promise<{ locale: Locale }> };
 
-const SEO = {
+const SEO: Record<Locale, { title: string; description: string; lead: string }> = {
   az: {
     title: "Tez-tez verilən suallar",
     description:
       "ERP-yə keçid, qurulma müddəti, məlumatın saxlanması, qiymət və dəstək haqqında ən çox verilən suallar — modul-modul cavablarla.",
     lead: "Ümumi suallar, qiymətlə bağlı suallar və hər modul üzrə ayrıca suallar bir səhifədə. Cavabını tapmadığınız sual varsa yazın.",
+  },
+  ru: {
+    title: "Частые вопросы",
+    description:
+      "Самые частые вопросы о переходе на ERP, сроках внедрения, хранении данных, цене и поддержке — с ответами по каждому модулю.",
+    lead: "Общие вопросы, вопросы о цене и отдельные вопросы по каждому модулю — на одной странице. Если не нашли ответа на свой вопрос, напишите нам.",
   },
 };
 
@@ -31,8 +37,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return buildMetadata({
     locale,
     href: "/faq",
-    title: SEO.az.title,
-    description: SEO.az.description,
+    title: SEO[locale].title,
+    description: SEO[locale].description,
   });
 }
 
@@ -41,6 +47,7 @@ export default async function FaqPage({ params }: Props) {
   setRequestLocale(locale);
 
   const t = await getTranslations();
+  const seo = SEO[locale];
   const home = pick(HOME, locale);
   const pricing = pick(PRICING, locale);
 
@@ -72,7 +79,7 @@ export default async function FaqPage({ params }: Props) {
         {
           "@type": "ListItem",
           position: 2,
-          name: SEO.az.title,
+          name: seo.title,
           item: absoluteUrl(locale, "/faq"),
         },
       ],
@@ -84,16 +91,16 @@ export default async function FaqPage({ params }: Props) {
       <JsonLd data={{ "@context": "https://schema.org", "@graph": schema }} />
 
       <PageHero
-        crumbs={[{ label: SEO.az.title }]}
-        title={SEO.az.title}
-        lead={SEO.az.lead}
+        crumbs={[{ label: seo.title }]}
+        title={seo.title}
+        lead={seo.lead}
         actions={<CtaLink href="/elaqe">{t("common.talkToUs")}</CtaLink>}
       />
 
       {groups.map((group, index) => (
         <Section
           key={`${group.title}-${index}`}
-          tone={index % 2 === 0 ? "card" : "paper"}
+          tone={index % 2 === 0 ? "cloud" : "paper"}
           label={group.label}
         >
           <SectionTitle>{group.title}</SectionTitle>
@@ -103,9 +110,9 @@ export default async function FaqPage({ params }: Props) {
         </Section>
       ))}
 
-      <Section tone="tint" size="tight">
+      <Section tone="cloud" size="tight">
         <div className="max-w-xl">
-          <h2 className="text-h2 font-semibold text-ink">{t("faqPage.stillTitle")}</h2>
+          <h2 className="text-h2 font-extrabold text-ink">{t("faqPage.stillTitle")}</h2>
           <p className="mt-4 text-lead text-ink-70">
             {t("faqPage.stillText", { phone: CONTACT.phone })}
           </p>
@@ -113,7 +120,7 @@ export default async function FaqPage({ params }: Props) {
             <CtaLink href="/elaqe">{t("common.talkToUs")}</CtaLink>
             <Link
               href="/demo"
-              className="inline-flex min-h-11 items-center text-red-ink underline decoration-rule-strong underline-offset-4 hover:decoration-red"
+              className="inline-flex min-h-11 items-center text-brand-ink underline decoration-rule-strong underline-offset-4 hover:decoration-brand-ink"
             >
               {t("common.requestDemo")}
             </Link>

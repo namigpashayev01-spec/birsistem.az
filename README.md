@@ -29,7 +29,7 @@ npm run check:leads
 | Qovluq | Nə var |
 |---|---|
 | `src/content/` | **Saytın bütün mətnləri.** Modullar, sektorlar, kalkulyatorlar, qiymət paketləri, bloq yazıları, hüquqi mətnlər. Mətni dəyişmək üçün yalnız bu qovluğa toxunmaq lazımdır. |
-| `src/messages/` | Düymə, menyu və forma yazıları (az / ru / en). |
+| `src/messages/` | Düymə, menyu və forma yazıları (az / ru). |
 | `src/app/[locale]/` | Səhifələr. |
 | `src/components/` | Təkrar istifadə olunan hissələr (registr sətirləri, formalar, kalkulyatorlar). |
 | `src/lib/rates.ts` | **Vergi və sosial ayırma dərəcələri.** Qanunvericilik dəyişəndə yalnız bu fayl yenilənir. |
@@ -39,24 +39,51 @@ npm run check:leads
 
 ## Dillər
 
-Azərbaycan dili prefiksiz kökdədir (`/crm`), rus və ingilis dilləri prefikslə
-(`/ru/crm`, `/en/crm`). Marşrutlar və hreflang hazırdır, amma RU/EN **məzmunu
-hələ yazılmayıb** — ona görə həmin dillər `noindex` verilir və sitemap-a düşmür.
+Sayt iki dildədir: Azərbaycan dili prefiksiz kökdədir (`/crm`), rus dili
+prefikslədir və öz slug-ları var (`/ru/sklad`, `/ru/otrasli/tikinti`).
+Hər mətn `src/content/` fayllarında `az` və `ru` açarları ilə yanaşı yazılıb.
 
-Tərcümələr hazır olanda `src/lib/site.ts` faylında:
+URL-lər hər dildə öz sözləri ilədir: `/elaqe` ↔ `/ru/kontakty`,
+`/sektorlar/tikinti` ↔ `/ru/otrasli/stroitelstvo`. Sabit səhifələrin tərcüməsi
+`src/i18n/routing.ts`-də, sektor / kalkulyator / bloq slug-larının tərcüməsi
+`src/i18n/slugs.ts`-dədir. Kodda həmişə azərbaycanca slug yazılır — linklər,
+canonical, hreflang və sitemap onu dilə uyğun özləri çevirir. Yeni sektor və ya
+bloq yazısı əlavə edəndə onun rusca slug-ını `slugs.ts`-ə yazmağı unutmayın.
 
-```ts
-export const PUBLISHED_LOCALES: readonly Locale[] = ["az", "ru", "en"];
-```
+Hər iki dil indekslənir: hər səhifədə canonical, `az` / `ru` / `x-default`
+hreflang cütləri, dilə uyğun `og:locale` və OG şəkli var; sitemap hər iki dilin
+URL-lərini alternativləri ilə birlikdə verir.
 
-Bundan sonra hreflang cütləri, sitemap və dil keçidi avtomatik işə düşür.
+## Serverə yerləşdirmək (deploy)
+
+Sayt adi Node.js tətbiqidir (`npm run build` + `npm run start`); Vercel və ya
+Node 20+ işlədən istənilən serverdə işləyir.
+
+Serverdə təyin olunmalı mühit dəyişənləri:
+
+| Dəyişən | Dəyər |
+|---|---|
+| `NEXT_PUBLIC_SITE_URL` | `https://birsistem.az` — canonical, hreflang və sitemap bu ünvandan qurulur. **`localhost` qalmamalıdır.** |
+| `DATABASE_URL` | Postgres bağlantısı (formalar buraya yazır). |
+
+Addımlar:
+
+1. `npm install` — `postinstall` Prisma klientini özü yaradır.
+2. `npx prisma db push` — bazada `Lead` cədvəlini yaradır (bir dəfə).
+3. `npm run build` və `npm run start`.
+4. `public/` qovluğu (sektor şəkilləri) git-ə əlavə olunmalıdır — əks halda serverdə şəkillər olmayacaq.
+
+Yerləşdirmədən sonra:
+
+- Google Search Console və Yandex Webmaster-ə saytı əlavə edib `https://birsistem.az/sitemap.xml` göndərin.
+- `https://birsistem.az/ru` və bir-iki daxili səhifəni Rich Results Test ilə yoxlayın.
 
 ## İstifadəyə verməzdən əvvəl
 
 - [ ] `src/lib/site.ts` — real telefon, e-poçt, ünvan, sosial şəbəkə linkləri
 - [ ] `src/lib/rates.ts` — vergi dərəcələrini mühasiblə təsdiqləyin
 - [ ] `src/content/legal.ts` — hüquqi mətnləri hüquqşünas yoxlasın
-- [ ] `.env` faylında `NEXT_PUBLIC_SITE_URL="https://birsistem.az"`
+- [ ] Rus mətnlərini doğma dilli redaktor oxusun
 - [ ] Logo faylı (hazırda tipoqrafik loqotipdir)
 
 ## Baza

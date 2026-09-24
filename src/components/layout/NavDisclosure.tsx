@@ -57,8 +57,8 @@ export function NavDisclosure({
         aria-expanded={open}
         aria-controls={panelId}
         onClick={() => setOpen((value) => !value)}
-        className={`inline-flex min-h-11 items-center gap-1.5 rounded-sm px-3 text-[0.9375rem] transition-colors ${
-          open ? "bg-red-soft text-red-ink" : "text-ink hover:bg-tint"
+        className={`inline-flex min-h-11 items-center gap-1.5 rounded-pill px-3.5 text-[0.9375rem] font-medium transition-colors ${
+          open ? "bg-ink text-paper" : "text-ink hover:bg-cloud"
         }`}
       >
         {label}
@@ -74,7 +74,7 @@ export function NavDisclosure({
       <div
         id={panelId}
         hidden={!open}
-        className="absolute inset-x-0 top-full border-b border-rule bg-card shadow-lift"
+        className="absolute inset-x-0 top-[calc(100%+0.5rem)] overflow-hidden rounded-md bg-card shadow-lift"
       >
         {children}
       </div>

@@ -4,11 +4,11 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { ReactNode } from "react";
 
-import { routing } from "@/i18n/routing";
+import { routing, type Locale } from "@/i18n/routing";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { dmSans, plexMono } from "@/lib/fonts";
+import { manrope, plexMono } from "@/lib/fonts";
 import {
   CONTACT,
   HTML_LANG,
@@ -24,15 +24,25 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
-  title: {
-    default: `${SITE_NAME} — Azərbaycan biznesi üçün ERP`,
-    template: `%s — ${SITE_NAME}`,
-  },
-  applicationName: SITE_NAME,
-  formatDetection: { telephone: false },
+const DEFAULT_TITLE: Record<Locale, string> = {
+  az: `${SITE_NAME} — Azərbaycan biznesi üçün ERP`,
+  ru: `${SITE_NAME} — ERP для бизнеса в Азербайджане`,
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const lang = hasLocale(routing.locales, locale) ? locale : routing.defaultLocale;
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: { default: DEFAULT_TITLE[lang], template: `%s — ${SITE_NAME}` },
+    applicationName: SITE_NAME,
+    formatDetection: { telephone: false },
+  };
+}
 
 export default async function LocaleLayout({
   children,
@@ -57,8 +67,8 @@ export default async function LocaleLayout({
     email: CONTACT.email,
     address: {
       "@type": "PostalAddress",
-      streetAddress: CONTACT.addressAz,
-      addressLocality: "Bakı",
+      streetAddress: CONTACT.address[locale],
+      addressLocality: CONTACT.city[locale],
       postalCode: CONTACT.postalCode,
       addressCountry: "AZ",
     },
@@ -75,7 +85,15 @@ export default async function LocaleLayout({
   };
 
   return (
-    <html lang={locale} dir="ltr" className={`${dmSans.variable} ${plexMono.variable}`}>
+    <html
+      lang={locale}
+      dir="ltr"
+      // `scroll-behavior: smooth` is set in globals.css for in-page anchors.
+      // Without this attribute Next's scroll restoration fights it and every
+      // route change animates the scroll instead of landing at the top.
+      data-scroll-behavior="smooth"
+      className={`${manrope.variable} ${plexMono.variable}`}
+    >
       <body className="min-h-dvh font-sans antialiased">
         {!isPublished(locale) && <meta name="robots" content="noindex, nofollow" />}
         <JsonLd data={{ "@context": "https://schema.org", "@graph": [organization, website] }} />

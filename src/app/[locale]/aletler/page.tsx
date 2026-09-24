@@ -77,7 +77,7 @@ export default async function Page({ params }: Props) {
         actions={<CtaLink href="/demo">{t("common.requestDemo")}</CtaLink>}
       />
 
-      <Section tone="card" label={t("nav.tools")}>
+      <Section tone="cloud" label={t("nav.tools")}>
         <SectionTitle>{t("toolsPage.listTitle")}</SectionTitle>
         <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((item) => (

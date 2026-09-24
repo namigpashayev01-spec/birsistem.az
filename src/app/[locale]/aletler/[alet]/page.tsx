@@ -4,6 +4,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
+import { canonicalParam, localizeParam } from "@/i18n/slugs";
 import { TOOLS, TOOL_BY_SLUG, type ToolSlug } from "@/content/tools";
 import { CALC } from "@/content/calc";
 import { MODULE_BY_SLUG, type ModuleSlug } from "@/content/modules";
@@ -20,12 +21,13 @@ import { Calculator } from "@/components/tools/Calculators";
 
 type Props = { params: Promise<{ locale: Locale; alet: string }> };
 
-export function generateStaticParams() {
-  return TOOLS.map((tool) => ({ alet: tool.slug }));
+export function generateStaticParams({ params }: { params: { locale: string } }) {
+  return TOOLS.map((tool) => ({ alet: localizeParam("alet", tool.slug, params.locale as Locale) }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale, alet } = await params;
+  const { locale, alet: raw } = await params;
+  const alet = canonicalParam("alet", raw, locale) ?? "";
   const entry = TOOL_BY_SLUG.get(alet as ToolSlug);
   if (!entry) return {};
   const copy = pick(entry.copy, locale);
@@ -38,7 +40,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ToolPage({ params }: Props) {
-  const { locale, alet } = await params;
+  const { locale, alet: raw } = await params;
+  const alet = canonicalParam("alet", raw, locale) ?? "";
   setRequestLocale(locale);
 
   const entry = TOOL_BY_SLUG.get(alet as ToolSlug);
@@ -99,7 +102,7 @@ export default async function ToolPage({ params }: Props) {
         lead={copy.lead}
       />
 
-      <Section tone="card" label={labels.common.result}>
+      <Section tone="cloud" label={labels.common.result}>
         <Calculator slug={entry.slug} labels={labels} locale={locale} />
         <p className="mt-8 border-t border-rule pt-4 text-sm text-ink-50">
           {labels.common.disclaimer}{" "}
@@ -111,14 +114,14 @@ export default async function ToolPage({ params }: Props) {
         <div className="space-y-10">
           {copy.explainer.map((block) => (
             <section key={block.title}>
-              <h2 className="text-h3 font-semibold text-ink">{block.title}</h2>
+              <h2 className="text-h3 font-bold text-ink">{block.title}</h2>
               <p className="mt-3 max-w-2xl leading-relaxed text-ink-70">{block.body}</p>
             </section>
           ))}
         </div>
       </Section>
 
-      <Section tone="card" label={t("nav.faq")}>
+      <Section tone="cloud" label={t("nav.faq")}>
         <SectionTitle>{t("common.frequentQuestions")}</SectionTitle>
         <div className="mt-10">
           <FaqList items={copy.faq} />
@@ -126,9 +129,9 @@ export default async function ToolPage({ params }: Props) {
       </Section>
 
       {relatedCopy && relatedModule ? (
-        <Section tone="card">
+        <Section tone="paper">
           <div className="max-w-xl">
-            <h2 className="text-h2 font-semibold text-ink">
+            <h2 className="text-h2 font-extrabold text-ink">
               {t("tools.ctaTitle", { product: SITE_NAME })}
             </h2>
             <p className="mt-4 text-lead text-ink-70">
@@ -144,14 +147,14 @@ export default async function ToolPage({ params }: Props) {
         </Section>
       ) : null}
 
-      <Section tone="paper" label={t("nav.tools")}>
+      <Section tone="cloud" label={t("nav.tools")}>
         <SectionTitle>{t("nav.allTools")}</SectionTitle>
         <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2">
           {TOOLS.filter((tool) => tool.slug !== entry.slug).map((tool) => (
             <li key={tool.slug}>
               <Link
                 href={{ pathname: "/aletler/[alet]", params: { alet: tool.slug } }}
-                className="text-sm text-red-ink underline decoration-rule-strong underline-offset-4 hover:decoration-red"
+                className="text-sm text-brand-ink underline decoration-rule-strong underline-offset-4 hover:decoration-brand-ink"
               >
                 {pick(tool.copy, locale).name}
               </Link>

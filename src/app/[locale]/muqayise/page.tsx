@@ -76,7 +76,7 @@ export default async function Page({ params }: Props) {
         actions={<CtaLink href="/demo">{t("common.requestDemo")}</CtaLink>}
       />
 
-      <Section tone="card" label={t("nav.comparison")}>
+      <Section tone="cloud" label={t("nav.comparison")}>
         <Register items={items} />
       </Section>
 

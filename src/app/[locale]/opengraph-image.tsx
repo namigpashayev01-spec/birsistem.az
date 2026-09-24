@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
 import { HOME } from "@/content/home";
+import { MODULES } from "@/content/modules";
 import { pick } from "@/lib/content";
 import type { Locale } from "@/i18n/routing";
 import { SITE_NAME } from "@/lib/site";
@@ -40,6 +41,9 @@ async function loadFonts() {
 export default async function Image({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const copy = pick(HOME, locale);
+  const moduleLine = MODULES.filter((module) => module.slug !== "hesabatlar")
+    .map((module) => pick(module.copy, locale).name)
+    .join(" · ");
 
   return new ImageResponse(
     (
@@ -85,7 +89,7 @@ export default async function Image({ params }: { params: Promise<{ locale: Loca
             color: "rgba(253,247,247,0.78)",
           }}
         >
-          <div style={{ display: "flex" }}>CRM · Anbar · Mühasibat · Maliyyə · HR</div>
+          <div style={{ display: "flex" }}>{moduleLine}</div>
           <div style={{ display: "flex" }}>birsistem.az</div>
         </div>
       </div>

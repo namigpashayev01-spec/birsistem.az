@@ -5,7 +5,7 @@ import { useId, type ReactNode } from "react";
 export { formatMoney, formatNumber } from "@/lib/format";
 
 const inputClass =
-  "mt-1.5 block h-11 w-full rounded-lg border border-rule-strong bg-card px-3 font-mono text-ink outline-none transition-colors focus:border-red";
+  "mt-2 block h-12 w-full rounded-sm border border-rule-strong bg-card px-4 font-mono text-ink outline-none transition-colors focus:border-brand-ink";
 
 export function NumberField({
   label,
@@ -99,17 +99,17 @@ export function ModeToggle({
   return (
     <fieldset>
       <legend className="text-sm font-medium text-ink">{label}</legend>
-      <div className="mt-1.5 flex flex-wrap gap-0 border border-rule-strong">
+      <div className="mt-2 flex gap-1 rounded-pill bg-cloud p-1">
         {options.map((option) => (
           <button
             key={option.value}
             type="button"
             aria-pressed={value === option.value}
             onClick={() => onChange(option.value)}
-            className={`min-h-11 flex-1 px-4 text-sm transition-colors ${
+            className={`min-h-10 flex-1 rounded-pill px-4 text-sm font-bold transition-colors ${
               value === option.value
                 ? "bg-ink text-paper"
-                : "bg-card text-ink-70 hover:text-ink"
+                : "text-ink-70 hover:text-ink"
             }`}
           >
             {option.label}
@@ -133,8 +133,8 @@ export function ResultPanel({
   footnote?: ReactNode;
 }) {
   return (
-    <div className="border border-rule bg-card">
-      <div className="border-b border-rule px-5 py-4">
+    <div className="overflow-hidden rounded-md bg-card shadow-card">
+      <div className="border-b border-rule px-6 py-5">
         <p className="text-sm text-ink-50">{headlineLabel}</p>
         <p className="mt-1 font-mono text-h1 font-medium text-ink">{headline}</p>
       </div>
@@ -142,7 +142,7 @@ export function ResultPanel({
         {rows.map((row) => (
           <div
             key={row.label}
-            className="flex items-baseline justify-between gap-4 border-b border-rule px-5 py-3 last:border-b-0"
+            className="flex items-baseline justify-between gap-4 border-b border-rule px-6 py-3 last:border-b-0"
           >
             <dt className={`text-sm ${row.strong ? "text-ink" : "text-ink-70"}`}>
               {row.label}
@@ -158,7 +158,7 @@ export function ResultPanel({
         ))}
       </dl>
       {footnote ? (
-        <p className="border-t border-rule px-5 py-3 text-sm text-ink-50">{footnote}</p>
+        <p className="border-t border-rule bg-cloud px-6 py-3.5 text-sm text-ink-50">{footnote}</p>
       ) : null}
     </div>
   );

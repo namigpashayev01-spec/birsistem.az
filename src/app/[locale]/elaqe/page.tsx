@@ -61,7 +61,7 @@ export default async function ContactPage({ params }: Props) {
           telephone: CONTACT.phone,
           email: CONTACT.email,
           contactType: "sales",
-          availableLanguage: ["az", "ru", "en"],
+          availableLanguage: ["az", "ru"],
           areaServed: "AZ",
         },
       ],
@@ -92,14 +92,14 @@ export default async function ContactPage({ params }: Props) {
         meta={[
           { label: t("form.phoneLabel"), value: CONTACT.phone },
           { label: t("form.emailLabel"), value: CONTACT.email },
-          { label: t("footer.address"), value: CONTACT.addressAz },
-          { label: t("footer.hours"), value: CONTACT.hoursAz },
+          { label: t("footer.address"), value: CONTACT.address[locale] },
+          { label: t("footer.hours"), value: CONTACT.hours[locale] },
         ]}
       />
 
-      <Section tone="tint" label={copy.title}>
+      <Section tone="cloud" label={copy.title}>
         <SectionTitle>{t("common.talkToUs")}</SectionTitle>
-        <div className="mt-10 rounded-xl border border-rule bg-card p-7 shadow-card md:p-10">
+        <div className="mt-10 rounded-md bg-card p-7 shadow-card md:p-10">
           <LeadForm
             type="CONTACT"
             submitLabel={t("form.submitContact")}

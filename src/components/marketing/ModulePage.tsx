@@ -9,7 +9,6 @@ import { absoluteUrl } from "@/lib/seo";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { CtaLink } from "@/components/ui/Cta";
-import { ProductScreen } from "@/components/product/screens";
 import { PageHero } from "./PageHero";
 import { Section, SectionTitle } from "./Section";
 import { SECTOR_ICON, Tile } from "./Cards";
@@ -88,27 +87,19 @@ export async function ModulePage({
             </CtaLink>
           </>
         }
-        visual={
-          <figure>
-            <ProductScreen screen={slug} />
-            <figcaption className="mt-3 text-sm text-ink-50">
-              {t("module.screenCaption", { module: copy.name })}
-            </figcaption>
-          </figure>
-        }
       />
 
-      <Section tone="card" label={copy.name}>
+      <Section tone="paper" label={copy.name}>
         <SectionTitle>{t("common.whatItDoes")}</SectionTitle>
         <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {copy.features.map((feature) => (
             <li
               key={feature.title}
-              className="min-w-0 rounded-lg border border-rule bg-tint p-6"
+              className="min-w-0 rounded-md bg-cloud p-7"
             >
               {/* One short rule rather than the module icon repeated six times. */}
-              <span aria-hidden="true" className="block h-[2px] w-8 bg-red" />
-              <h3 className="mt-4 font-semibold text-ink">{feature.title}</h3>
+              <span aria-hidden="true" className="block h-[3px] w-9 rounded-pill bg-brand" />
+              <h3 className="mt-5 text-h3 font-bold text-ink">{feature.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-ink-70">{feature.text}</p>
             </li>
           ))}
@@ -117,12 +108,12 @@ export async function ModulePage({
 
       {relatedSectors.length ? (
         <Section
-          tone="paper"
+          tone="cloud"
           label={t("nav.sectors")}
           aside={
             <Link
               href="/sektorlar"
-              className="inline-flex min-h-11 items-center text-sm text-red-ink underline decoration-rule-strong underline-offset-4 hover:decoration-red"
+              className="inline-flex min-h-11 items-center text-sm text-brand-ink underline decoration-rule-strong underline-offset-4 hover:decoration-brand-ink"
             >
               {t("nav.allSectors")}
             </Link>
@@ -146,7 +137,7 @@ export async function ModulePage({
         </Section>
       ) : null}
 
-      <Section tone="card" label={t("nav.faq")}>
+      <Section tone="paper" label={t("nav.faq")}>
         <SectionTitle>{t("common.frequentQuestions")}</SectionTitle>
         <div className="mt-10 max-w-3xl">
           <FaqList items={copy.faq} />
@@ -154,9 +145,9 @@ export async function ModulePage({
       </Section>
 
       <Section tone="paper" size="tight">
-        <div className="flex flex-col gap-8 rounded-xl border border-rule bg-tint p-8 md:flex-row md:items-end md:justify-between md:p-10">
+        <div className="flex flex-col gap-8 rounded-lg bg-cloud p-8 md:flex-row md:items-end md:justify-between md:p-10">
           <div className="max-w-xl">
-            <h2 className="text-h2 font-semibold text-ink">
+            <h2 className="text-h2 font-extrabold text-ink">
               {t("common.moduleCtaTitle", { module: copy.name })}
             </h2>
             <p className="mt-4 text-lead text-ink-70">{t("common.moduleCtaText")}</p>
